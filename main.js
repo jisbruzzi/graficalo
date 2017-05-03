@@ -21,6 +21,8 @@ function webGLStart() {
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);
 
+      cargarShader(gl,"shader-vs-colored-obj.glsl",function(e){});
+
 			tick();
 		});
     }

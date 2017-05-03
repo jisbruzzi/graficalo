@@ -70,8 +70,6 @@ function getShader(gl, id,shaders) {
 
 
 //ESTO ES COPIPASTEADO DE TEMPLATETP.HTML
-
-
 var shaderProgramTexturedObject;
 var shaderProgramColoredObject;
 
