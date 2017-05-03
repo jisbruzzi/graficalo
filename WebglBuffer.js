@@ -36,6 +36,13 @@ function GlNormalBuffer(gl){
   return( new WebglBuffer(gl,gl.ARRAY_BUFFER,obtenerSrcData,gl.STATIC_DRAW,3,gl.FLOAT) );
 }
 
+function GlColorBuffer(gl){
+  let obtenerSrcData = function(datos){
+    return new Float32Array(datos);
+  }
+  return( new WebglBuffer(gl,gl.ARRAY_BUFFER,obtenerSrcData,gl.STATIC_DRAW,3,gl.FLOAT) );
+}
+
 function GlTextureCoordBuffer(gl){
   let obtenerSrcData = function(datos){
     return new Float32Array(datos);

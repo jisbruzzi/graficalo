@@ -81,10 +81,10 @@ function handleLoadedTexture() {
 
             // Creación e Inicialización de los buffers a nivel de OpenGL
 
-          this.webgl_normal_buffer = GlNormalBuffer(gl).aPartirDe(forma.normal_buffer);
-          this.webgl_texture_coord_buffer = GlTextureCoordBuffer(gl).aPartirDe(forma.texture_coord_buffer);
-          this.webgl_position_buffer = GlPositionBuffer(gl).aPartirDe(forma.position_buffer);
-          this.webgl_index_buffer = GlIndexBuffer(gl).aPartirDe(forma.index_buffer);
+          this.webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(forma.normal_buffer);
+          this.webgl_texture_coord_buffer = new GlTextureCoordBuffer(gl).aPartirDe(forma.texture_coord_buffer);
+          this.webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(forma.position_buffer);
+          this.webgl_index_buffer = new GlIndexBuffer(gl).aPartirDe(forma.index_buffer);
         }
 
         this.setupShaders = function(){

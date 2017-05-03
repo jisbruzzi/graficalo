@@ -27,29 +27,10 @@
             this.position_buffer = forma.position_buffer;
 
             // Creación e Inicialización de los buffers a nivel de OpenGL
-            this.webgl_normal_buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normal_buffer), gl.STATIC_DRAW);
-            this.webgl_normal_buffer.itemSize = 3;
-            this.webgl_normal_buffer.numItems = this.normal_buffer.length / 3;
-
-            this.webgl_color_buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_color_buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.color_buffer), gl.STATIC_DRAW);
-            this.webgl_color_buffer.itemSize = 3;
-            this.webgl_color_buffer.numItems = this.webgl_color_buffer.length / 3;
-
-            this.webgl_position_buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.position_buffer), gl.STATIC_DRAW);
-            this.webgl_position_buffer.itemSize = 3;
-            this.webgl_position_buffer.numItems = this.position_buffer.length / 3;
-
-            this.webgl_index_buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.index_buffer), gl.STATIC_DRAW);
-            this.webgl_index_buffer.itemSize = 1;
-            this.webgl_index_buffer.numItems = this.index_buffer.length;
+            this.webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(forma.normal_buffer);
+            this.webgl_color_buffer = new GlColorBuffer(gl).aPartirDe(forma.color_buffer);
+            this.webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(forma.position_buffer);
+            this.webgl_index_buffer = new GlIndexBuffer(gl).aPartirDe(forma.index_buffer);
         }
 
         this.setupShaders = function(){
@@ -75,14 +56,9 @@
             gl.uniformMatrix4fv(shaderProgramColoredObject.ViewMatrixUniform, false, CameraMatrix);
 
             // Se configuran los buffers que alimentarán el pipeline
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_position_buffer);
-            gl.vertexAttribPointer(shaderProgramColoredObject.vertexPositionAttribute, this.webgl_position_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_color_buffer);
-            gl.vertexAttribPointer(shaderProgramColoredObject.vertexColorAttribute, this.webgl_color_buffer.itemSize, gl.FLOAT, false, 0, 0);
-
-            gl.bindBuffer(gl.ARRAY_BUFFER, this.webgl_normal_buffer);
-            gl.vertexAttribPointer(shaderProgramColoredObject.vertexNormalAttribute, this.webgl_normal_buffer.itemSize, gl.FLOAT, false, 0, 0);
+            this.webgl_position_buffer.asignarAtributoShader(shaderProgramTexturedObject.vertexPositionAttribute);
+            this.webgl_color_buffer.asignarAtributoShader(shaderProgramTexturedObject.vertexColorAttribute);
+            this.webgl_normal_buffer.asignarAtributoShader(shaderProgramTexturedObject.vertexNormalAttribute);
 
 
             gl.uniformMatrix4fv(shaderProgramColoredObject.ModelMatrixUniform, false, modelMatrix);
@@ -93,10 +69,7 @@
             gl.uniformMatrix3fv(shaderProgramColoredObject.nMatrixUniform, false, normalMatrix);
 
 
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.webgl_index_buffer);
-            //gl.drawElements(gl.LINE_LOOP, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
-            gl.drawElements(gl.TRIANGLES, this.webgl_index_buffer.numItems, gl.UNSIGNED_SHORT, 0);
-            /////////////////////////////////
+            this.webgl_index_buffer.dibujar();
         }
 
     }
