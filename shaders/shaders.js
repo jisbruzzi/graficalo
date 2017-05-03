@@ -37,15 +37,12 @@ function getShader(gl, id,shaders) {
 				elemento=shaders[i];
 			}
 		}
-		//console.log("a");
-		console.log(elemento);
-		//console.log(elemento.c);
+
         if (!elemento) {
             return null;
         }
 
-        let str = elemento["c"];
-		//console.log(elemento["c"]);
+
         let shader;
         if (elemento.t === "x-shader/x-fragment") {
             shader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -54,6 +51,7 @@ function getShader(gl, id,shaders) {
         } else {
             return null;
         }
+        let str = elemento["c"];
         gl.shaderSource(shader, str);
         gl.compileShader(shader);
 
