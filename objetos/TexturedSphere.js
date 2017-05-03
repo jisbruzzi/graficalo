@@ -47,11 +47,6 @@ function handleLoadedTexture() {
         this.latitudeBands = latitude_bands;
         this.longitudeBands = longitude_bands;
 
-        this.position_buffer = null;
-        this.normal_buffer = null;
-        this.texture_coord_buffer = null;
-        this.index_buffer = null;
-
         this.webgl_position_buffer = null;
         this.webgl_normal_buffer = null;
         this.webgl_texture_coord_buffer = null;

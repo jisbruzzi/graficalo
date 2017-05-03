@@ -3,11 +3,6 @@
         this.latitudeBands = latitude_bands;
         this.longitudeBands = longitude_bands;
 
-        this.position_buffer = null;
-        this.normal_buffer = null;
-        this.color_buffer = null;
-        this.index_buffer = null;
-
         this.webgl_position_buffer = null;
         this.webgl_normal_buffer = null;
         this.webgl_color_buffer = null;
@@ -19,13 +14,6 @@
         // a todos los triángulos de la esfera
         this.initBuffers = function(){
             var forma = new FormaEsfera(this.latitudeBands,this.longitudeBands);
-
-
-            this.normal_buffer = forma.normal_buffer;
-            this.color_buffer = forma.color_buffer;
-            this.index_buffer = forma.index_buffer;
-            this.position_buffer = forma.position_buffer;
-
             // Creación e Inicialización de los buffers a nivel de OpenGL
             this.webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(forma.normal_buffer);
             this.webgl_color_buffer = new GlColorBuffer(gl).aPartirDe(forma.color_buffer);
