@@ -14,6 +14,8 @@ function WebglBuffer(gl,target,obtenerSrcData,usage,itemSize,tipo){
 
   this.asignarAtributoShader=function(atributo){
     this.asignarAtributoComplejoShader(atributo,false,0,0);
+    //console.log("asignando a:");
+    //console.log(atributo);
   }
 
   this.dibujarComplejo=function(modo,cuantos,offset){

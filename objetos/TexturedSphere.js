@@ -83,7 +83,7 @@ function handleLoadedTexture() {
         }
 
         this.setupShaders = function(){
-            gl.useProgram(shaderProgramTexturedObject);
+            shaderProgramTexturedObject.usar();
         }
 
         this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
@@ -92,34 +92,34 @@ function handleLoadedTexture() {
             // Se inicializan las variables asociadas con la Iluminación
             var lighting;
             lighting = true;
-            gl.uniform1i(shaderProgramTexturedObject.useLightingUniform, lighting);
+            gl.uniform1i(shaderProgramTexturedObject.uUseLighting, lighting);
 
-            gl.uniform3fv(shaderProgramTexturedObject.lightingDirectionUniform, lightPosition);
-            gl.uniform3fv(shaderProgramTexturedObject.ambientColorUniform, ambientColor );
-            gl.uniform3fv(shaderProgramTexturedObject.directionalColorUniform, diffuseColor);
+            gl.uniform3fv(shaderProgramTexturedObject.uLightPosition, lightPosition);
+            gl.uniform3fv(shaderProgramTexturedObject.uAmbientColor, ambientColor );
+            gl.uniform3fv(shaderProgramTexturedObject.uDirectionalColor, diffuseColor);
         }
 
         this.draw = function(modelMatrix){
 
             // setViewProjectionMatrix();
-            gl.uniformMatrix4fv(shaderProgramTexturedObject.pMatrixUniform, false, pMatrix);
-            gl.uniformMatrix4fv(shaderProgramTexturedObject.ViewMatrixUniform, false, CameraMatrix);
+            gl.uniformMatrix4fv(shaderProgramTexturedObject.uPMatrix, false, pMatrix);
+            gl.uniformMatrix4fv(shaderProgramTexturedObject.uViewMatrix, false, CameraMatrix);
 
             // Se configuran los buffers que alimentarán el pipeline
-            this.webgl_position_buffer.asignarAtributoShader(shaderProgramTexturedObject.vertexPositionAttribute);
-            this.webgl_texture_coord_buffer.asignarAtributoShader(shaderProgramTexturedObject.textureCoordAttribute);
-            this.webgl_normal_buffer.asignarAtributoShader(shaderProgramTexturedObject.vertexNormalAttribute);
+            this.webgl_position_buffer.asignarAtributoShader(shaderProgramTexturedObject["aVertexPosition"]);
+            this.webgl_texture_coord_buffer.asignarAtributoShader(shaderProgramTexturedObject["aTextureCoord"]);
+            this.webgl_normal_buffer.asignarAtributoShader(shaderProgramTexturedObject["aVertexNormal"]);
 
             gl.activeTexture(gl.TEXTURE0);
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
-            gl.uniform1i(shaderProgramTexturedObject.samplerUniform, 0);
+            gl.uniform1i(shaderProgramTexturedObject.uSampler, 0);
 
-            gl.uniformMatrix4fv(shaderProgramTexturedObject.ModelMatrixUniform, false, modelMatrix);
+            gl.uniformMatrix4fv(shaderProgramTexturedObject.uModelMatrix, false, modelMatrix);
             var normalMatrix = mat3.create();
             mat3.fromMat4(normalMatrix, modelMatrix);
             mat3.invert(normalMatrix, normalMatrix);
             mat3.transpose(normalMatrix, normalMatrix);
-            gl.uniformMatrix3fv(shaderProgramTexturedObject.nMatrixUniform, false, normalMatrix);
+            gl.uniformMatrix3fv(shaderProgramTexturedObject.uNMatrix, false, normalMatrix);
 
             gl.bindTexture(gl.TEXTURE_2D, this.texture);
 

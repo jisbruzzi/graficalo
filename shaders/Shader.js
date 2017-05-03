@@ -1,6 +1,6 @@
 function cargarShader(nombreArchivo,evExito){
   $.get("shaders/"+nombreArchivo,function(texto){
-			evExito(new Shader(gl,nombreArchivo,texto));
+			evExito(new Shader(nombreArchivo,texto));
 		});
 }
 
@@ -75,8 +75,8 @@ function Shader(nombre,texto){
     gl.shaderSource(s,texto);
     gl.compileShader(s);
 
-    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-      alert(gl.getShaderInfoLog(shader));
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      alert(gl.getShaderInfoLog(s));
       return null;
     }
 

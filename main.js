@@ -1,31 +1,46 @@
 
     var gl;
 
+var shaderProgramTexturedObject;
+var shaderProgramColoredObject;
 
 function webGLStart() {
+  lista=[
+    ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
+    ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"]
+    ];
+
 		cargarShaders(function(shaders){
 			var canvas = document.getElementById("clase03-vertex shader");
 			initGL(canvas);
-			initShaders(shaders);
+      cargarVariosShaderProgram(gl,lista,function(programs){
+        shaderProgramColoredObject = programs[0];
+        shaderProgramTexturedObject = programs[1];
 
-			deimos = new ColoredSphere(64, 64);
-			deimos.initBuffers();
+        console.log(shaderProgramTexturedObject);
+        console.log(shaderProgramColoredObject);
 
-			mars = new TexturedSphere(64,64);
-			mars.initBuffers();
-			mars.initTexture("mars_1k_color.jpg");
 
-			phobos = new ColoredSphere(64, 64);
-			phobos.initBuffers();
 
-			gl.clearColor(0.0, 0.0, 0.0, 1.0);
-			gl.enable(gl.DEPTH_TEST);
+			  deimos = new ColoredSphere(64, 64);
+			  deimos.initBuffers();
 
-      cargarShader(gl,"shader-vs-colored-obj.glsl",function(e){});
+			  mars = new TexturedSphere(64,64);
+			  mars.initBuffers();
+			  mars.initTexture("mars_1k_color.jpg");
 
-			tick();
+			  phobos = new ColoredSphere(64, 64);
+			  phobos.initBuffers();
+
+			  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+			  gl.enable(gl.DEPTH_TEST);
+
+			  tick();
+  });
 		});
-    }
+  //
+}
+
 
 
     function initGL(canvas) {

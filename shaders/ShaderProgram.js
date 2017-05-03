@@ -6,7 +6,7 @@ function cargarVariosShaderProgram(gl,listasDeShaders,evExito){
       evExito(cargados);
     }
   };
-  listasDeShaders.foreach(function(l){
+  listasDeShaders.forEach(function(l){
     cargarShaderProgram(gl,l,exitoProgram);
   });
 }
@@ -19,7 +19,7 @@ function cargarShaderProgram(gl,nombresShaders,evExito){
       evExito(new ShaderProgram(gl,cargados));
     }
   };
-  nombresShaders.foreach(function(n){
+  nombresShaders.forEach(function(n){
     cargarShader(n,exitoShader);
   });
 }
@@ -27,13 +27,13 @@ function cargarShaderProgram(gl,nombresShaders,evExito){
 function ShaderProgram(gl,shaders){//siempre son 2? (vertex y fragment)?
 
   //--- linkear programa ---//
-  this.programa=gl.createProgram();
+  let programa=gl.createProgram();
   shaders.forEach(function(s){
-    gl.attachShader(this.programa,s.obtenerShaderCompilado(gl));
+    gl.attachShader(programa,s.obtenerShaderCompilado(gl));
   });
-  gl.linkProgram(this.programa);
+  gl.linkProgram(programa);
 
-  if (!gl.getProgramParameter(this.programa, gl.LINK_STATUS)) {
+  if (!gl.getProgramParameter(programa, gl.LINK_STATUS)) {
     alert("Could not initialise shaders");
   }
 
@@ -43,14 +43,27 @@ function ShaderProgram(gl,shaders){//siempre son 2? (vertex y fragment)?
     variables=shader.obtenerVariables().concat(variables);
   });
 
-  variables.forEach(function(variable){
-    if(v.pretipo === "uniform"){
-      this[v.nombre]=gl.getUniformLocation(this.programa, v.nombre);
-    }
+  let engancharPropiedades=function(quien){
 
-    if(v.pretipo === "attribute"){
-      this[v.nombre]=gl.getAttribLocation(this.programa, v.nombre);
-      gl.enableVertexAttribArray(this[v.nombre]);
-    }
-  });
+    variables.forEach(function(v){
+      if(v.pretipo === "uniform"){
+        quien[v.nombre]=gl.getUniformLocation(programa, v.nombre);
+      }
+
+      if(v.pretipo === "attribute"){
+        quien[v.nombre]=gl.getAttribLocation(programa, v.nombre);
+        gl.enableVertexAttribArray(quien[v.nombre]);
+        //console.log(v.nombre);
+        //console.log(this[v.nombre]);
+      }
+    });
+
+  }
+
+  engancharPropiedades(this);
+
+  //--- interfaz ---//
+  this.usar=function(){
+    gl.useProgram(programa);
+  }
 }
