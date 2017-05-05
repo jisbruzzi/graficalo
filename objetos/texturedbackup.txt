@@ -44,7 +44,7 @@ function handleLoadedTexture() {
 
     function TexturedSphere(latitude_bands, longitude_bands){
 		
-		var forma = new FormaEsfera(latitude_bands,longitude_bands);
+		var forma = new FormaEsfera(this.latitudeBands,this.longitudeBands);
 
         this.latitudeBands = latitude_bands;
         this.longitudeBands = longitude_bands;
