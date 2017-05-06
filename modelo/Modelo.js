@@ -41,7 +41,7 @@ function Modelo(forma,shaderProgram){
 		});
 
 		//ahora sólo soporto 1 textura por shaderprogram, YAGNI
-		if(forma.obtenerTextura){
+		if(forma.obtenerTextura && shaderProgram.uSampler){
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, forma.obtenerTextura());
 			gl.uniform1i(shaderProgram.uSampler, 0);
@@ -54,7 +54,7 @@ function Modelo(forma,shaderProgram){
 		mat3.transpose(normalMatrix, normalMatrix);
 		gl.uniformMatrix3fv(shaderProgram.uNMatrix, false, normalMatrix);
 
-		if(forma.obtenerTextura){
+		if(forma.obtenerTextura && shaderProgram.uSampler){
 			gl.bindTexture(gl.TEXTURE_2D, forma.obtenerTextura());
 		}
 
