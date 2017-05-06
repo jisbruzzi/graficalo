@@ -1,14 +1,27 @@
+function hacerMetodoCopiaConTextura(deQuien){
+  return function(textura){
+    let copia=jQuery.extend({},deQuien);
+    copia.obtenerTextura = function(){
+      return textura;
+    }
+    return copia;
+  }
+}
+function getter(que){
+  return function(){
+    return que;
+  }
+}
+/**
+HAY POCA INTERFAZ, QUE ESTÁ ABAJO DE POCO.
+EL COMPORTAMIENTO COMÚN A TODAS LAS FORMAS
+ES MUY POCO ENTONCES NO PENSÉ MUCHO CÓMO EXTRAERLO
+**/
 function FormaEsfera(latitudeBands,longitudeBands){
+
+
   this.latitudeBands=latitudeBands;
   this.longitudeBands = longitudeBands;
-
-  this.conTextura=function(){
-    return conTextura;
-  }
-  this.conColor = function(){
-    return conColor;
-  }
-
 
   let position_buffer = [];
   let normal_buffer = [];
@@ -70,39 +83,28 @@ function FormaEsfera(latitudeBands,longitudeBands){
       index_buffer.push(first + 1);
     }
   }
-  
-  
+
+
   //generar los buffers de opengl
   let webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(normal_buffer);
   let webgl_texture_coord_buffer = new GlTextureCoordBuffer(gl).aPartirDe(texture_coord_buffer);
   let webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(position_buffer);
   let webgl_index_buffer = new GlIndexBuffer(gl).aPartirDe(index_buffer);
   let webgl_color_buffer = new GlColorBuffer(gl).aPartirDe(color_buffer);
-  
-  this.getNormalBuffer=function(){
-	  return webgl_normal_buffer;
-  }
-  this.getTextureCoordBuffer=function(){
-	  return webgl_texture_coord_buffer;
-  }
-  this.getPositionBuffer=function(){
-	  return webgl_position_buffer;
-  }
-  this.getColorBuffer=function(){
-	  return webgl_color_buffer;
-  }
-  this.getIndexBuffer=function(){
-	  return webgl_index_buffer;
-  }
-  
-  this.aVertexPosition=this.getPositionBuffer;
-  this.aTextureCoord=this.getTextureCoordBuffer;
-  this.aVertexNormal=this.getNormalBuffer;
-  this.aVertexColor=this.getColorBuffer;
-  
-  this.normal_buffer=normal_buffer;
-  this.texture_coord_buffer=texture_coord_buffer;
-  this.position_buffer=position_buffer;
-  this.index_buffer=index_buffer;
-  this.color_buffer=color_buffer;
+
+  let getNormalBuffer=getter(webgl_normal_buffer);
+  let getTextureCoordBuffer=getter(webgl_texture_coord_buffer);
+  let getPositionBuffer=getter(webgl_position_buffer);
+  let getColorBuffer=getter(webgl_color_buffer);
+
+
+  //-- inrterfaz opcional según el shader --//
+  this.aVertexPosition=getter(webgl_position_buffer);
+  this.aTextureCoord  =getter(webgl_texture_coord_buffer);
+  this.aVertexNormal  =getter(webgl_normal_buffer);
+  this.aVertexColor   =getter(webgl_color_buffer);
+
+  //-- interfaz obligatoria --//
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.getIndexBuffer =getter(webgl_index_buffer);
 }

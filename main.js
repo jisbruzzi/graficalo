@@ -3,33 +3,42 @@
 
 var shaderProgramTexturedObject;
 var shaderProgramColoredObject;
+var _atlasImagenes=null;
 
 function webGLStart() {
   lista=[
     ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"]
     ];
+  listaImagenes=[
+    "mars_1k_color.jpg",
+    "moon.gif"
+  ];
 
 	var canvas = document.getElementById("clase03-vertex shader");
 	initGL(canvas);
   cargarVariosShaderProgram(gl,lista,function(programs){
-    shaderProgramColoredObject = programs[0];
-    shaderProgramTexturedObject = programs[1];
+    cargarImagenes(listaImagenes,function(atlasImagenes){
+      todoCargado=true;
+      _atlasImagenes=atlasImagenes;
 
-		deimos = new ColoredSphere(64, 64);
-		deimos.initBuffers();
+      shaderProgramColoredObject = programs[0];
+      shaderProgramTexturedObject = programs[1];
 
-		mars = new TexturedSphere(64,64);
-		mars.initBuffers();
-		mars.initTexture("mars_1k_color.jpg");
+      let esfera64 = new FormaEsfera(64,64);
+      let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"]));
+      let modeloColoreada = new Modelo(esfera64,shaderProgramColoredObject);
+      let modeloTexturada = new Modelo(esfera64Texturada,shaderProgramTexturedObject);
 
-	  phobos = new ColoredSphere(64, 64);
-    phobos.initBuffers();
+      deimos=new Objeto(modeloColoreada);
+      mars  =new Objeto(modeloTexturada);
+      phobos=new Objeto(modeloColoreada);
 
-		gl.clearColor(0.0, 0.0, 0.0, 1.0)
-    gl.enable(gl.DEPTH_TEST);
+  		gl.clearColor(0.0, 0.0, 0.0, 1.0)
+      gl.enable(gl.DEPTH_TEST);
 
-		tick();
+  		tick();
+    });
   });
 }
 
@@ -58,9 +67,10 @@ function tick() {
         phobosRotationAngledeimos += 0.0005;
         drawScene();
     }
-
+todoCargado=false;
 
 function drawScene() {
+if(todoCargado){
 
 		// Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
 		// el área disponible
@@ -196,6 +206,7 @@ function drawScene() {
         //
         ////////////////////////////////////////////////////////
     }
+  }
 
 
 
@@ -248,11 +259,3 @@ function drawScene() {
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-

@@ -10,11 +10,11 @@ VARIOS OBJETOS PUEDEN COMPARTIR EL MISMO MODELO
 */
 
 
-function Modelo(forma,shaderProgram,textura){
+function Modelo(forma,shaderProgram){
 	this.setupShaders = function(){
         shaderProgram.usar();
 	}
-	
+
 	this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
 		////////////////////////////////////////////////////
 		// Configuración de la luz
@@ -27,35 +27,23 @@ function Modelo(forma,shaderProgram,textura){
 		gl.uniform3fv(shaderProgram.uAmbientColor, ambientColor );
 		gl.uniform3fv(shaderProgram.uDirectionalColor, diffuseColor);
 	}
-	
-	this.draw = function(modelMatrix){
 
+	this.draw = function(modelMatrix){
 		// setViewProjectionMatrix();
 		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, pMatrix);
 		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, CameraMatrix);
-		
+
 		posibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor"];
 		posibles.forEach(function(s){
 			if(forma[s]!=undefined && shaderProgram[s]!=undefined){
-				forma.[s]().asignarAtributoShader(shaderProgram[s]);
+				forma[s]().asignarAtributoShader(shaderProgram[s]);
 			}
 		});
 
-		// Se configuran los buffers que alimentarán el pipeline
-		/*
-		if(forma.getPositionBuffer != undefined && shaderProgram.aVertexPosition != undefined){
-			forma.getPositionBuffer().asignarAtributoShader(shaderProgram["aVertexPosition"]);
-		}
-		if(forma.getTextureCoordBuffer != undefined && shaderProgram.aTextureCoord != undefined){
-			forma.getTextureCoordBuffer().asignarAtributoShader(shaderProgram["aTextureCoord"]);
-		}
-		if(forma.getNormalBuffer != undefined && shaderProgram.aVertexNormal != undefined){
-			forma.getNormalBuffer().asignarAtributoShader(shaderProgram["aVertexNormal"]);
-		}
-		*/
-		if(textura!=null){
+		//ahora sólo soporto 1 textura por shaderprogram, YAGNI
+		if(forma.obtenerTextura){
 			gl.activeTexture(gl.TEXTURE0);
-			gl.bindTexture(gl.TEXTURE_2D, textura);
+			gl.bindTexture(gl.TEXTURE_2D, forma.obtenerTextura());
 			gl.uniform1i(shaderProgram.uSampler, 0);
 		}
 
@@ -65,9 +53,9 @@ function Modelo(forma,shaderProgram,textura){
 		mat3.invert(normalMatrix, normalMatrix);
 		mat3.transpose(normalMatrix, normalMatrix);
 		gl.uniformMatrix3fv(shaderProgram.uNMatrix, false, normalMatrix);
-		
-		if(textura!=null){
-			gl.bindTexture(gl.TEXTURE_2D, textura);
+
+		if(forma.obtenerTextura){
+			gl.bindTexture(gl.TEXTURE_2D, forma.obtenerTextura());
 		}
 
 		forma.getIndexBuffer().dibujar();
