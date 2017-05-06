@@ -23,6 +23,7 @@ function Shader(nombre,texto){
   let pretipos="(uniform|attribute|varying)";
 
   let tipos="(bool|int|uint|double|";
+  tipos+="sampler2D|sampler3D|"
   for(let i=2;i<=4;i++){
     tipos+="bvec"+i+"|";
     tipos+="ivec"+i+"|";
