@@ -10,11 +10,12 @@ VARIOS OBJETOS PUEDEN COMPARTIR EL MISMO MODELO
 */
 
 
-function Modelo(forma,shaderProgram){
+function Modelo(forma,shaderProgram,gl){
 	let lightPosition =vec3.create();
 	let ambientColor =vec3.create();
 	let diffuseColor =vec3.create();
-	
+	let camara;
+
 	this.setupShaders = function(){
 		shaderProgram.usar();
 	}
@@ -33,11 +34,13 @@ function Modelo(forma,shaderProgram){
 	}
 
 	this.draw = function(modelMatrix){
-
+		if(camara==null){
+			throw "No tengo cámara, no puedo dibujarme. Proveer cámara justo antes de dibujar, siempre.";
+		}
 
 		// setViewProjectionMatrix();
-		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, pMatrix);
-		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, CameraMatrix);
+		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, camara.obtenerMatrizProyeccion());
+		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, camara.obtenerMatrizCamara());
 
 		posibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor"];
 		posibles.forEach(function(s){
@@ -78,5 +81,10 @@ function Modelo(forma,shaderProgram){
 		lightPosition=lightPositionNueva;
 		ambientColor=ambientColorNueva;
 		diffuseColor=diffuseColorNueva;
+	}
+
+	this.configurarCamara=function(nuevaCamara){
+		//console.log("tengo camara!");
+		camara=nuevaCamara;
 	}
 }

@@ -32,14 +32,17 @@ function Animador(){
     mars.rotar([0,1,0],0.01);
   }
 
-  this.iniciarMundo=function(programas,atlasImagenes){
+  this.iniciarMundo=function(programas,atlasImagenes,gl,camara){
+    camara.setHacia(0,0,0).setPosicion(40, 75, -100).setArriba(0,1,0);
+
+
     let programaColor=programas[0];
     let programaTextura = programas[1];
 
-    let esfera64 = new FormaEsfera(64,64);
-    let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"]));
-    let modeloColoreada = new Modelo(esfera64,programaColor);
-    let modeloTexturada = new Modelo(esfera64Texturada,programaTextura);
+    let esfera64 = new FormaEsfera(64,64,gl);
+    let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"],gl));
+    let modeloColoreada = new Modelo(esfera64,programaColor,gl);
+    let modeloTexturada = new Modelo(esfera64Texturada,programaTextura,gl);
 
     deimos=new Objeto(modeloColoreada);
     mars  =new Objeto(modeloTexturada);

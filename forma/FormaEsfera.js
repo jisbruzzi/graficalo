@@ -17,7 +17,7 @@ HAY POCA INTERFAZ, QUE ESTÁ ABAJO DE POCO.
 EL COMPORTAMIENTO COMÚN A TODAS LAS FORMAS
 ES MUY POCO ENTONCES NO PENSÉ MUCHO CÓMO EXTRAERLO
 **/
-function FormaEsfera(latitudeBands,longitudeBands){
+function FormaEsfera(latitudeBands,longitudeBands,gl){
 
 
   this.latitudeBands=latitudeBands;

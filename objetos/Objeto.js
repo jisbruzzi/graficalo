@@ -34,9 +34,14 @@ function Objeto(modelo){
     posicion = vec3.fromValues(0,0,0);
     return this;
   }
+  this.setPosicion=function(x,y,z){
+    posicion=vec3.fromValues(x,y,z);
+    return this;
+  }
   this.obtenerPosicion=function () {
     return vec3.clone(posicion);
   }
+
 
   //-- escalado --//
   let escala = vec3.fromValues(1,1,1);
@@ -84,4 +89,14 @@ function Objeto(modelo){
 
     return this;
   };
+
+  this.configurarCamara=function(camara){
+    if(modelo!=null) modelo.configurarCamara(camara);
+
+    this.hijos.forEach(function(h){
+      h.configurarCamara(camara);
+    });
+
+    return this;
+  }
 }
