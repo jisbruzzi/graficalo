@@ -20,7 +20,7 @@ function cargarImagen(nombreArchivo,evExito){
   };
 }
 
-function Textura(imagen){
+function Textura(imagen,gl){
   let textura = gl.createTexture();
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
   gl.bindTexture(gl.TEXTURE_2D, textura);
