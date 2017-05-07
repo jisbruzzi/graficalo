@@ -144,6 +144,10 @@ if(todoCargado){
         // function(lightPosition, ambientColor, diffuseColor)
         phobosEje.setupLighting(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.5, 0.5, 0.5), vec3.fromValues(0.1, 0.1, 0.1))
         phobosEje.rotar([0,1,0],0.003);
+
+        let eje = vec3.fromValues(1,1,0);
+        vec3.normalize(eje,eje);
+        phobos.rotar(eje,0.2);
         phobosEje.draw();
 
         ////////////////////////////////////////////////////////
