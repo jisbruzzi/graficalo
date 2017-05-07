@@ -40,8 +40,8 @@ function Objeto(modelo){
 
   //-- escalado --//
   let escala = vec3.fromValues(1,1,1);
-  this.escalar=function(cuanto){
-    vec3.multiply(escala,escala,cuanto);
+  this.escalar=function(x,y,z){
+    vec3.multiply(escala,[x,y,z],escala);
     return this;
   }
   this.anularEscalado=function(){
@@ -65,27 +65,23 @@ function Objeto(modelo){
   this.hijos=[];//así de simple
 
   //-- dibujado --//
-  this.setupShaders = function(){
-      if (modelo != null) modelo.setupShaders();
-      this.hijos.forEach(function(h){
-        h.setupShaders();
-      });
-  };
-
-  this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-      if (modelo != null) modelo.setupLighting(lightPosition,ambientColor,diffuseColor);
-      this.hijos.forEach(function(h){
-        h.setupLighting(lightPosition,ambientColor,diffuseColor);
-      });
-  };
-
-  this.draw = function(m){
+  this.dibujar = function(m){
     let def = this.obtenerMatModelado();
     if (m != null) mat4.multiply(def,m,def);
-    if (modelo != null) modelo.draw(def);
+    if (modelo != null) modelo.dibujar(def);
 
     this.hijos.forEach(function(h){
-      h.draw(def);
+      h.dibujar(def);
     });
+  };
+
+  this.configurarIluminacion=function(lightPosition, ambientColor, diffuseColor){
+    if(modelo!=null) modelo.configurarIluminacion(lightPosition, ambientColor, diffuseColor);
+
+    this.hijos.forEach(function(h){
+      h.configurarIluminacion(lightPosition, ambientColor, diffuseColor);
+    });
+
+    return this;
   };
 }

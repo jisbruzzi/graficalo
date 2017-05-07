@@ -11,8 +11,12 @@ VARIOS OBJETOS PUEDEN COMPARTIR EL MISMO MODELO
 
 
 function Modelo(forma,shaderProgram){
+	let lightPosition =vec3.create();
+	let ambientColor =vec3.create();
+	let diffuseColor =vec3.create();
+	
 	this.setupShaders = function(){
-        shaderProgram.usar();
+		shaderProgram.usar();
 	}
 
 	this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
@@ -29,6 +33,8 @@ function Modelo(forma,shaderProgram){
 	}
 
 	this.draw = function(modelMatrix){
+
+
 		// setViewProjectionMatrix();
 		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, pMatrix);
 		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, CameraMatrix);
@@ -60,5 +66,17 @@ function Modelo(forma,shaderProgram){
 		}
 
 		forma.getIndexBuffer().dibujar();
+	};
+
+	this.dibujar=function(modelMatrix){
+		this.setupShaders();
+		this.setupLighting(lightPosition, ambientColor, diffuseColor);
+		this.draw(modelMatrix);
+	}
+
+	this.configurarIluminacion=function(lightPositionNueva, ambientColorNueva, diffuseColorNueva){
+		lightPosition=lightPositionNueva;
+		ambientColor=ambientColorNueva;
+		diffuseColor=diffuseColorNueva;
 	}
 }
