@@ -55,24 +55,37 @@ function Objeto(modelo){
   //-- calcular la matriz --//
   this.obtenerMatModelado = function(){
     let ret = mat4.create();
-    console.log(mat4);
+    //console.log(mat4);
     mat4.fromRotationTranslation(ret,rotacion,posicion);
     mat4.scale(ret,ret,escala);
     return ret;
   }
 
+  //-- hijos --//
+  this.hijos=[];//así de simple
+
   //-- dibujado --//
   this.setupShaders = function(){
-      modelo.setupShaders();
+      if (modelo != null) modelo.setupShaders();
+      this.hijos.forEach(function(h){
+        h.setupShaders();
+      });
   };
 
   this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-      modelo.setupLighting(lightPosition,ambientColor,diffuseColor);
+      if (modelo != null) modelo.setupLighting(lightPosition,ambientColor,diffuseColor);
+      this.hijos.forEach(function(h){
+        h.setupLighting(lightPosition,ambientColor,diffuseColor);
+      });
   };
 
   this.draw = function(m){
     let def = this.obtenerMatModelado();
-    mat4.multiply(def,m,def);
-    modelo.draw(def);
+    if (m != null) mat4.multiply(def,m,def);
+    if (modelo != null) modelo.draw(def);
+
+    this.hijos.forEach(function(h){
+      h.draw(def);
+    });
   };
 }

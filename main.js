@@ -5,6 +5,7 @@ var shaderProgramTexturedObject;
 var shaderProgramColoredObject;
 var _atlasImagenes=null;
 
+
 function webGLStart() {
   lista=[
     ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
@@ -33,6 +34,15 @@ function webGLStart() {
       deimos=new Objeto(modeloColoreada);
       mars  =new Objeto(modeloTexturada);
       phobos=new Objeto(modeloColoreada);
+
+      deimosEje=new Objeto();
+      deimosEje.hijos.push(deimos);
+      deimos.mover(10,0,0).escalar([1.8,1.8,1.8]);
+
+      phobosEje=new Objeto();
+      phobosEje.hijos.push(phobos);
+      phobos.mover(25,0,0).escalar([1.,0.84,0.47]);
+
 
   		gl.clearColor(0.0, 0.0, 0.0, 1.0)
       gl.enable(gl.DEPTH_TEST);
@@ -117,86 +127,24 @@ if(todoCargado){
         // Dibujamos a Deimos
 
         // Configuramos la iluminación
-        deimos.setupShaders();
+        deimosEje.setupShaders();
 
         // function(lightPosition, ambientColor, diffuseColor)
-        deimos.setupLighting(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.5, 0.5, 0.5), vec3.fromValues(0.05, 0.05, 0.05))
-
-        // Matriz de modelado
-
-        var model_matrix_deimos = mat4.create();
-        mat4.identity(model_matrix_deimos)        ;
-        var translate_deimos = mat4.create();
-        mat4.identity(translate_deimos);
-        mat4.translate(translate_deimos, translate_deimos, [10, 0, 0 ]);
-
-
-        // Matriz de rotación del eje sobre el plano de la eclíptica a 23 grados
-        var axis_inclination_matrix = mat4.create();
-        mat4.identity(axis_inclination_matrix);
-        mat4.rotate(axis_inclination_matrix, axis_inclination_matrix, -0.4014, [0, 0, 1]);
-
-        var translation_movement = mat4.create();
-        var inverse_translation_movement = mat4.create();
-
-        mat4.identity(translation_movement);
-        mat4.identity(inverse_translation_movement);
-
-        mat4.rotate(translation_movement, translation_movement, deimosRotationAnglemars, [0, 1, 0]);
-        mat4.rotate(inverse_translation_movement, inverse_translation_movement, -deimosRotationAnglemars, [0, 1, 0]);
-
-        // Las transformaciones
-        mat4.multiply(model_matrix_deimos, model_matrix_deimos, translation_movement);
-        mat4.multiply(model_matrix_deimos, model_matrix_deimos, translate_deimos);
-        mat4.multiply(model_matrix_deimos, model_matrix_deimos, inverse_translation_movement);
-        mat4.multiply(model_matrix_deimos, model_matrix_deimos, axis_inclination_matrix);
-        mat4.multiply(model_matrix_deimos, model_matrix_deimos, deimosRotationMatrix);
-
-        var scale_deimos_matrix = mat4.create();
-        mat4.identity(scale_deimos_matrix);
-        mat4.scale(scale_deimos_matrix, scale_deimos_matrix, [1.8, 1.8, 1.8]);
-
-        mat4.multiply(model_matrix_deimos, model_matrix_deimos, scale_deimos_matrix);
-
-        deimos.draw(model_matrix_deimos);
+        deimosEje.setupLighting(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.5, 0.5, 0.5), vec3.fromValues(0.05, 0.05, 0.05));
+        deimosEje.rotar([0,1,0],0.01);
+        deimosEje.draw();
         //
         ////////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////
         //
         // Dibujamos a Phobos
-        phobos.setupShaders();
+        phobosEje.setupShaders();
 
         // function(lightPosition, ambientColor, diffuseColor)
-        phobos.setupLighting(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.5, 0.5, 0.5), vec3.fromValues(0.1, 0.1, 0.1))
-
-        // Matriz de modelado
-        var model_matrix_phobos = mat4.create();
-        mat4.identity(model_matrix_phobos);
-
-        // Traslación de Deimos respecto de Marte
-        // Es la traslación que lo pone en órbita
-        var phobos_transalte_from_deimos_matrix = mat4.create();
-        mat4.identity(phobos_transalte_from_deimos_matrix);
-        mat4.translate(phobos_transalte_from_deimos_matrix, phobos_transalte_from_deimos_matrix, [25, 0,0]);
-
-
-        var phobos_rotation_matrix = mat4.create();
-        mat4.identity(phobos_rotation_matrix);
-        mat4.rotate(phobos_rotation_matrix, phobos_rotation_matrix, phobosRotationAngledeimos, [0, 1 , 0]);
-
-        // Secuencia de transformaciones
-        mat4.multiply(model_matrix_phobos, model_matrix_phobos, phobos_rotation_matrix);
-        mat4.multiply(model_matrix_phobos, model_matrix_phobos, phobos_transalte_from_deimos_matrix);
-        mat4.multiply(model_matrix_phobos, model_matrix_phobos, phobos_rotation_matrix);
-
-        var scale_phobos_matrix = mat4.create();
-        mat4.identity(scale_phobos_matrix);
-        mat4.scale(scale_phobos_matrix, scale_phobos_matrix, [1.0, 0.84, 0.7]);
-
-        mat4.multiply(model_matrix_phobos, model_matrix_phobos, scale_phobos_matrix);
-
-        phobos.draw(model_matrix_phobos);
+        phobosEje.setupLighting(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.5, 0.5, 0.5), vec3.fromValues(0.1, 0.1, 0.1))
+        phobosEje.rotar([0,1,0],0.003);
+        phobosEje.draw();
 
         ////////////////////////////////////////////////////////
         //
