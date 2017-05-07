@@ -24,7 +24,7 @@ function Objeto(modelo){
     return ret;
   }
 
-  //-- translación --//
+  //-- traslación --//
   let posicion = vec3.fromValues(0,0,0);
   this.mover=function(x,y,z){
     vec3.add(posicion,posicion,vec3.fromValues(x,y,z));
