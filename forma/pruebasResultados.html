@@ -1,0 +1,23 @@
+<html>
+<head>
+</head>
+<body>
+<script type="text/javascript" src="formaBarrido.js"></script>
+<script type="text/javascript">
+
+  var recta=function(t){
+    return [t, 0.0 ,0.0];
+  }
+  document.write(generarVertices([0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,0.0],recta,1.0)+'<br>');
+
+  var curva=curvaBSplineCuadratica([0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0]);
+  for(var i=0.0;i<1.0;i+=0.1){
+    document.write('value for '+ i+ ' is '+curva(i)+'<br>');
+  }
+ 
+
+
+</script>
+
+</body>
+</html>
