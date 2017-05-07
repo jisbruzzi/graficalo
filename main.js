@@ -71,6 +71,12 @@ todoCargado=false;
 
 function drawScene() {
 if(todoCargado){
+  /*
+  mars.rotar([0,1,0],0.1);
+  mars.mover(0.01,0,0);
+  mars.anularEscalado();
+  mars.escalar([1,1,2]);
+  */
 
 		// Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
 		// el área disponible
@@ -117,11 +123,13 @@ if(todoCargado){
         deimos.setupLighting(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.5, 0.5, 0.5), vec3.fromValues(0.05, 0.05, 0.05))
 
         // Matriz de modelado
+
         var model_matrix_deimos = mat4.create();
         mat4.identity(model_matrix_deimos)        ;
         var translate_deimos = mat4.create();
         mat4.identity(translate_deimos);
         mat4.translate(translate_deimos, translate_deimos, [10, 0, 0 ]);
+
 
         // Matriz de rotación del eje sobre el plano de la eclíptica a 23 grados
         var axis_inclination_matrix = mat4.create();
