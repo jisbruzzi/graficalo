@@ -36,6 +36,7 @@ function Animador(){
     camara.setHacia(0,0,0).setPosicion(40, 75, -100).setArriba(0,1,0);
 
 
+
     let programaColor=programas[0];
     let programaTextura = programas[1];
 
@@ -43,6 +44,13 @@ function Animador(){
     let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"],gl));
     let modeloColoreada = new Modelo(esfera64,programaColor,gl);
     let modeloTexturada = new Modelo(esfera64Texturada,programaTextura,gl);
+
+    let formaCuadricula = new FormaCuadricula(10,10,gl);
+    let modeloCuadricula = new Modelo(formaCuadricula,programaColor,gl);
+    let cuadricula = new Objeto(modeloCuadricula);
+    cuadricula.escalar(5,5,5).mover(-25,0,25);
+    cuadricula.rotar([1,0,0],-3.14/2)
+
 
     deimos=new Objeto(modeloColoreada);
     mars  =new Objeto(modeloTexturada);
@@ -60,6 +68,7 @@ function Animador(){
     mundo.hijos.push(deimosEje);
     mundo.hijos.push(phobosEje);
     mundo.hijos.push(mars);
+    mundo.hijos.push(cuadricula);
 
     mars.escalar(7,7,7);
 
