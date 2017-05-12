@@ -25,6 +25,10 @@ function WebglBuffer(gl,target,obtenerSrcData,usage,itemSize,tipo){
     this.dibujarComplejo(gl.TRIANGLES,glBuffer.numItems,0);
   }
 
+  this.dibujarModo=function(modo){
+    this.dibujarComplejo(modo,glBuffer.numItems,0);
+  }
+
 }
 
 //normal y position son iguales por ahora

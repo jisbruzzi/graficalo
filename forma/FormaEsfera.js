@@ -107,4 +107,5 @@ function FormaEsfera(latitudeBands,longitudeBands,gl){
   //-- interfaz obligatoria --//
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);
   this.getIndexBuffer =getter(webgl_index_buffer);
+  this.modoDibujado = getter(gl.TRIANGLES);
 }
