@@ -7,10 +7,10 @@ function FormaPlano(ancho,alto,gl){
     -ancho/2, alto/2,0
   ];
   let normal_buffer = [
-    0,0,-1,
-    0,0,-1,
-    0,0,-1,
-    0,0,-1
+    0,0,1,
+    0,0,1,
+    0,0,1,
+    0,0,1
   ];
   let texture_coord_buffer = [
     0,0,
@@ -43,5 +43,5 @@ function FormaPlano(ancho,alto,gl){
   this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.TRIANGLES);
 
-  this.esIluminado=getter(false);
+  this.esIluminado=getter(true);
 }

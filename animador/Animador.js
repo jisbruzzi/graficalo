@@ -15,6 +15,7 @@ function Animador(){
   let deimosEje;
   let phobosEje;
   let mundo;
+  let calles;
 
   this.obtenerMundo=function(){
     return mundo;
@@ -35,6 +36,8 @@ function Animador(){
     if(jugador!=null){
       jugador.tick();
     }
+
+    //calles.rotar([1,0,0],0.05);
   }
 
   let jugador=null;
@@ -113,7 +116,7 @@ function Animador(){
     let texturaCalle = new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl);
     let texturaEsquina = new Textura(atlasImagenes["cruce.jpg"],gl);
 
-    let calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,gl);
+    calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,gl);
     mundo.hijos.push(calles);
 
 
@@ -126,6 +129,7 @@ function Animador(){
     phobos.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.5, 0.5, 0.5), vec3.fromValues(0.1, 0.1, 0.1));
     deimosEje.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.5, 0.5, 0.5), vec3.fromValues(0.05, 0.05, 0.05));
     mars.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
+    calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }
 
 }
