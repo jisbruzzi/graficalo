@@ -1,24 +1,28 @@
-function FormaCuadricula(ancho,alto,gl){
+function FormaCuadricula(ancho,alto,gl,color){
   let posBuffer = [];
   let colBuffer = [];
   let normBuffer =[];
   let indexBuffer = [];
 
+  if (color==null){
+    color=[1,1,1];
+  }
+
   function agregarLinea(f1,c1,f2,c2){
     //posiciones
-    posBuffer.push(f1);
-    posBuffer.push(c1);
+    posBuffer.push(f1-ancho/2);
+    posBuffer.push(c1-alto/2);
     posBuffer.push(0);
-    posBuffer.push(f2);
-    posBuffer.push(c2);
+    posBuffer.push(f2-ancho/2);
+    posBuffer.push(c2-alto/2);
     posBuffer.push(0);
     //colores
-    colBuffer.push(1);
-    colBuffer.push(1);
-    colBuffer.push(1);
-    colBuffer.push(1);
-    colBuffer.push(1);
-    colBuffer.push(1);
+    colBuffer.push(color[0]);
+    colBuffer.push(color[1]);
+    colBuffer.push(color[2]);
+    colBuffer.push(color[0]);
+    colBuffer.push(color[1]);
+    colBuffer.push(color[2]);
     //normales
     normBuffer.push(0);
     normBuffer.push(0);
