@@ -5,7 +5,8 @@ function Animador(){
   ];
   this.archivosImagenes=[
     "mars_1k_color.jpg",
-    "moon.gif"
+    "tramo-dobleamarilla.jpg",
+    "cruce.jpg"
   ];
 
   let deimos;
@@ -47,6 +48,11 @@ function Animador(){
   //camara.setPosicion(0,0,100).setHacia(0,0,0).setArriba(0,1,0);
     let programaColor = programas[0];
     let programaTextura = programas[1];
+
+    let plano=new FormaPlano(8,15,gl);
+    let formaCalle = plano.copiaConTextura(new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl));
+    let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
+    let objCalle = new Objeto(modeloCalle);
 
     let esfera64 = new FormaEsfera(64,64,gl);
     let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"],gl));
@@ -102,6 +108,13 @@ function Animador(){
     mundo.hijos.push(cuadAz2);
     mundo.hijos.push(cuadVe1);
     mundo.hijos.push(cuadVe2);
+    //mundo.hijos.push(objCalle);
+
+    let texturaCalle = new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl);
+    let texturaEsquina = new Textura(atlasImagenes["cruce.jpg"],gl);
+
+    let calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,gl);
+    mundo.hijos.push(calles);
 
 
 

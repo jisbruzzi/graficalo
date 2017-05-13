@@ -54,7 +54,7 @@ function Main(animador){
 
       animador.iniciarMundo(programs,atlasImagenes,gl,camara,new Mouse(canvas),new Movedor(canvas));
 
-  		gl.clearColor(0.0, 0.0, 0.0, 1)
+  		gl.clearColor(0.2, 0.2, 0.0, 1)
       gl.enable(gl.DEPTH_TEST);
 
   		tick();

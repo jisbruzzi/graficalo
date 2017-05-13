@@ -7,16 +7,13 @@ function Movedor(canvas){
 
   let yo=this;
   $('body').on("keydown",function(e){
-    console.log(e.key);
     yo[e.key.toLowerCase()]=true;
-
     if(e.key==="c" && yo.cambiaCamara!=null){
       console.log("si");
       yo.cambiaCamara();
     }
   });
   $('body').on("keyup",function(e){
-      //console.log("levanto"+e.key);
       yo[e.key.toLowerCase()]=false;
   });
 

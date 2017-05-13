@@ -65,7 +65,6 @@ function Jugador(camara,mouse,movedor){
 
 
   this.tick=function(){
-    console.log(rotacionHorizontal);
     let ch=Math.cos(rotacionHorizontal);
     let sh=Math.sin(rotacionHorizontal);
     let boost = 1;
