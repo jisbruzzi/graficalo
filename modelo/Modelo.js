@@ -24,8 +24,10 @@ function Modelo(forma,shaderProgram,gl){
 		////////////////////////////////////////////////////
 		// Configuración de la luz
 		// Se inicializan las variables asociadas con la Iluminación
-		var lighting;
-		lighting = true;
+		let lighting = true;
+		if (forma.esIluminado != undefined){
+			lighting = forma.esIluminado();
+		}
 		gl.uniform1i(shaderProgram.uUseLighting, lighting);
 
 		gl.uniform3fv(shaderProgram.uLightPosition, lightPosition);
@@ -67,8 +69,12 @@ function Modelo(forma,shaderProgram,gl){
 		if(forma.obtenerTextura && shaderProgram.uSampler!=undefined){
 			gl.bindTexture(gl.TEXTURE_2D, forma.obtenerTextura());
 		}
+		if(forma.modoDibujado == undefined){
+			forma.getIndexBuffer().dibujar();
+		}else{
+			forma.getIndexBuffer().dibujarModo(forma.modoDibujado());
+		}
 
-		forma.getIndexBuffer().dibujar();
 	};
 
 	this.dibujar=function(modelMatrix){

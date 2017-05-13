@@ -1,8 +1,8 @@
 function webGLStart() {
   let animador = new Animador();
   let main=new Main(animador);
-}
 
+}
 
 function Main(animador){
   let gl;
@@ -13,6 +13,7 @@ function Main(animador){
       gl = canvas.getContext("experimental-webgl");
       gl.viewportWidth = canvas.width;
       gl.viewportHeight = canvas.height;
+
     } catch (e) {
     }
     if (!gl) {
@@ -51,9 +52,9 @@ function Main(animador){
 
       camara.setPerspectiva(3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
 
-      animador.iniciarMundo(programs,atlasImagenes,gl,camara);
+      animador.iniciarMundo(programs,atlasImagenes,gl,camara,new Mouse(canvas),new Movedor(canvas));
 
-  		gl.clearColor(0.0, 0.0, 0.0, 1.0)
+  		gl.clearColor(0.0, 0.0, 0.0, 1)
       gl.enable(gl.DEPTH_TEST);
 
   		tick();
