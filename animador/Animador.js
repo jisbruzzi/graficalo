@@ -6,7 +6,8 @@ function Animador(){
   this.archivosImagenes=[
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
-    "cruce.jpg"
+    "cruce.jpg",
+    "vereda.jpg"
   ];
 
   let deimos;
@@ -115,9 +116,22 @@ function Animador(){
 
     let texturaCalle = new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl);
     let texturaEsquina = new Textura(atlasImagenes["cruce.jpg"],gl);
+    let texturaVereda = new Textura(atlasImagenes["vereda.jpg"],gl);
 
-    calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,gl);
+    calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,programaColor,texturaVereda,gl);
     mundo.hijos.push(calles);
+    calles.mover(10,10,0);
+
+    //vereda
+    /*
+    let fVereda = new FormaVereda(3,1,0.5,gl).copiaConTextura(texturaCalle);
+    let mVereda = new Modelo(fVereda,programaTextura,gl)
+    let oVereda = new Objeto(mVereda);
+    */
+
+
+    let vereda= new ObjetoVereda(3,0.2,0.01,gl,texturaVereda,programaColor,programaTextura);
+    mundo.hijos.push(vereda);
 
 
 
