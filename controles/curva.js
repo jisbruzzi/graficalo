@@ -1,6 +1,9 @@
 function generar(){
 
 }
+
+console.log(Math.PI);
+
 var puntos=new Array();
 var l=document.getElementById("curva");
 var c=l.getContext("2d");
@@ -13,23 +16,23 @@ function reiniciar_curva(){
 
 l.onmousedown = function (e) {
    var bbox = l.getBoundingClientRect();
-  console.log("evento");
    agregarPuntoControl(e.clientX- bbox.left * (l.width  / bbox.width), e.clientY - bbox.top  * (l.height / bbox.height)); 
  // agregarPuntoControl(e.clientX,e.clientY);
 };
 function agregarPuntoControl(x,y){
-  puntos.push(x);
-  puntos.push(y);
-  puntos.push(0.0);
-  console.log(puntos);
-  
+  if(puntos.length<3 || x>puntos[puntos.length-3]){//no deja poner un punto que tenga un x mayor que el anterior
+    puntos.push(x);
+    puntos.push(y);
+    puntos.push(0.0);
+    
     dibujar();
+    }
 }
 function dibujar(){
 
 //var puntos=[100.0,100.0,0.0,100.0,200.0,0.0,200.0,200.0,0.0,350.0,50.0,0.0];
 if(puntos.length>=3*3){
-  var curva=curvaBSplineCuadratica(puntos);
+  var curva=curvaBSplineCuadratica(puntos)[0];
 
   c.clearRect(0, 0, l.width, l.height);
 
@@ -44,7 +47,6 @@ if(puntos.length>=3*3){
   }
     c.stroke();
 }
-  console.log("Voy a dibujar");
 for(var i=0;i*3<puntos.length;i++){
   c.beginPath();
   c.arc(puntos[i*3],puntos[i*3+1],1,0,2*Math.PI);

@@ -67,67 +67,14 @@ function matrizTraslacion(desplazamientos){
 	];
 	return matriz;
 }
-//pasar en forma de array que contiene xyz del punto1, luego xyz punto dos 
-//ej:curvaBSplineCuadratica([1.0,1.0,1.0,2.0,2.0,2.0,3.0,3.0,3.0])
-function curvaBSplineCuadratica(posicionesPuntos){
-
-	var cantidadPuntos=Math.floor(posicionesPuntos.length/3);
-	if(cantidadPuntos<3)
-		throw "Cantidad de puntos menor que lo necesario.";
-	var funcion=function(t){
-		if(t>1||t<0)
-			throw "Parametro no pertenece a rango valido.";
-		var posPunto=posicionesPuntos;
-		var posicion=new Array();
-		t=t*(cantidadPuntos-2);
-		var puntoInicial=Math.floor(t);
-		if(cantidadPuntos-2<=puntoInicial){//significa que estoy al final de toda la curva o pasado,
-		// en ese caso el punto inicial tomo el ultimo punto
-			t=1;
-			puntoInicial=cantidadPuntos-2;
-		}else{
-			t=t-(puntoInicial);
-		}
-		for(var i=0;i<3;i++){
-			posicion.push(((1.0-t)*(1.0-t))/2.0*posPunto[puntoInicial*3+i]+((1.0-t)*t+1/2)*posPunto[puntoInicial*3+i+3]+(t*t)/2.0*posPunto[puntoInicial*3+i+2*3]);
-		}
-		return posicion;
-	}
-	var derivada=function(t){
-		if(t>1||t<0)
-			throw "Parametro no pertenece a rango valido.";
-		var posPunto=posicionesPuntos;
-		var tangente=new Array();
-		t=t*(cantidadPuntos-2);
-		var puntoInicial=Math.floor(t);
-		if(cantidadPuntos-2<=puntoInicial){//significa que estoy al final de toda la curva o pasado,
-		// en ese caso el punto inicial tomo el ultimo punto
-			t=1;
-			puntoInicial=cantidadPuntos-2;
-		}else{
-			t=t-(puntoInicial);
-		}
-		norma=0;
-		for(var i=0;i<3;i++){
-			tangente.push((-1.0+1.0*t)*posPunto[puntoInicial*3+i]+(1.0-2.0*t)*posPunto[puntoInicial*3+i+3]+t*posPunto[puntoInicial*3+i+2*3]);
-			norma+=tangente[i]*tangente[i];
-		}
-		for(var i=0;i<3;i++){
-			tangente[i]/=norma;
-		}
-		return tangente;
-	}
-	return [funcion,derivada];
-}
 
 
-//pasar en forma de array concatenado vertices y normales, en el array se debe pasar primero la funcion con las posiciones
-//y la siguiente debe ser la derivada 
-function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
+//pasar en forma de array concatenado vertices y normales, el paso debe ser en radianes
+function FormaBarrido(vertices,normales,paso,gl){
 
 
   this.puntosPatron=vertices.length/3;
-  this.repeticionesPatron = Math.floor(1/paso)+1;
+  this.repeticionesPatron = Math.floor(Math.PI/paso);
 
   let position_buffer = new Array();
   let normal_buffer = new Array();
@@ -135,29 +82,21 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
   let color_buffer = new Array();
 
 
-	var vectorBinormal=[0,0,1];//esta condicion se da por ser curva planar en plano xy
-	var vectorTangente, vectorNormal;
 	
-	for(var i=0;i<=1;i+=paso){
-		var desplazamientos=new Array();
-		desplazamientos=arrayFunciones[0](i);	
-		vectorTangente=arrayFunciones[1](i);
-		vectorNormal=productoVectorial(vectorTangente,vectorBinormal);//norma==1,porque las otras dos normas son ==1
-		var coseno=productoInterno([1,0,0],vectorTangente);
-		var seno=normaEuclidea(productoVectorial([1,0,0],vectorTangente));
+	for(var i=0;i<2*Math.PI;i+=paso){//norma==1,porque las otras dos normas son ==1
+		var coseno=Math.cos(i);
+		var seno=Math.sin(i);
 		var matrizRotacion=matrizRotacionEjeX(coseno,seno);
-		var matrizCompleta=multiplicarMatriz(matrizTraslacion(desplazamientos),matrizRotacion);	
 		for(var j=0;j<puntosPatron;j++){
 			var punto=vertices.slice(j*3,(j+1)*3);
 			var normal=normales.slice(j*3,(j+1)*3);
-			position_buffer.concat(multiplicarMatrizHomogeneaVector(matrizCompleta,punto));
 			
 			normal_buffer.concat(multiplicarMatrizHomogeneaVector(matrizRotacion,normal));
 			
 			color_buffer.concat([0.5,0.5,0.5]);
 			
-			var u=0;//TODO
-			var v=0;
+			var u=j/(puntosPatron-1);//TODO
+			var v=i/Math.PI;
 			texture_coord_buffer.push(u);
 			
 			texture_coord_buffer.push(v);
@@ -169,16 +108,16 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
   // Buffer de indices de los triangulos
   let index_buffer = new Array();
 
-  for (var i=0; i < this.repeticionesPatron-1; i++) {//largo
+  for (var i=0; i < this.repeticionesPatron; i++) {//latitud
     if(i%2==0)
-	    for (var j=0; j < this.puntosPatron; j++) {//ancho creciente
+	    for (var j=0; j < this.puntosPatron; j++) {//longitud creciente
 	    	index_buffer.push(this.puntosPatron*i+j);
-	    	index_buffer.push(this.puntosPatron*(i+1)+j);
+	    	index_buffer.push(this.puntosPatron*((i+1)%repeticionesPatron)+j);
 	    }
 	else
-	    for(var j=this.puntosPatron-1;j>=0;j--){//ancho decreciente
+	    for(var j=this.puntosPatron-1;j>=0;j--){//longitud decreciente
 	    	index_buffer.push(this.puntosPatron*i+j);
-	    	index_buffer.push(this.puntosPatron*(i+1)+j);
+	    	index_buffer.push(this.puntosPatron*((i+1)%repeticionesPatron)+j);
 	    }
 
     

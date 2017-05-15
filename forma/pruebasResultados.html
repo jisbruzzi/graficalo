@@ -15,9 +15,27 @@
 //for(var i=0.0;i<1.0;i+=0.1){
 //  document.write('value for '+ i+ ' is '+curva(i)+'<br>');
 // }
- 
 
+var index_buffer=new Array();
+var repeticionesPatron=3;
+var puntosPatron=4;
 
+  for (var i=0;  i< this.repeticionesPatron-1; i++) {//largo
+    if(i%2==0)
+	    for (var j=0; j < this.puntosPatron; j++) {//ancho creciente
+	    	index_buffer.push(this.puntosPatron*i+j);
+	    	index_buffer.push(this.puntosPatron*(i+1)+j);
+	    }
+	else
+	    for(var j=this.puntosPatron-1;j>=0;j--){//ancho decreciente
+	    	index_buffer.push(this.puntosPatron*i+j);
+	    	index_buffer.push(this.puntosPatron*(i+1)+j);
+	    }
+
+    
+  }
+
+console.log(index_buffer);
 </script>
 <canvas id="curva" width="500" height="500" left="100" style="background: orange;">
 su navegador no soporta canvas
