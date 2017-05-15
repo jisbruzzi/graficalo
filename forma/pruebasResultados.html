@@ -2,22 +2,29 @@
 <head>
 </head>
 <body>
+
 <script type="text/javascript" src="formaBarrido.js"></script>
 <script type="text/javascript">
 
   var recta=function(t){
     return [t, 0.0 ,0.0];
   }
-  document.write(generarVertices([0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,0.0],recta,1.0)+'<br>');
+  //document.write(generarVertices([0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,0.0],recta,1.0)+'<br>');
 
   var curva=curvaBSplineCuadratica([0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0]);
-  for(var i=0.0;i<1.0;i+=0.1){
-    document.write('value for '+ i+ ' is '+curva(i)+'<br>');
-  }
+//for(var i=0.0;i<1.0;i+=0.1){
+//  document.write('value for '+ i+ ' is '+curva(i)+'<br>');
+// }
  
 
 
 </script>
+<canvas id="curva" width="500" height="500" left="100" style="background: orange;">
+su navegador no soporta canvas
+</canvas>
+<button onclick="reiniciar_curva()">Reiniciar</button>
+<button onclick="generar()">Generar</button>
+<script type="text/javascript" src="../controles/curva.js"></script>
 
 </body>
 </html>

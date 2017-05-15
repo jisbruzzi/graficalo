@@ -1,0 +1,21 @@
+.boton_control{
+	margin:2px;
+	display: inline-block;
+}
+
+#curva{
+	margin:2px;
+	background: #bb6a6a;
+	width: 200px;
+	height: 200px;
+}
+
+.controles{
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	/*background:black;*/
+}
+#controles_alternativos{
+	display: none;
+}
