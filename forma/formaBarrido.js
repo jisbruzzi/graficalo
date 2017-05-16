@@ -170,9 +170,9 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 			normal_buffer.push(normal[1]);
 			normal_buffer.push(normal[2]);
 
-			color_buffer.push(1);
-			color_buffer.push(1);
-			color_buffer.push(1);
+			color_buffer.push(0.5);
+			color_buffer.push(0.5);
+			color_buffer.push(0.5);
 			var u=j/(this.puntosPatron-1);
 			var v=i*(this.repeticionesPatron-1);
 			texture_coord_buffer.push(u);

@@ -32,9 +32,12 @@ function FormaRevolucion(vertices,normales,paso,gl){
 			for(var aux=0;aux<3;aux++){
 				position_buffer.push(punto[aux]);
 				normal_buffer.push(normal[aux]);
-				color_buffer.push(1);
+				
 			}
-			
+			color_buffer.push(Math.cos(i)/2+0.5);
+
+			color_buffer.push(Math.sin(i)/2+0.5);
+			color_buffer.push(0.2);
 			var u=j/(this.puntosPatron-1);
 			var v=i/Math.PI;
 			texture_coord_buffer.push(u);
@@ -86,5 +89,7 @@ function FormaRevolucion(vertices,normales,paso,gl){
   //-- interfaz obligatoria --//
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);
   this.getIndexBuffer =getter(webgl_index_buffer);
+    this.esIluminado=getter(true);
+
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
 }
