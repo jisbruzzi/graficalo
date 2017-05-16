@@ -2,7 +2,6 @@ function generar(){
 
 }
 
-console.log(Math.PI);
 
 var puntos=new Array();
 var l=document.getElementById("curva");

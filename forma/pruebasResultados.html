@@ -10,12 +10,13 @@
     return [t, 0.0 ,0.0];
   }
   //document.write(generarVertices([0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,0.0],recta,1.0)+'<br>');
-
-  var curva=curvaBSplineCuadratica([0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0]);
+	console.log(0.1+0.2);
 //for(var i=0.0;i<1.0;i+=0.1){
 //  document.write('value for '+ i+ ' is '+curva(i)+'<br>');
 // }
 
+	console.log(multiplicarMatriz(matrizRotacionEjeX(1,0),matrizTraslacion([0,0,0])));
+/*
 var index_buffer=new Array();
 var repeticionesPatron=3;
 var puntosPatron=4;
@@ -35,7 +36,7 @@ var puntosPatron=4;
     
   }
 
-console.log(index_buffer);
+console.log(index_buffer);*/
 </script>
 <canvas id="curva" width="500" height="500" left="100" style="background: orange;">
 su navegador no soporta canvas

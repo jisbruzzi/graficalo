@@ -17,6 +17,8 @@ function Animador(){
   let phobosEje;
   let mundo;
   let calles;
+  let objBarrido;
+  let objRevolucion;
 
   this.obtenerMundo=function(){
     return mundo;
@@ -33,6 +35,7 @@ function Animador(){
     phobosEje.rotar(eje,0.01);
 
     mars.rotar([0,1,0],0.01);
+    objBarrido.rotar([1,0,0],0.01)
 
     if(jugador!=null){
       jugador.tick();
@@ -43,7 +46,7 @@ function Animador(){
 
   let jugador=null;
 
-  this.iniciarMundo=function(programas,atlasImagenes,gl,camaraNueva,mouse,movedorNuevo){
+  this.iniciarMundo=function(programas,atlasImagenes,gl,camaraNueva,mouse,movedorNuevo,curvasCarretera){
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -53,11 +56,22 @@ function Animador(){
     let programaColor = programas[0];
     let programaTextura = programas[1];
 
+    let formaBarrido= new FormaBarrido([0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0]
+        ,[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)],
+        curvaBSplineCuadratica([-10.0,10.0,0.0,0.0,0.0,0.0,10.0,10.0,0.0]),0.1,gl);
+    objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
+
+    let formaRevolucion= new FormaRevolucion(
+        [0.0,1.0,1.0,  0.0,2.0,0.0,   0.0,1.0,-1.0,   0.0,0.0,0.0,  0.0,1.0,1.0 ],
+        [0.0,0.0,1.0,  0.0,1.0,0.0,   0.0,0.0,-1.0,   0.0,-1.0,0.0,  0.0,0.0,1.0],
+        Math.PI/20,gl);
+    objRevolucion=new Objeto(new Modelo(formaRevolucion,programaColor,gl));
     let plano=new FormaPlano(8,15,gl);
     let formaCalle = plano.copiaConTextura(new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl));
     let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
     let objCalle = new Objeto(modeloCalle);
 
+     //objBarrido.escalar(10,10,10);
     let esfera64 = new FormaEsfera(64,64,gl);
     let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"],gl));
     let modeloColoreada = new Modelo(esfera64,programaColor,gl);
@@ -67,6 +81,7 @@ function Animador(){
     let modeloCuadriculaRoja = new Modelo(formaCuadriculaRoja,programaColor,gl);
 
     let cuadriculaRoja1 = new Objeto(modeloCuadriculaRoja);
+
     cuadriculaRoja1.rotar([0,1,0],Math.PI/2);
     cuadriculaRoja1.mover(5,0,0);
 
@@ -105,13 +120,15 @@ function Animador(){
     mundo = new Objeto();
     mundo.hijos.push(deimosEje);
     mundo.hijos.push(phobosEje);
-    mundo.hijos.push(mars);
+   // mundo.hijos.push(mars);
     mundo.hijos.push(cuadriculaRoja1);
     mundo.hijos.push(cuadriculaRoja2);
     mundo.hijos.push(cuadAz1);
     mundo.hijos.push(cuadAz2);
     mundo.hijos.push(cuadVe1);
     mundo.hijos.push(cuadVe2);
+    mundo.hijos.push(objBarrido);
+    mundo.hijos.push(objRevolucion);
     //mundo.hijos.push(objCalle);
 
     let texturaCalle = new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl);
@@ -142,8 +159,10 @@ function Animador(){
 
     phobos.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.5, 0.5, 0.5), vec3.fromValues(0.1, 0.1, 0.1));
     deimosEje.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.5, 0.5, 0.5), vec3.fromValues(0.05, 0.05, 0.05));
-    mars.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
+    mars.configurarIluminacion(vec3.fromValues(-1.0, 0.0, -0.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+    objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+
   }
 
 }
