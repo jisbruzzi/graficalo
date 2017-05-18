@@ -59,6 +59,18 @@ function Modelo(forma,shaderProgram,gl){
 			gl.uniform1i(shaderProgram.uSampler, 0);
 		}
 
+		if(forma.uSamplerBase && shaderProgram.uSamplerBase!=undefined){
+			gl.activeTexture(gl.TEXTURE0);
+			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerBase());
+			gl.uniform1i(shaderProgram.uSampler, 0);
+		}
+
+		if(forma.uSamplerSobre && shaderProgram.uSamplerSobre!=undefined){
+			gl.activeTexture(gl.TEXTURE1);
+			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerSobre());
+			gl.uniform1i(shaderProgram.uSamplerSobre, 1);
+		}
+
 		gl.uniformMatrix4fv(shaderProgram.uModelMatrix, false, modelMatrix);
 		var normalMatrix = mat3.create();
 		mat3.fromMat4(normalMatrix, modelMatrix);
@@ -77,9 +89,18 @@ function Modelo(forma,shaderProgram,gl){
 
 	};
 
-	this.dibujar=function(modelMatrix){
+	this.setupUniforms=function(uniforms){
+		uniforms.forEach(function(u){
+			if(shaderProgram[u.nombre]!=undefined){
+				gl.uniform1f(shaderProgram[u.nombre],u.valor);
+			}
+		});
+	}
+
+	this.dibujar=function(modelMatrix,uniforms){
 		this.setupShaders();
 		this.setupLighting(lightPosition, ambientColor, diffuseColor);
+		this.setupUniforms(uniforms);
 		this.draw(modelMatrix);
 	}
 

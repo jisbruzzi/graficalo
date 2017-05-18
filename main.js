@@ -47,12 +47,13 @@ function Main(animador){
 
 	var canvas = document.getElementById("clase03-vertex shader");
 	initGL(canvas);
+  atlasTexturas.configurarGl(gl);
   cargarVariosShaderProgram(gl,lista,function(programs){
-    cargarImagenes(listaImagenes,function(atlasImagenes){
+    atlasTexturas.cargarTexturas(listaImagenes,function(){
 
       camara.setPerspectiva(3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
 
-      animador.iniciarMundo(programs,atlasImagenes,gl,camara,new Mouse(canvas),new Movedor(canvas));
+      animador.iniciarMundo(programs,gl,camara,new Mouse(canvas),new Movedor(canvas));
 
   		gl.clearColor(0.2, 0.2, 0.0, 1)
       gl.enable(gl.DEPTH_TEST);
