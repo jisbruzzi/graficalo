@@ -1,4 +1,4 @@
-/*NOTA: esta funcion, solo torma curvas planares sobre el plano xy, si quiere curvas en otro plano, externamente a la funcion debe 
+/*NOTA: esta funcion, solo torma curvas planares sobre el plano xy, si quiere curvas en otro plano, externamente a la funcion debe
 hacer la rotacion y traslacion externamente a la funcion, devuelve un array con las posiciones de los vertices*/
 function productoVectorial(unVector,otroVector){
 	var resultado=new Array();
@@ -55,7 +55,7 @@ function matrizRotacionEjeX(coseno,seno){
 	[0,seno,coseno,0],
 	[0,0,0,1]
 	];
-	
+
 	return matriz;
 }
 function matrizTraslacion(desplazamientos){
@@ -82,7 +82,7 @@ function FormaBarrido(vertices,normales,paso,gl){
   let color_buffer = new Array();
 
 
-	
+
 	for(var i=0;i<2*Math.PI;i+=paso){//norma==1,porque las otras dos normas son ==1
 		var coseno=Math.cos(i);
 		var seno=Math.sin(i);
@@ -90,15 +90,15 @@ function FormaBarrido(vertices,normales,paso,gl){
 		for(var j=0;j<puntosPatron;j++){
 			var punto=vertices.slice(j*3,(j+1)*3);
 			var normal=normales.slice(j*3,(j+1)*3);
-			
+
 			normal_buffer.concat(multiplicarMatrizHomogeneaVector(matrizRotacion,normal));
-			
+
 			color_buffer.concat([0.5,0.5,0.5]);
-			
+
 			var u=j/(puntosPatron-1);//TODO
 			var v=i/Math.PI;
 			texture_coord_buffer.push(u);
-			
+
 			texture_coord_buffer.push(v);
 
 		}
@@ -120,28 +120,16 @@ function FormaBarrido(vertices,normales,paso,gl){
 	    	index_buffer.push(this.puntosPatron*((i+1)%repeticionesPatron)+j);
 	    }
 
-    
+
   }
 
 
-  //generar los buffers de opengl
-  let webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(normal_buffer);
-  let webgl_texture_coord_buffer = new GlTextureCoordBuffer(gl).aPartirDe(texture_coord_buffer);
-  let webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(position_buffer);
-  let webgl_index_buffer = new GlIndexBuffer(gl).aPartirDe(index_buffer);
-  let webgl_color_buffer = new GlColorBuffer(gl).aPartirDe(color_buffer);
-
-  let getNormalBuffer=getter(webgl_normal_buffer);
-  let getTextureCoordBuffer=getter(webgl_texture_coord_buffer);
-  let getPositionBuffer=getter(webgl_position_buffer);
-  let getColorBuffer=getter(webgl_color_buffer);
-
-
-  //-- inrterfaz opcional según el shader --//
-  this.aVertexPosition=getter(webgl_position_buffer);
-  this.aTextureCoord  =getter(webgl_texture_coord_buffer);
-  this.aVertexNormal  =getter(webgl_normal_buffer);
-  this.aVertexColor   =getter(webgl_color_buffer);
+	//INTERFAZ
+	this.normal_buffer=normal_buffer;
+	this.texture_coord_buffer=texture_coord_buffer;
+	this.position_buffer=position_buffer;
+	this.index_buffer=index_buffer;
+	this.color_buffer=color_buffer;
 
   //-- interfaz obligatoria --//
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);

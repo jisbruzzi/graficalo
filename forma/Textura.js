@@ -20,6 +20,25 @@ function cargarImagen(nombreArchivo,evExito){
   };
 }
 const atlasTexturas=(function(){
+
+  function Textura(imagen,gl){
+    let textura = gl.createTexture();
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.bindTexture(gl.TEXTURE_2D, textura);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imagen);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+    textura.width=imagen.width;
+    textura.height=imagen.height;
+    textura.nombre=imagen.src;
+
+    Object.freeze(textura);
+
+    return textura;
+  }
+
   let yo={};
   let gl=null;
   let texturas={};
@@ -45,21 +64,3 @@ const atlasTexturas=(function(){
 
   return yo;
 })();
-
-
-
-function Textura(imagen,gl){
-  let textura = gl.createTexture();
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-  gl.bindTexture(gl.TEXTURE_2D, textura);
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imagen);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
-  gl.generateMipmap(gl.TEXTURE_2D);
-  gl.bindTexture(gl.TEXTURE_2D, null);
-  textura.width=imagen.width;
-  textura.height=imagen.height;
-  textura.nombre=imagen.src;
-
-  return textura;
-}

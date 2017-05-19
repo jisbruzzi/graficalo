@@ -1,4 +1,4 @@
-/*NOTA: esta funcion, solo torma curvas planares sobre el plano xy, si quiere curvas en otro plano, externamente a la funcion debe 
+/*NOTA: esta funcion, solo torma curvas planares sobre el plano xy, si quiere curvas en otro plano, externamente a la funcion debe
 hacer la rotacion y traslacion externamente a la funcion, devuelve un array con las posiciones de los vertices*/
 function productoVectorial(unVector,otroVector){
 	var resultado=new Array();
@@ -55,7 +55,7 @@ function matrizRotacionEjeX(coseno,seno){
 	[0,seno,coseno,0],
 	[0,0,0,1]
 	];
-	
+
 	return matriz;
 }
 function matrizTraslacion(desplazamientos){
@@ -67,7 +67,7 @@ function matrizTraslacion(desplazamientos){
 	];
 	return matriz;
 }
-//pasar en forma de array que contiene xyz del punto1, luego xyz punto dos 
+//pasar en forma de array que contiene xyz del punto1, luego xyz punto dos
 //ej:curvaBSplineCuadratica([1.0,1.0,1.0,2.0,2.0,2.0,3.0,3.0,3.0])
 function curvaBSplineCuadratica(posicionesPuntos){
 
@@ -122,7 +122,7 @@ function curvaBSplineCuadratica(posicionesPuntos){
 
 
 //pasar en forma de array concatenado vertices y normales, en el array se debe pasar primero la funcion con las posiciones
-//y la siguiente debe ser la derivada 
+//y la siguiente debe ser la derivada
 function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 
 
@@ -137,29 +137,29 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 
 	var vectorBinormal=[0,0,1];//esta condicion se da por ser curva planar en plano xy
 	var vectorTangente, vectorNormal;
-	
+
 	for(var i=0;i<=1;i+=paso){
 		var desplazamientos=new Array();
-		desplazamientos=arrayFunciones[0](i);	
+		desplazamientos=arrayFunciones[0](i);
 		vectorTangente=arrayFunciones[1](i);
 		vectorNormal=productoVectorial(vectorTangente,vectorBinormal);//norma==1,porque las otras dos normas son ==1
 		var coseno=productoInterno([1,0,0],vectorTangente);
 		var seno=normaEuclidea(productoVectorial([1,0,0],vectorTangente));
 		var matrizRotacion=matrizRotacionEjeX(coseno,seno);
-		var matrizCompleta=multiplicarMatriz(matrizTraslacion(desplazamientos),matrizRotacion);	
+		var matrizCompleta=multiplicarMatriz(matrizTraslacion(desplazamientos),matrizRotacion);
 		for(var j=0;j<puntosPatron;j++){
 			var punto=vertices.slice(j*3,(j+1)*3);
 			var normal=normales.slice(j*3,(j+1)*3);
 			position_buffer.concat(multiplicarMatrizHomogeneaVector(matrizCompleta,punto));
-			
+
 			normal_buffer.concat(multiplicarMatrizHomogeneaVector(matrizRotacion,normal));
-			
+
 			color_buffer.concat([0.5,0.5,0.5]);
-			
+
 			var u=0;//TODO
 			var v=0;
 			texture_coord_buffer.push(u);
-			
+
 			texture_coord_buffer.push(v);
 
 		}
@@ -181,31 +181,17 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 	    	index_buffer.push(this.puntosPatron*(i+1)+j);
 	    }
 
-    
+
   }
 
-
-  //generar los buffers de opengl
-  let webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(normal_buffer);
-  let webgl_texture_coord_buffer = new GlTextureCoordBuffer(gl).aPartirDe(texture_coord_buffer);
-  let webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(position_buffer);
-  let webgl_index_buffer = new GlIndexBuffer(gl).aPartirDe(index_buffer);
-  let webgl_color_buffer = new GlColorBuffer(gl).aPartirDe(color_buffer);
-
-  let getNormalBuffer=getter(webgl_normal_buffer);
-  let getTextureCoordBuffer=getter(webgl_texture_coord_buffer);
-  let getPositionBuffer=getter(webgl_position_buffer);
-  let getColorBuffer=getter(webgl_color_buffer);
-
-
-  //-- inrterfaz opcional según el shader --//
-  this.aVertexPosition=getter(webgl_position_buffer);
-  this.aTextureCoord  =getter(webgl_texture_coord_buffer);
-  this.aVertexNormal  =getter(webgl_normal_buffer);
-  this.aVertexColor   =getter(webgl_color_buffer);
+	//generar los buffers de opengl
+	this.normal_buffer=normal_buffer;
+	this.texture_coord_buffer=texture_coord_buffer;
+	this.position_buffer=position_buffer;
+	this.index_buffer=index_buffer;
+	this.color_buffer=color_buffer;
 
   //-- interfaz obligatoria --//
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);
-  this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
 }
