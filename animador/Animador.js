@@ -50,8 +50,7 @@ function Animador(){
 
   let jugador=null;
 
-  this.iniciarMundo=function(programas,atlasImagenes,gl,camaraNueva,mouse,movedorNuevo,curvasCarretera){
-  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo){
+  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo,curvasCarretera){
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
