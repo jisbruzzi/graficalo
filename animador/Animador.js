@@ -1,7 +1,8 @@
 function Animador(){
   this.archivosShaderPrograms=[
     ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
-    ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"]
+    ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
+    ["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"]
   ];
   this.archivosImagenes=[
     "mars_1k_color.jpg",
@@ -19,6 +20,7 @@ function Animador(){
   let calles;
   let objBarrido;
   let objRevolucion;
+  let oEdificio;
 
   this.obtenerMundo=function(){
     return mundo;
@@ -41,12 +43,15 @@ function Animador(){
       jugador.tick();
     }
 
+    oEdificio.uniforms[0].valor+=0.01;
+
     //calles.rotar([1,0,0],0.05);
   }
 
   let jugador=null;
 
   this.iniciarMundo=function(programas,atlasImagenes,gl,camaraNueva,mouse,movedorNuevo,curvasCarretera){
+  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo){
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -55,6 +60,7 @@ function Animador(){
   //camara.setPosicion(0,0,100).setHacia(0,0,0).setArriba(0,1,0);
     let programaColor = programas[0];
     let programaTextura = programas[1];
+    let programaEdificio = programas[2];
 
     let formaBarrido= new FormaBarrido([0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0]
         ,[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)],
@@ -67,13 +73,13 @@ function Animador(){
         Math.PI/20,gl);
     objRevolucion=new Objeto(new Modelo(formaRevolucion,programaColor,gl));
     let plano=new FormaPlano(8,15,gl);
-    let formaCalle = plano.copiaConTextura(new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl));
+    let formaCalle = plano.copiaConTextura(atlasTexturas.t("tramo-dobleamarilla.jpg"));
     let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
     let objCalle = new Objeto(modeloCalle);
 
      //objBarrido.escalar(10,10,10);
     let esfera64 = new FormaEsfera(64,64,gl);
-    let esfera64Texturada =esfera64.copiaConTextura(new Textura(atlasImagenes["mars_1k_color.jpg"],gl));
+    let esfera64Texturada =esfera64.copiaConTextura(atlasTexturas.t("mars_1k_color.jpg"));
     let modeloColoreada = new Modelo(esfera64,programaColor,gl);
     let modeloTexturada = new Modelo(esfera64Texturada,programaTextura,gl);
 
@@ -131,9 +137,9 @@ function Animador(){
     mundo.hijos.push(objRevolucion);
     //mundo.hijos.push(objCalle);
 
-    let texturaCalle = new Textura(atlasImagenes["tramo-dobleamarilla.jpg"],gl);
-    let texturaEsquina = new Textura(atlasImagenes["cruce.jpg"],gl);
-    let texturaVereda = new Textura(atlasImagenes["vereda.jpg"],gl);
+    let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
+    let texturaEsquina = atlasTexturas.t("cruce.jpg");
+    let texturaVereda = atlasTexturas.t("vereda.jpg");
 
     calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,programaColor,texturaVereda,gl);
     mundo.hijos.push(calles);
@@ -150,6 +156,15 @@ function Animador(){
     let vereda= new ObjetoVereda(3,0.2,0.01,gl,texturaVereda,programaColor,programaTextura);
     mundo.hijos.push(vereda);
 
+    let fEdificio=new FormaEdificio(gl).hacerCopiaConTexturas(texturaEsquina,texturaCalle);
+    let mEdificio=new Modelo(fEdificio,programaEdificio,gl);
+    oEdificio = new Objeto(mEdificio);
+    oEdificio.uniforms.push({nombre:"uAltura",valor:0.0});
+    oEdificio.uniforms.push({nombre:"uAlturaBase",valor:0.5});
+    oEdificio.uniforms.push({nombre:"uAlturaSobre",valor:0.7});
+
+    mundo.hijos.push(oEdificio);
+
 
 
     //mundo.rotar([1,0,0],Math.PI/2);
@@ -163,7 +178,7 @@ function Animador(){
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
     objRevolucion.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0, 0, 0), vec3.fromValues(0.01, 0.01, 0.01));
-
+    oEdificio.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }
 
 }

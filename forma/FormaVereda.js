@@ -132,9 +132,18 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   rectanguloZ( dBordeInterior,-dBordeInterior,-dBordeInterior,-dBordeExterior);
 
 
-  //console.log(tcBuffer);
-  //console.log(posBuffer);
-  //console.log(indexBuffer);
+/*
+  console.log(tcBuffer);
+  console.log(posBuffer);
+  console.log(indexBuffer);
+*/
+
+  this.normal_buffer=normBuffer;
+	this.texture_coord_buffer=tcBuffer;
+	this.position_buffer=posBuffer;
+	this.index_buffer=indexBuffer;
+	this.color_buffer=colBuffer;
+
   //generar los buffers de opengl
   let webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(normBuffer);
   let webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(posBuffer);

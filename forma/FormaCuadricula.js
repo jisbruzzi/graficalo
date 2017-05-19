@@ -81,26 +81,13 @@ function FormaCuadricula(ancho,alto,gl,color){
   }
 
 
-
-  //generar los buffers de opengl
-  let webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(normBuffer);
-  let webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(posBuffer);
-  let webgl_index_buffer = new GlIndexBuffer(gl).aPartirDe(indexBuffer);
-  let webgl_color_buffer = new GlColorBuffer(gl).aPartirDe(colBuffer);
-
-  let getNormalBuffer=getter(webgl_normal_buffer);
-  let getPositionBuffer=getter(webgl_position_buffer);
-  let getColorBuffer=getter(webgl_color_buffer);
-
-
-  //-- inrterfaz opcional según el shader --//
-  this.aVertexPosition=getter(webgl_position_buffer);
-  this.aVertexNormal  =getter(webgl_normal_buffer);
-  this.aVertexColor   =getter(webgl_color_buffer);
-
+  //INTERFAZ
+  this.normal_buffer=normBuffer;
+	this.position_buffer=posBuffer;
+	this.index_buffer=indexBuffer;
+	this.color_buffer=colBuffer;
   //-- interfaz obligatoria --//
   //this.copiaConTextura=hacerMetodoCopiaConTextura(this);
-  this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.LINES);
   this.esIluminado=getter(false);
 }

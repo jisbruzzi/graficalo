@@ -1,4 +1,6 @@
 function Objeto(modelo){
+  //--configurar shaders--//
+  this.uniforms=[];
 
   //-- rotación --//
   let rotacion = quat.create();//TENGO QUE APRENDER DE CUATERNIONES PARA SABER CÓMO IMPLEMENTAR LOS COSOS DE ABAJO
@@ -73,7 +75,7 @@ function Objeto(modelo){
   this.dibujar = function(m){
     let def = this.obtenerMatModelado();
     if (m != null) mat4.multiply(def,m,def);
-    if (modelo != null) modelo.dibujar(def);
+    if (modelo != null) modelo.dibujar(def,this.uniforms);
 
     this.hijos.forEach(function(h){
       h.dibujar(def);
