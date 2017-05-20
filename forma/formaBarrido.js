@@ -214,7 +214,6 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 
   //-- interfaz obligatoria --//
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);
-  this.getIndexBuffer =getter(webgl_index_buffer);
   this.esIluminado=getter(true);
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
 }
