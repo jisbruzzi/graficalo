@@ -19,3 +19,19 @@
 #controles_alternativos{
 	display: none;
 }
+
+
+canvas{
+	border: none;
+	width:1280;
+	height:720;
+}
+
+#canvas-espera{
+	display: inline;
+}
+
+
+p[id='clase03-vertex shader']{
+	display: none;
+}

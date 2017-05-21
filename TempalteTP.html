@@ -39,7 +39,8 @@
 </head>
 
 
-<body onload="webGLStart();">
+<body onload="esperando();"> <!-- onload="webGLStart();"-->
+
     <div id="controles" class="controles" width="350"
     >
       <canvas id="curva" width="200" height="200" >
@@ -57,10 +58,12 @@ su navegador no soporta canvas
     <center>
             <h1>Sistemas Gr&aacute;ficos - 66.71</h1>
             <h2>Framework Trabajo Pr&aacute;ctico 2016</h2>
-            <canvas id="clase03-vertex shader" style="border: none;" width="1280" height="720">
+            <canvas id="clase03-vertex shader" style="display:none;" width=1280 height=720 >
             Your browser does not support the HTML5 canvas element.
-            </scanvas>
-
+            </canvas>
+            <canvas id="canvas-espera" width=800 height=600>
+            Your browser does not support the HTML5 canvas element.
+            </canvas>
         </center>
     <br/>
     Las texturas son cortes&iacute;a de <a href="http://maps.jpl.nasa.gov/">Jet Propulsion Laboratory</a>.

@@ -1,6 +1,4 @@
-function generar(){
 
-}
 
 
 var puntos=new Array();
@@ -53,5 +51,13 @@ for(var i=0;i*3<puntos.length;i++){
   c.fill();
   c.stroke();
 }
+
+}
+
+function generar(){
+  if(puntos.length>=3*3){
+    document.getElementById("canvas-espera").style.display="none";
+    webGLStart(curvaBSplineCuadratica(puntos));
+  }
 
 }

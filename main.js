@@ -1,9 +1,32 @@
-function webGLStart() {
-  let animador = new Animador();
+function webGLStart(curvas) {
+  let animador = new Animador(curvas);
   let main=new Main(animador);
 
 }
 
+
+function esperando(){
+  var canvas_espera = document.getElementById("canvas-espera");
+  var gl_espera;
+  function initGL(canvas) {
+    try {
+      gl_espera = canvas.getContext("2d");
+      gl_espera.viewportWidth = canvas.width;
+      gl_espera.viewportHeight = canvas.height;
+
+    } catch (e) {
+    }
+    if (!gl_espera) {
+        alert("Could not initialise WebGL, sorry :-(");
+    }
+  }
+  initGL(canvas_espera);
+  var img = new Image();
+  img.src = "imagenes/esperando.png";
+  img.onload = function(){
+    gl_espera.drawImage(img, 0, 0);
+  }
+}
 function Main(animador){
   let gl;
   let camara=new Camara();
@@ -46,6 +69,7 @@ function Main(animador){
   //////////////////////////////////// INICIO ////////////////////////////////////////////
 
 	var canvas = document.getElementById("clase03-vertex shader");
+  canvas.style.display="inline";
 	initGL(canvas);
   atlasTexturas.configurarGl(gl);
   cargarVariosShaderProgram(gl,lista,function(programs){

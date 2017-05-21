@@ -1,4 +1,4 @@
-function Animador(){
+function Animador(curvas){
   this.archivosShaderPrograms=[
     ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
@@ -37,7 +37,7 @@ function Animador(){
     phobosEje.rotar(eje,0.01);
 
     mars.rotar([0,1,0],0.01);
-    objBarrido.rotar([1,0,0],0.01)
+    //objBarrido.rotar([0,0,1],0.01)
 
     if(jugador!=null){
       jugador.tick();
@@ -50,7 +50,7 @@ function Animador(){
 
   let jugador=null;
 
-  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo,curvasCarretera){
+  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo){
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -62,7 +62,7 @@ function Animador(){
     let programaEdificio = programas[2];
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
     let formaBarrido= new FormaBarrido(puntos,[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)],
-        curvaBSplineCuadratica([-10.0,10.0,0.0,0.0,0.0,0.0,10.0,10.0,0.0]),0.1,gl);
+        curvas,0.01,gl);
     objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
 
     let formaRevolucion= new FormaRevolucion(
