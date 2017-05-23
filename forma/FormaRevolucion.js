@@ -1,77 +1,6 @@
-/*NOTA: esta funcion, solo torma curvas planares sobre el plano xy, si quiere curvas en otro plano, externamente a la funcion debe
-hacer la rotacion y traslacion externamente a la funcion, devuelve un array con las posiciones de los vertices*/
-/*
-function productoVectorial(unVector,otroVector){
-	var resultado=new Array();
-	for(var i=0;i<3;i++){
-		resultado.push(unVector[(1+i)%3]*otroVector[(2+i)%3]-otroVector[(1+i)%3]*unVector[(2+i)%3]);
-	}
-	return resultado;
-}
-function normaEuclidea(vector){
-	var norma=0;
-	for(var i=0;i<vector.length;i++){
-		norma+=Math.pow(vector[i],2);
-	}
-	return Math.sqrt(norma);
-}
-function productoInterno(unVector,otroVector){
-	var resultado=0;
-	if(unVector.length!=otroVector.length)
-		throw "Vectores incomptaibles para multiplicar";
-	for(var i=0;i<unVector;i++){
-		resultado+=unVector[i]*otroVector[i];
-	}
-	return resultado;
-}
-function multiplicarMatriz(matrizIzquierda,matrizDerecha){
-	var matriz=new Array();
-	if( matrizIzquierda[0].length!=matrizDerecha.length)
-		throw "Matrices incompatibles para multiplicar";
-	for(var i=0;i<matrizIzquierda.length;i++){
-		matriz.push([]);
-		for(var j=0;j<matrizDerecha[0].length;j++){
-			var suma=0;
-			for(var k=0;k<matrizDerecha.length;k++){
-				suma+=matrizIzquierda[i][k]*matrizDerecha[k][j];
-			}
-			matriz[i].push(suma);
-		}
-	}
-	return matriz;
-}
-function multiplicarMatrizHomogeneaVector(matriz,vector){
-	var vectorTraspuesto=new Array();
-	for(var i=0;i<vector.length;i++){
-		vectorTraspuesto.push([vector[i]]);
-	}
-	vectorTraspuesto.push(1);
-	return multiplicarMatriz(matriz,vectorTraspuesto).slice(0,3);
-}
-//obtener una matriz a traves de seno y coseno
-function matrizRotacionEjeX(coseno,seno){
-	var matriz=[
-	[1,0,0,0],
-	[0,coseno,-seno,0],
-	[0,seno,coseno,0],
-	[0,0,0,1]
-	];
 
-	return matriz;
-}
-function matrizTraslacion(desplazamientos){
-	var matriz=[
-	[0,0,0,desplazamientos[0]],
-	[0,0,0,desplazamientos[1]],
-	[0,0,0,desplazamientos[2]],
-	[0,0,0,1]
-	];
-	return matriz;
-}
-*/
-
-//pasar en forma de array concatenado vertices y normales, el paso debe ser en radianes
-function FormaRevolucion(vertices,normales,paso,gl){
+//pasar en forma de array concatenado vertices y normales, el paso debe ser en radianes, funcionesColor debe tener funciones que indiquen color de 0 a 1 para RGB, en ese orde, como parametro deben tomar angulo, y numero de pixel en patron inicial 
+function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 
 
   this.puntosPatron=vertices.length/3;
@@ -79,7 +8,7 @@ function FormaRevolucion(vertices,normales,paso,gl){
 
   let position_buffer = new Array();
   let normal_buffer = new Array();
-  let texture_coord_buffer = [];
+  let texture_coord_buffer = new Array();
   let color_buffer = new Array();
 
 
@@ -104,13 +33,14 @@ function FormaRevolucion(vertices,normales,paso,gl){
 				normal_buffer.push(normal[aux]);
 				
 			}
-			color_buffer.push(Math.cos(i)/2+0.5);
+			color_buffer.push(funcionesColor[0](i,j));
 
-			color_buffer.push(Math.sin(i)/2+0.5);
-			color_buffer.push(0.2);
-			var u=j/(this.puntosPatron-1);
+			color_buffer.push(funcionesColor[1](i,j));
+			color_buffer.push(funcionesColor[2](i,j));
+			var u=j*10;
 
-			var v=i/Math.PI;
+			var v=i*10;
+			console.log(v,i);
 			texture_coord_buffer.push(u);
 
 			texture_coord_buffer.push(v);

@@ -126,9 +126,8 @@ function curvaBSplineCuadratica(posicionesPuntos){
 
 //pasar en forma de array concatenado vertices y normales,las normales deben estar normalizadas, en el array se debe pasar primero la funcion con las posiciones
 //y la siguiente debe ser la derivada 
-
-function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
-
+function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
+	console.log(gl);
 
   this.puntosPatron=vertices.length/3;
   this.repeticionesPatron = Math.floor(1/paso)+1;
@@ -171,9 +170,9 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 			normal_buffer.push(normal[1]);
 			normal_buffer.push(normal[2]);
 
-			color_buffer.push(0.5);
-			color_buffer.push(0.5);
-			color_buffer.push(0.5);
+			color_buffer.push(colores[0](i,j));
+			color_buffer.push(colores[1](i,j));
+			color_buffer.push(colores[2](i,j));
 			var u=j/(this.puntosPatron-1);
 			var v=i*(this.repeticionesPatron-1);
 			texture_coord_buffer.push(u);
@@ -204,7 +203,6 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 
 
   }
-
 	//generar los buffers de opengl
 	this.normal_buffer=normal_buffer;
 	this.texture_coord_buffer=texture_coord_buffer;
