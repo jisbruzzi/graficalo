@@ -101,4 +101,13 @@ function Objeto(modelo){
 
     return this;
   }
+
+  this.sobretick=function(){};
+
+  this.tick = function(){
+    this.sobretick();
+    this.hijos.forEach(function(h){
+      h.tick();
+    });
+  }
 }

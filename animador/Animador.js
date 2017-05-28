@@ -43,8 +43,6 @@ function Animador(curvas){
       jugador.tick();
     }
 
-    oEdificio.uniforms[0].valor+=0.01;
-
     //calles.rotar([1,0,0],0.05);
   }
 
@@ -121,14 +119,10 @@ function Animador(curvas){
     let vereda= new ObjetoVereda(3,0.2,0.01,gl);
     mundo.hijos.push(vereda);
 
-    let fEdificio=new FormaEdificio(gl).hacerCopiaConTexturas(texturaEsquina,texturaCalle);
-    let mEdificio=new Modelo(fEdificio,programaEdificio,gl);
-    oEdificio = new Objeto(mEdificio);
-    oEdificio.uniforms.push({nombre:"uAltura",valor:0.0});
-    oEdificio.uniforms.push({nombre:"uAlturaBase",valor:0.5});
-    oEdificio.uniforms.push({nombre:"uAlturaSobre",valor:0.7});
-
+    let fEdificio=new FormaEdificio(gl);
+    oEdificio=new ObjetoEdificio(fEdificio,gl);
     mundo.hijos.push(oEdificio);
+
 
 
 

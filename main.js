@@ -48,6 +48,7 @@ function Main(animador){
     requestAnimFrame(tick);
 
     animador.tick();
+    animador.obtenerMundo().tick();
 
     // Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
     // el área disponible
