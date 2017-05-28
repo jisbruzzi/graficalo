@@ -1,9 +1,9 @@
 function Animador(curvas){
-  this.archivosShaderPrograms=[
-    ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
-    ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
-    ["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"]
-  ];
+  this.archivosShaderPrograms={
+    "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
+    "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
+    "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"]
+  };
   this.archivosImagenes=[
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
@@ -50,16 +50,16 @@ function Animador(curvas){
 
   let jugador=null;
 
-  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo){
+  this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
 //(40, 75, -100)
 //camara.setHacia(0,0,0).setPosicion(40, 75, -100).setArriba(0,1,0);
   //camara.setPosicion(0,0,100).setHacia(0,0,0).setArriba(0,1,0);
-    let programaColor = programas[0];
-    let programaTextura = programas[1];
-    let programaEdificio = programas[2];
+    let programaColor = atlasShaderPs.p("coloreado");
+    let programaTextura = atlasShaderPs.p("texturado");
+    let programaEdificio = atlasShaderPs.p("edificio");
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
     let formaBarrido= new FormaBarrido(puntos,[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)],
         curvas,0.01,gl);
@@ -106,7 +106,7 @@ function Animador(curvas){
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
-    calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,programaColor,texturaVereda,gl);
+    calles = new ObjetoCalles(3,5,10,gl);
     mundo.hijos.push(calles);
     calles.mover(10,10,0);
 
@@ -118,7 +118,7 @@ function Animador(curvas){
     */
 
 
-    let vereda= new ObjetoVereda(3,0.2,0.01,gl,texturaVereda,programaColor,programaTextura);
+    let vereda= new ObjetoVereda(3,0.2,0.01,gl);
     mundo.hijos.push(vereda);
 
     let fEdificio=new FormaEdificio(gl).hacerCopiaConTexturas(texturaEsquina,texturaCalle);

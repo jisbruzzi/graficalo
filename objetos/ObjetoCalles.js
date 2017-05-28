@@ -1,4 +1,10 @@
-function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,texturaCalle,texturaEsquina,programaTextura,programaColor,texturaVereda,gl){
+function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
+  let programaColor = atlasShaderPs.p("coloreado");
+  let programaTextura = atlasShaderPs.p("texturado");
+  let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
+  let texturaEsquina = atlasTexturas.t("cruce.jpg");
+  let texturaVereda = atlasTexturas.t("vereda.jpg");
+
   let yo = new Objeto();
   let fEsquina = new FormaPlano(1,1,gl).copiaConTextura(texturaEsquina);
   let fCalle = new FormaPlano(1,ladoManzana,gl).copiaConTextura(texturaCalle);
@@ -13,7 +19,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,texturaCalle,textur
     yo.hijos.push(e);
   }
   function ponerManzana(x,y){
-    let v = new ObjetoVereda(ladoManzana+0.5,0.2,0.03,gl,texturaVereda,programaColor,programaTextura);
+    let v = new ObjetoVereda(ladoManzana+0.5,0.2,0.03,gl);
     v.setPosicion(x,y,0);
     yo.hijos.push(v);
   }

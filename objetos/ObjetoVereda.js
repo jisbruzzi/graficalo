@@ -1,8 +1,11 @@
 /*
 VA A ESTAR MAL ILUMINADO PORQUE LAS NORMALES ESTÁN MAL ARMADAS EN LAS FORMAS!!
 */
-function ObjetoVereda(ladoManzana,radioBorde,altura,gl,texturaVereda,programaColor,programaTextura){
+function ObjetoVereda(ladoManzana,radioBorde,altura,gl){
   let yo=new Objeto();
+  let texturaVereda = atlasTexturas.t("vereda.jpg");
+  let programaColor = atlasShaderPs.p("coloreado");
+  let programaTextura = atlasShaderPs.p("texturado");
   let fTapa=new FormaVereda(ladoManzana,radioBorde,radioBorde,gl).copiaConTextura(texturaVereda);
   let fZoca=new FormaZocalo(ladoManzana,radioBorde,gl,[0.5,0.5,0.5]);
   let oTapa=new Objeto(new Modelo(fTapa,programaTextura,gl));
