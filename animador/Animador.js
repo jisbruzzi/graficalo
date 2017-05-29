@@ -9,7 +9,7 @@ function Animador(curvas){
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
     "vereda.jpg"
-  ];
+  ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
   let deimos;
   let phobos;
@@ -121,6 +121,7 @@ function Animador(curvas){
 
     let fEdificio=new FormaEdificio(gl);
     oEdificio=new ObjetoEdificio(fEdificio,gl);
+    oEdificio.mover(3,0,0);
     mundo.hijos.push(oEdificio);
 
 
