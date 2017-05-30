@@ -21,7 +21,13 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
   function ponerManzana(x,y){
     let v = new ObjetoVereda(ladoManzana+0.5,0.2,0.03,gl);
     v.setPosicion(x,y,0);
+    /*
+    let m = new ObjetoManzanaEdificios(ladoManzana,gl);
+    m.setPosicion(x,y,0);
+    yo.hijos.push(m);
+    */
     yo.hijos.push(v);
+
   }
   function ponerCalleVertical(x,y){
     let e = new Objeto(mCalle);
