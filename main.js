@@ -44,11 +44,14 @@ function Main(animador){
     }
   }
 
-  let tick = function() {
+  let tick = function(delta) {
     requestAnimFrame(tick);
+    try{
+      TWEEN.update(delta);
+    }catch(e){};
 
-    animador.tick();
-    animador.obtenerMundo().tick();
+    animador.tick(delta);
+    animador.obtenerMundo().tick(delta);
 
     // Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
     // el área disponible

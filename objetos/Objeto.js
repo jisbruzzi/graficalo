@@ -102,12 +102,12 @@ function Objeto(modelo){
     return this;
   }
 
-  this.sobretick=function(){};
+  this.sobretick=function(delta){};
 
-  this.tick = function(){
-    this.sobretick();
+  this.tick = function(delta){
+    this.sobretick(delta);
     this.hijos.forEach(function(h){
-      h.tick();
+      h.tick(delta);
     });
   }
 }

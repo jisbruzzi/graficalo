@@ -20,7 +20,7 @@ function ObjetoManzanaEdificios(lado,gl){
 
     let altura = 3*a1+2*a2+1*a3;
 
-    let retardo=Math.random()*(a1+a2)*150;
+    let retardo=Math.random()*(a1+a2)*500;
 
     let tiempoAnimacion=(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random())/3;
 
