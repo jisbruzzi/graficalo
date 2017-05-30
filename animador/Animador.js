@@ -115,15 +115,18 @@ function Animador(curvas){
     let oVereda = new Objeto(mVereda);
     */
 
-
+/*
     let vereda= new ObjetoVereda(3,0.2,0.01,gl);
     mundo.hijos.push(vereda);
 
-    let fEdificio=new FormaEdificio(gl);
-    oEdificio=new ObjetoEdificio(fEdificio,gl);
+
+    oEdificio=new ObjetoEdificio(2,3,gl);
     oEdificio.mover(3,0,0);
     mundo.hijos.push(oEdificio);
-
+*/
+  let oManzana = new ObjetoManzanaEdificios(10,gl);
+  oManzana.mover(10,0,0);
+  mundo.hijos.push(oManzana);
 
 
 
@@ -138,7 +141,7 @@ function Animador(curvas){
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
     objRevolucion.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
-    oEdificio.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+    oManzana.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }
 
 }
