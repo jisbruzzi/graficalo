@@ -45,7 +45,6 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
       //TWEEN.Easing.Linear,
       TWEEN.Easing.Quadratic.Out,
       TWEEN.Easing.Sinusoidal.Out,
-      TWEEN.Easing.Exponential.Out
     ];
     return posibilidades[Math.floor(Math.random()*posibilidades.length)];
   }
@@ -63,13 +62,13 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
     }).start();
   }
 
-  oEdificio.sobretick=function(){
-    ticks+=1;
+  oEdificio.cambiarSobretick(function(delta){
+    ticks=delta/3000;
     if (ticks>retardo){
       iniciarAnimacion();
     }
     //let coef = miBezier(Math.min(tiempo/(tiempoAnimacion*250),1));
-  }
+  });
 
   return oEdificio;
 

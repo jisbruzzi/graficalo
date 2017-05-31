@@ -52,6 +52,7 @@ function Main(animador){
 
     animador.tick(delta);
     animador.obtenerMundo().tick(delta);
+    //console.log(delta);
 
     // Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
     // el área disponible

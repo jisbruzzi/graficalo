@@ -18,14 +18,17 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     e.escalar(tamEsq,tamEsq,tamEsq);
     yo.hijos.push(e);
   }
+  let retardoManzanaActual=3;
   function ponerManzana(x,y){
     let v = new ObjetoVereda(ladoManzana+0.5,0.2,0.03,gl);
     v.setPosicion(x,y,0);
-    /*
-    let m = new ObjetoManzanaEdificios(ladoManzana,gl);
+
+    retardoManzanaActual+=randn_bm()*0.5+1;
+
+    let m = new ObjetoManzanaEdificios(ladoManzana,gl,retardoManzanaActual);
     m.setPosicion(x,y,0);
     yo.hijos.push(m);
-    */
+
     yo.hijos.push(v);
 
   }

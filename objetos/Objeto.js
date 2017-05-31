@@ -102,9 +102,19 @@ function Objeto(modelo){
     return this;
   }
 
-  this.sobretick=function(delta){};
+  let sobretick=null;
+  this.cambiarSobretick=function(cual){
+    sobretick=cual;
+  }
+
+  this.sobretick=function(delta){
+    if(sobretick!=null && delta != undefined){
+      sobretick(delta);
+    }
+  };
 
   this.tick = function(delta){
+
     this.sobretick(delta);
     this.hijos.forEach(function(h){
       h.tick(delta);

@@ -1,4 +1,19 @@
-function ObjetoManzanaEdificios(lado,gl){
+
+//--copio y pego este random--//
+// Standard Normal variate using Box-Muller transform.
+function randn_bm() {
+    var u = 1 - Math.random(); // Subtraction to flip [0, 1) to (0, 1].
+    var v = 1 - Math.random();
+    return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+}
+
+function rand_exp(lambda){
+  return Math.log(1-Math.random())/(-lambda)
+}
+
+
+
+function ObjetoManzanaEdificios(lado,gl,retardoManzana){
   let yo = new Objeto();
 
   let listaEdificios=new ListaEdificios(lado);
@@ -12,6 +27,11 @@ function ObjetoManzanaEdificios(lado,gl){
 
     let area = edificio.ancho*edificio.fondo/lado;
 
+    let altura = Math.max(randn_bm()*(area+distCentro)+4*distCentro+2*area,0.5);
+    //let retardo = Math.max(randn_bm()+2,1)+retardoManzana;
+    let retardo = Math.max(rand_exp(1)+0.2,0.2)+retardoManzana;
+    let tiempoAnimacion=Math.max(2*randn_bm()+5,0.5);
+/*
     let a1=Math.random()*area*2+distCentro;
     let a2=Math.random()*(area+distCentro)+(area+distCentro)/2;
     let a3=Math.random()*distCentro*2+area;
@@ -23,6 +43,7 @@ function ObjetoManzanaEdificios(lado,gl){
     let retardo=Math.random()*(a1+a2)*500;
 
     let tiempoAnimacion=(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random())/3;
+*/
 
 
     let ancho = edificio.ancho-0.2;
@@ -251,7 +272,7 @@ function ListaEdificios(lado){
   for(let i = 0;i<cantidadEdificios;i++){
     agregarEdficioPosRandom();
   }
-  for(let i = 0;i<60;i++){
+  for(let i = 0;i<lado;i++){
     revolverTodo();
   }
   for(let e of yo){
