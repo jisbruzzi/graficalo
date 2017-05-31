@@ -1,4 +1,4 @@
-function Animador(curvas){
+function Animador(puntosControl){
   this.archivosShaderPrograms={
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
@@ -51,7 +51,7 @@ function Animador(curvas){
 
 
   this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
-
+    var curvas=curvaBSplineCuadratica(puntosControl);
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -63,12 +63,10 @@ function Animador(curvas){
     let programaEdificio = atlasShaderPs.p("edificio");
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
     var normales=[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)];
-    //let formaBarrido= new FormaBarrido(puntos,normales,curvas,0.01,gl);
-    //objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
+
+
+
     ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
-    console.log(curvas);
-
-
     pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
 
     pilar.mover(5,0,0);

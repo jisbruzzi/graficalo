@@ -1,5 +1,5 @@
-function webGLStart(curvas) {
-  let animador = new Animador(curvas);
+function webGLStart(puntosControl) {
+  let animador = new Animador(puntosControl);
   let main=new Main(animador);
 
 }
