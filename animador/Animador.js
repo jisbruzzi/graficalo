@@ -8,6 +8,7 @@ function Animador(curvas){
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
+
     "vereda.jpg"
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
@@ -18,9 +19,9 @@ function Animador(curvas){
   let phobosEje;
   let mundo;
   let calles;
-  let objBarrido;
-  let objRevolucion;
   let oEdificio;
+  let pilar;
+  let ruta;
 
   this.obtenerMundo=function(){
     return mundo;
@@ -38,7 +39,7 @@ function Animador(curvas){
 
     mars.rotar([0,1,0],0.01);
     //objBarrido.rotar([0,0,1],0.01)
-
+    
     if(jugador!=null){
       jugador.tick();
     }
@@ -48,7 +49,9 @@ function Animador(curvas){
 
   let jugador=null;
 
+
   this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
+
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -59,20 +62,20 @@ function Animador(curvas){
     let programaTextura = atlasShaderPs.p("texturado");
     let programaEdificio = atlasShaderPs.p("edificio");
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
-    let formaBarrido= new FormaBarrido(puntos,[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)],
-        curvas,0.01,gl);
-    objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
+    var normales=[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)];
+    //let formaBarrido= new FormaBarrido(puntos,normales,curvas,0.01,gl);
+    //objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
+    ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+   
 
-    let formaRevolucion= new FormaRevolucion(
-        [0.0,1.0,1.0,  0.0,2.0,0.0,   0.0,1.0,-1.0,   0.0,0.0,0.0,  0.0,1.0,1.0 ],
-        [0.0,0.0,1.0,  0.0,1.0,0.0,   0.0,0.0,-1.0,   0.0,-1.0,0.0,  0.0,0.0,1.0],
-        Math.PI/20,gl);
-    objRevolucion=new Objeto(new Modelo(formaRevolucion,programaColor,gl));
+    pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+
+    pilar.mover(5,0,0);
     let plano=new FormaPlano(8,15,gl);
     let formaCalle = plano.copiaConTextura(atlasTexturas.t("tramo-dobleamarilla.jpg"));
     let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
     let objCalle = new Objeto(modeloCalle);
-
+    
      //objBarrido.escalar(10,10,10);
     let esfera64 = new FormaEsfera(64,64,gl);
     let esfera64Texturada =esfera64.copiaConTextura(atlasTexturas.t("mars_1k_color.jpg"));
@@ -95,11 +98,14 @@ function Animador(curvas){
     mundo = new Objeto();
     mundo.hijos.push(deimosEje);
     mundo.hijos.push(phobosEje);
+
+   // mundo.hijos.push(mars);
+
+    mundo.hijos.push(pilar);
+    mundo.hijos.push(ruta);
+    //mundo.hijos.push(objCalle);
+
     mundo.hijos.push(new ObjetoCuboColores(gl,programaColor));
-
-    mundo.hijos.push(objBarrido);
-    mundo.hijos.push(objRevolucion);
-
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
@@ -140,8 +146,9 @@ function Animador(curvas){
     deimosEje.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues(0.5, 0.5, 0.5), vec3.fromValues(0.05, 0.05, 0.05));
     mars.configurarIluminacion(vec3.fromValues(-1.0, 0.0, -0.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
-    objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
-    objRevolucion.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+    //objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
+    pilar.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.1, 0.1, 0.1), vec3.fromValues(0.01,0.01, 0.01));
+    ruta.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //oManzana.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }
 

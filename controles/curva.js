@@ -55,9 +55,19 @@ for(var i=0;i*3<puntos.length;i++){
 }
 
 function generar(){
-  if(puntos.length>=3*3){
-    document.getElementById("canvas-espera").style.display="none";
-    webGLStart(curvaBSplineCuadratica(puntos));
-  }
+  var puntosAux=puntos.slice(0);
+  if(puntosAux.length>=3*3){
+    puntoInicio=[(puntosAux[0]+puntosAux[3])/2,(puntosAux[1]+puntosAux[4])/2,(puntosAux[2]+puntosAux[5])/2];//"normalizo"
+    for(var i=0;i<puntosAux.length/3;i++){
+      puntosAux[i*3] -= puntoInicio[0];
+      puntosAux[i*3+1] -= puntoInicio[1];
+      puntosAux[i*3+2] -= puntoInicio[2]; 
+    }
 
+      
+    document.getElementById("canvas-espera").style.display="none";
+
+    webGLStart(curvaBSplineCuadratica(puntosAux));
+  }
 }
+

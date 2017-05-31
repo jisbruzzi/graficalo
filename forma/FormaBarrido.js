@@ -120,15 +120,35 @@ function curvaBSplineCuadratica(posicionesPuntos){
 		}
 		return tangente;
 	}
-	return [funcion,derivada];
+
+	var normaDerivada=function(t){
+		if(t>1||t<0)
+			throw "Parametro no pertenece a rango valido.";
+		var posPunto=posicionesPuntos;
+		var tangente=new Array();
+		t=t*(cantidadPuntos-2);
+		var puntoInicial=Math.floor(t);
+		if(cantidadPuntos-2<=puntoInicial){//significa que estoy al final de toda la curva o pasado,
+		// en ese caso el punto inicial tomo el ultimo punto
+			t=1;
+			puntoInicial=cantidadPuntos-3;
+		}else{
+			t=t-(puntoInicial);
+		}
+		norma=0;
+		for(var i=0;i<3;i++){
+			tangente.push((-1.0+1.0*t)*posPunto[puntoInicial*3+i]+(1.0-2.0*t)*posPunto[puntoInicial*3+i+3]+t*posPunto[puntoInicial*3+i+2*3]);
+			norma+=tangente[i]*tangente[i];
+		}
+		return norma;
+	}
+	return [funcion,derivada, normaDerivada];
 }
 
 
 //pasar en forma de array concatenado vertices y normales,las normales deben estar normalizadas, en el array se debe pasar primero la funcion con las posiciones
 //y la siguiente debe ser la derivada 
-
-function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
-
+function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 
   this.puntosPatron=vertices.length/3;
   this.repeticionesPatron = Math.floor(1/paso)+1;
@@ -171,9 +191,9 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 			normal_buffer.push(normal[1]);
 			normal_buffer.push(normal[2]);
 
-			color_buffer.push(0.5);
-			color_buffer.push(0.5);
-			color_buffer.push(0.5);
+			color_buffer.push(colores[0](i,j));
+			color_buffer.push(colores[1](i,j));
+			color_buffer.push(colores[2](i,j));
 			var u=j/(this.puntosPatron-1);
 			var v=i*(this.repeticionesPatron-1);
 			texture_coord_buffer.push(u);
@@ -204,7 +224,6 @@ function FormaBarrido(vertices,normales,arrayFunciones,paso,gl){
 
 
   }
-
 	//generar los buffers de opengl
 	this.normal_buffer=normal_buffer;
 	this.texture_coord_buffer=texture_coord_buffer;
