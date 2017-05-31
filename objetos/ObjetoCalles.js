@@ -22,6 +22,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
 
   let plazas=[];
   let manzanas =[];
+  let pilares =[];
   for(let x=0;x<manzanasAncho;x++){
     plazas[x]=[];
     for(let y=0;y<manzanasAlto;y++){
@@ -49,13 +50,36 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
 */
     for(let m of manzanas){
       if(m.contiene(posRelativa)){
-        return {hay:true,x:m.casilleroX,y:m.casilleroY};
+        return {hay:true,x:m.casilleroX,y:m.casilleroY,manzana:m};
       }
     }
     return {hay:false};
   }
 
- yo.generar=function(curvasEsquivar){
+  yo.sePuedePonerColumnaEn=function(x,y,radio){
+    let en =yo.manzanaEn({x:x,y:y});
+
+    if(!en.hay) {
+      //console.log("No hay manzana en",x,y);
+      return false;
+    }
+
+    let rCol=new Rectangulo(x-radio,y-radio,radio*2,radio*2);
+    if(!rCol.dentroDe(en.manzana)){
+      return false;
+    }
+
+    let mascara=new Rectangulo(x-radio,y-radio,2*radio,2*radio);
+    for(p of pilares){
+      if(p.colisiona(mascara)){
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+ yo.generar=function(curvasEsquivar,curvaPilares){
 
     function ubicarPlazas(curva){
       for(let i=0;i<1000;i++){
@@ -96,6 +120,17 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       yo.hijos.push(s);
 
     }
+
+    function ponerPilarSiPosible(x,y){
+      if(yo.sePuedePonerColumnaEn(x,y,1)){
+        pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+        pilar.mover(x,y,0);
+        pilar.escalar(0.5,0.5,0.5);
+        yo.hijos.push(pilar);
+        pilares.push(new Rectangulo(x-0.5,y-0.5,1,1));
+      }
+    }
+
     function ponerCalleVertical(x,y){
       let e = new Objeto(mCalle);
       e.mover(x,y,0);
@@ -128,6 +163,13 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
         ponerCalleHorizontal((tamEsq+ladoManzana)/2+x*(ladoManzana+tamEsq),y*(ladoManzana+tamEsq));
       }
     }
+
+    for(let i=0;i<50;i++){
+      let p=curvaPilares(i/50);
+      ponerPilarSiPosible(p.x,p.y);
+    }
+
+
   }
 
   return yo;

@@ -66,12 +66,10 @@ function Animador(curvas){
     //let formaBarrido= new FormaBarrido(puntos,normales,curvas,0.01,gl);
     //objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
     ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+    ruta.mover(0,0,2.5);
     console.log(curvas);
 
 
-    pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
-
-    pilar.mover(5,0,0);
     let plano=new FormaPlano(8,15,gl);
     let formaCalle = plano.copiaConTextura(atlasTexturas.t("tramo-dobleamarilla.jpg"));
     let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
@@ -115,7 +113,7 @@ function Animador(curvas){
     calles = new ObjetoCalles(3,5,10,gl);
     mundo.hijos.push(calles);
     calles.mover(0,0,0);
-    calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)]);
+    calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)],generaFachada.desplazada(0));
 
     //vereda
     /*
@@ -150,7 +148,6 @@ function Animador(curvas){
     mars.configurarIluminacion(vec3.fromValues(-1.0, 0.0, -0.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
-    pilar.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.1, 0.1, 0.1), vec3.fromValues(0.01,0.01, 0.01));
     ruta.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //oManzana.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }
