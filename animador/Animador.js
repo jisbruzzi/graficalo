@@ -67,6 +67,8 @@ function Animador(puntosControl){
 
 
     ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+    ruta.mover(0,0,2.5);
+
     pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
 
     pilar.mover(5,0,0);
@@ -112,8 +114,8 @@ function Animador(puntosControl){
 
     calles = new ObjetoCalles(3,5,10,gl);
     mundo.hijos.push(calles);
-    calles.mover(0,0,0);
-    calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)]);
+    //calles.mover(10,0,0);
+    calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)],generaFachada.desplazada(0));
 
     //vereda
     /*
@@ -148,7 +150,6 @@ function Animador(puntosControl){
     mars.configurarIluminacion(vec3.fromValues(-1.0, 0.0, -0.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
-    pilar.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.1, 0.1, 0.1), vec3.fromValues(0.01,0.01, 0.01));
     ruta.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //oManzana.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }

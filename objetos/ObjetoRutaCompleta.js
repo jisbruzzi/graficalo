@@ -1,5 +1,4 @@
 function anguloEntre(vectorUno,vectorDos){
-	
 	var angulo=Math.acos(productoInterno(vectorUno,vectorDos));
 	var vectorGiro=productoVectorial(vectorUno,vectorDos);
 	var indicadorSentido=productoInterno(vectorGiro,[0,0,1]);
@@ -28,7 +27,7 @@ function ObjetoRutaCompleta(curvas,texturaAsfalto,texturaBorde,programaTextura,p
 		par=!par;
 		var desp= curvas[0](i);
 		var tang= curvas[1](i);
-		
+
 
 		objetoAux.hijos.push(luminaria);
 		objetoAux.escalar(1/30,1/30,1/30);
