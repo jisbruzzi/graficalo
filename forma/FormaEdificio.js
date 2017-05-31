@@ -1,58 +1,67 @@
-function FormaEdificio(gl){
+function FormaEdificio(gl,ancho,fondo){
+
   let normal_buffer=[];
   let texture_coord_buffer=[];
   let position_buffer=[];
   let index_buffer=[];
   let color_buffer=[];
 
+  let uIzq=0;
+  let uDer=1;
   function agregarPunto(x,y,h){
     let pos=position_buffer.length/3;
-    position_buffer=position_buffer.concat([x-0.5,y-0.5,h]);
-    texture_coord_buffer=texture_coord_buffer.concat([x,h]);
+    position_buffer=position_buffer.concat([(x-0.5)*ancho,(y-0.5)*fondo,h]);
+
     color_buffer=color_buffer.concat([0.2,0.2,0.2]);
     return function(x,y,z){//por qué no?
       normal_buffer=normal_buffer.concat([x,y,z]);
-      return pos;
+      return function(u){
+        texture_coord_buffer=texture_coord_buffer.concat([u,h]);
+        return pos;
+      }
+
     };
   }
 
+  uDer=ancho;
   //frente interesante
-  let abi=agregarPunto(0,0,0)(0,-1,0);
-  let abd=agregarPunto(1,0,0)(0,-1,0);
-  let ari=agregarPunto(0,0,1)(0,-1,0);
-  let ard=agregarPunto(1,0,1)(0,-1,0);
+  let abi=agregarPunto(0,0,0)(0,-1,0)(uIzq);
+  let abd=agregarPunto(1,0,0)(0,-1,0)(uDer);
+  let ari=agregarPunto(0,0,1)(0,-1,0)(uIzq);
+  let ard=agregarPunto(1,0,1)(0,-1,0)(uDer);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   //atrás interesante ponele
-   abi=agregarPunto(0,1,0)(0,1,0);
-   abd=agregarPunto(1,1,0)(0,1,0);
-   ari=agregarPunto(0,1,1)(0,1,0);
-   ard=agregarPunto(1,1,1)(0,1,0);
+   abi=agregarPunto(0,1,0)(0,1,0)(uIzq);
+   abd=agregarPunto(1,1,0)(0,1,0)(uDer);
+   ari=agregarPunto(0,1,1)(0,1,0)(uIzq);
+   ard=agregarPunto(1,1,1)(0,1,0)(uDer);
+  index_buffer=index_buffer.concat([abi,ari,ard]);
+  index_buffer=index_buffer.concat([ard,abd,abi]);
+
+  uDer=fondo;
+  //izquierda
+  abi=agregarPunto(1,0,0)(1,0,0)(uIzq);
+  abd=agregarPunto(1,1,0)(1,0,0)(uDer);
+  ari=agregarPunto(1,0,1)(1,0,0)(uIzq);
+  ard=agregarPunto(1,1,1)(1,0,0)(uDer);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   //izquierda
-  abi=agregarPunto(1,0,0)(1,0,0);
-  abd=agregarPunto(1,1,0)(1,0,0);
-  ari=agregarPunto(1,0,1)(1,0,0);
-  ard=agregarPunto(1,1,1)(1,0,0);
+  abi=agregarPunto(0,0,0)(-1,0,0)(uIzq);
+  abd=agregarPunto(0,1,0)(-1,0,0)(uDer);
+  ari=agregarPunto(0,0,1)(-1,0,0)(uIzq);
+  ard=agregarPunto(0,1,1)(-1,0,0)(uDer);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   //izquierda
-  abi=agregarPunto(0,0,0)(-1,0,0);
-  abd=agregarPunto(0,1,0)(-1,0,0);
-  ari=agregarPunto(0,0,1)(-1,0,0);
-  ard=agregarPunto(0,1,1)(-1,0,0);
-  index_buffer=index_buffer.concat([abi,ari,ard]);
-  index_buffer=index_buffer.concat([ard,abd,abi]);
-
-  //izquierda
-  abi=agregarPunto(0,0,1)(0,0,1);
-  abd=agregarPunto(1,0,1)(0,0,1);
-  ari=agregarPunto(0,1,1)(0,0,1);
-  ard=agregarPunto(1,1,1)(0,0,1);
+  abi=agregarPunto(0,0,1)(0,0,1)(uIzq);
+  abd=agregarPunto(1,0,1)(0,0,1)(uDer);
+  ari=agregarPunto(0,1,1)(0,0,1)(uIzq);
+  ard=agregarPunto(1,1,1)(0,0,1)(uDer);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 

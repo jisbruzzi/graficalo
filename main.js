@@ -44,10 +44,14 @@ function Main(animador){
     }
   }
 
-  let tick = function() {
+  let tick = function(delta) {
     requestAnimFrame(tick);
+    try{
+      TWEEN.update(delta);
+    }catch(e){};
 
-    animador.tick();
+    animador.tick(delta);
+    animador.obtenerMundo().tick(delta);
 
     // Se configura el vierport dentro de área ¨canvas¨. en este caso se utiliza toda
     // el área disponible
@@ -72,13 +76,14 @@ function Main(animador){
   canvas.style.display="inline";
 	initGL(canvas);
   atlasTexturas.configurarGl(gl);
-  cargarVariosShaderProgram(gl,lista,function(programs){
+  atlasShaderPs.configurarGl(gl);
+  atlasShaderPs.cargarShaderPrograms(lista,function(){
     cargarImagenes(listaImagenes,function(atlasImagenes){
       atlasTexturas.cargarTexturas(listaImagenes,function(){
 
         camara.setPerspectiva(3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
 
-        animador.iniciarMundo(programs,gl,camara,new Mouse(canvas),new Movedor(canvas));
+        animador.iniciarMundo(gl,camara,new Mouse(canvas),new Movedor(canvas));
 
     		gl.clearColor(0.2, 0.2, 0.0, 1);
         gl.enable(gl.DEPTH_TEST);

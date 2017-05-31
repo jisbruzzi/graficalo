@@ -1,4 +1,4 @@
-function ObjetoRuta(curvas,texturaAsfalto,texturaBorde,programaTextura,programaColor,gl){//curvas es un array que tiene en la primera la curva, y en la segunda su derivada
+function ObjetoRuta(curvas,texturaAsfalto,texturaBorde,programaTextura,programaColor,gl){//curvas es un array que tiene en la primera la curva, y en la segunda su derivada normalizada, en la tercera el valor de la norma de la derivada
 	let ancho=1;
 	let gap=0.05*ancho;
 	let alto=0.10*ancho;

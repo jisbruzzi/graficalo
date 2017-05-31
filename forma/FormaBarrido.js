@@ -120,7 +120,29 @@ function curvaBSplineCuadratica(posicionesPuntos){
 		}
 		return tangente;
 	}
-	return [funcion,derivada];
+
+	var normaDerivada=function(t){
+		if(t>1||t<0)
+			throw "Parametro no pertenece a rango valido.";
+		var posPunto=posicionesPuntos;
+		var tangente=new Array();
+		t=t*(cantidadPuntos-2);
+		var puntoInicial=Math.floor(t);
+		if(cantidadPuntos-2<=puntoInicial){//significa que estoy al final de toda la curva o pasado,
+		// en ese caso el punto inicial tomo el ultimo punto
+			t=1;
+			puntoInicial=cantidadPuntos-3;
+		}else{
+			t=t-(puntoInicial);
+		}
+		norma=0;
+		for(var i=0;i<3;i++){
+			tangente.push((-1.0+1.0*t)*posPunto[puntoInicial*3+i]+(1.0-2.0*t)*posPunto[puntoInicial*3+i+3]+t*posPunto[puntoInicial*3+i+2*3]);
+			norma+=tangente[i]*tangente[i];
+		}
+		return norma;
+	}
+	return [funcion,derivada, normaDerivada];
 }
 
 

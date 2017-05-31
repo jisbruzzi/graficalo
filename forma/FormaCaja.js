@@ -1,5 +1,5 @@
 function FormaCaja(colores,gl){//los colores se deben pasar por caras, siendo 0 YZ,1XZ,2XY,3YZop,4XZop,5XYop
-				//  t1        YZ              t2                        t1            XZ        t2                 t1        XY     t2     
+			             	//  t1        YZ              t2                        t1            XZ        t2                 t1        XY     t2     
   let posBuffer = [0,0,0,0,0,1,0,1,0,       0,1,1,0,0,1,0,1,0,       0,0,0,0,0,1,1,0,0,    1,0,1,0,0,1,1,0,0,     0,0,0,1,0,0,0,1,0,   1,1,0,0,1,0,1,0,0];//0,1,1,0,1,0,1,0,0];
   let normBuffer = [-1,0,0,-1,0,0,-1,0,0,  -1,0,0,-1,0,0,-1,0,0,      0,-1,0,0,-1,0,0,-1,0,    0,-1,0,0,-1,0,0,-1,0,     0,0,-1,0,0,-1,0,0,-1,   0,0,-1,0,0,-1,0,0,-1];
   let colBuffer =[];
@@ -44,6 +44,7 @@ function FormaCaja(colores,gl){//los colores se deben pasar por caras, siendo 0 
 
 
 //INTERFAZ
+console.log(normBuffer);
   this.normal_buffer=normBuffer;
 	this.position_buffer=posBuffer;
 	this.index_buffer=indexBuffer;

@@ -1,16 +1,16 @@
 function Animador(curvas){
-  this.archivosShaderPrograms=[
-    ["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
-    ["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
-    ["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"]
-  ];
+  this.archivosShaderPrograms={
+    "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
+    "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
+    "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"]
+  };
   this.archivosImagenes=[
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
-    "vereda.jpg",
-    "concreto.jpg",
-  ];
+
+    "vereda.jpg"
+  ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
   let deimos;
   let phobos;
@@ -22,7 +22,6 @@ function Animador(curvas){
   let oEdificio;
   let pilar;
   let ruta;
-  let luminaria;
 
   this.obtenerMundo=function(){
     return mundo;
@@ -45,20 +44,13 @@ function Animador(curvas){
       jugador.tick();
     }
 
-
-    oEdificio.uniforms[0].valor+=0.01;
-
     //calles.rotar([1,0,0],0.05);
   }
 
   let jugador=null;
-  
-  this.iniciarMundo=function(programas,gl,camaraNueva,mouse,movedorNuevo){
-    let colorido=new Array();
-    for(var i=0;i<3;i++)
-        colorido.push(function(angulo,puntoEnPatron){
-            return Math.random();
-        });
+
+
+  this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
 
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
@@ -66,16 +58,15 @@ function Animador(curvas){
 //(40, 75, -100)
 //camara.setHacia(0,0,0).setPosicion(40, 75, -100).setArriba(0,1,0);
   //camara.setPosicion(0,0,100).setHacia(0,0,0).setArriba(0,1,0);
-    let programaColor = programas[0];
-    let programaTextura = programas[1];
-    let programaEdificio = programas[2];
+    let programaColor = atlasShaderPs.p("coloreado");
+    let programaTextura = atlasShaderPs.p("texturado");
+    let programaEdificio = atlasShaderPs.p("edificio");
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
     var normales=[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)];
     //let formaBarrido= new FormaBarrido(puntos,normales,curvas,0.01,gl);
     //objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
-    ruta = new ObjetoRuta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+    ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
    
-    luminaria = new ObjetoLuminaria(programaColor,gl);
 
     pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
 
@@ -91,33 +82,6 @@ function Animador(curvas){
     let modeloColoreada = new Modelo(esfera64,programaColor,gl);
     let modeloTexturada = new Modelo(esfera64Texturada,programaTextura,gl);
 
-    let formaCuadriculaRoja = new FormaCuadricula(10,10,gl,[1,0,0]);
-    let modeloCuadriculaRoja = new Modelo(formaCuadriculaRoja,programaColor,gl);
-
-    let cuadriculaRoja1 = new Objeto(modeloCuadriculaRoja);
-
-    cuadriculaRoja1.rotar([0,1,0],Math.PI/2);
-    cuadriculaRoja1.mover(5,0,0);
-
-    let cuadriculaRoja2 = new Objeto(modeloCuadriculaRoja);
-    cuadriculaRoja2.rotar([0,1,0],Math.PI/2);
-    cuadriculaRoja2.mover(-5,0,0);
-
-    let formaCuadriculaAzul = new FormaCuadricula(10,10,gl,[0,0,1]);
-    let modeloCuadriculaAzul = new Modelo(formaCuadriculaAzul,programaColor,gl);
-    let mCuadVerde = new Modelo(new FormaCuadricula(10,10,gl,[0,1,0]),programaColor,gl);
-
-    let cuadAz1=new Objeto(modeloCuadriculaAzul);
-    cuadAz1.mover(0,0,5);
-    let cuadAz2=new Objeto(modeloCuadriculaAzul);
-    cuadAz2.mover(0,0,-5);
-
-    let cuadVe1=new Objeto(mCuadVerde);
-    cuadVe1.mover(0,5,0);
-    cuadVe1.rotar([1,0,0],Math.PI/2);
-    let cuadVe2=new Objeto(mCuadVerde);
-    cuadVe2.mover(0,-5,0);
-    cuadVe2.rotar([1,0,0],Math.PI/2);
 
     deimos=new Objeto(modeloColoreada);
     mars  =new Objeto(modeloTexturada);
@@ -134,23 +98,19 @@ function Animador(curvas){
     mundo = new Objeto();
     mundo.hijos.push(deimosEje);
     mundo.hijos.push(phobosEje);
+
    // mundo.hijos.push(mars);
-    mundo.hijos.push(cuadriculaRoja1);
-    mundo.hijos.push(cuadriculaRoja2);
-    mundo.hijos.push(cuadAz1);
-    mundo.hijos.push(cuadAz2);
-    mundo.hijos.push(cuadVe1);
-    mundo.hijos.push(cuadVe2);
+
     mundo.hijos.push(pilar);
     mundo.hijos.push(ruta);
-    mundo.hijos.push(luminaria);
     //mundo.hijos.push(objCalle);
 
+    mundo.hijos.push(new ObjetoCuboColores(gl,programaColor));
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
-    calles = new ObjetoCalles(3,5,2,texturaCalle,texturaEsquina,programaTextura,programaColor,texturaVereda,gl);
+    calles = new ObjetoCalles(3,5,10,gl);
     mundo.hijos.push(calles);
     calles.mover(10,10,0);
 
@@ -161,19 +121,20 @@ function Animador(curvas){
     let oVereda = new Objeto(mVereda);
     */
 
-
-    let vereda= new ObjetoVereda(3,0.2,0.01,gl,texturaVereda,programaColor,programaTextura);
+/*
+    let vereda= new ObjetoVereda(3,0.2,0.01,gl);
     mundo.hijos.push(vereda);
 
-    let fEdificio=new FormaEdificio(gl).hacerCopiaConTexturas(texturaEsquina,texturaCalle);
-    let mEdificio=new Modelo(fEdificio,programaEdificio,gl);
-    oEdificio = new Objeto(mEdificio);
-    oEdificio.uniforms.push({nombre:"uAltura",valor:0.0});
-    oEdificio.uniforms.push({nombre:"uAlturaBase",valor:0.5});
-    oEdificio.uniforms.push({nombre:"uAlturaSobre",valor:0.7});
 
+    oEdificio=new ObjetoEdificio(2,3,gl);
+    oEdificio.mover(3,0,0);
     mundo.hijos.push(oEdificio);
-
+*/
+/*
+  let oManzana = new ObjetoManzanaEdificios(10,gl);
+  oManzana.mover(10,0,0);
+  mundo.hijos.push(oManzana);
+*/
 
 
     //mundo.rotar([1,0,0],Math.PI/2);
@@ -186,11 +147,9 @@ function Animador(curvas){
     mars.configurarIluminacion(vec3.fromValues(-1.0, 0.0, -0.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
-    oEdificio.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
-    pilar.configurarIluminacion(vec3.fromValues(+5.0, 0.0, +5.0), vec3.fromValues( 0.1, 0.1, 0.1), vec3.fromValues(0.05,0.05, 0.05));
+    pilar.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.1, 0.1, 0.1), vec3.fromValues(0.01,0.01, 0.01));
     ruta.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
-    luminaria.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
-    
+    //oManzana.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
   }
 
 }

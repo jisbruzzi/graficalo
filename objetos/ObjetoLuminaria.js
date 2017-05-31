@@ -65,15 +65,15 @@ function curvaBezier(puntosControl){
 }
 
 function ObjetoLuminaria(programaColor,gl){
-	let radioBorde=1/15;
-	let radioBase=3/15;
-	let alturaBase=3/15;
-	let extensionSobreRutaLuminaria=25/15;
-	let alturaLuminaria=50/15;
-	let cantidadPuntosEnCirculo=20/15;
-	let largoLuz=7/15;
-	let anchoLuz=4/15;
-	let altoLuz=2/15;
+	let radioBorde=1;
+	let radioBase=3;
+	let alturaBase=3;
+	let extensionSobreRutaLuminaria=25;
+	let alturaLuminaria=50;
+	let cantidadPuntosEnCirculo=20;
+	let largoLuz=7;
+	let anchoLuz=4;
+	let altoLuz=2;
 
 	let contornoCirculo = new Array();
 	let normalesCirculo = new Array();
