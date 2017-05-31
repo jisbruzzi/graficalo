@@ -67,7 +67,7 @@ function curvaBezier(puntosControl){
 function ObjetoLuminaria(programaColor,gl){
 	let radioBorde=1;
 	let radioBase=3;
-	let alturaBase=3;
+	let alturaBase=7;
 	let extensionSobreRutaLuminaria=25;
 	let alturaLuminaria=50;
 	let cantidadPuntosEnCirculo=20;
