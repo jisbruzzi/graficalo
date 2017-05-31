@@ -64,7 +64,8 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
   }
 
   yo.sePuedePonerColumnaEn=function(x,y,radio){
-    let en =yo.manzanaEn({x:x,y:y});
+    let miPosicion = yo.obtenerPosicion();
+    let en =yo.manzanaEn({x:x+miPosicion[0],y:y+miPosicion[1]});
 
     if(!en.hay) {
       //console.log("No hay manzana en",x,y);
@@ -129,6 +130,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     }
 
     function ponerPilarSiPosible(x,y){
+
       if(yo.sePuedePonerColumnaEn(x,y,1)){
         pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
         pilar.mover(x,y,0);
@@ -172,7 +174,11 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     }
 
     for(let i=0;i<50;i++){
+      let miPosicion = yo.obtenerPosicion();
       let p=curvaPilares(i/50);
+      p.x-=miPosicion[0];
+      p.y-=miPosicion[1];
+
       ponerPilarSiPosible(p.x,p.y);
     }
 

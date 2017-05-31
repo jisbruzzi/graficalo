@@ -112,7 +112,7 @@ function Animador(curvas){
 
     calles = new ObjetoCalles(3,5,10,gl);
     mundo.hijos.push(calles);
-    calles.mover(0,0,0);
+    //calles.mover(10,0,0);
     calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)],generaFachada.desplazada(0));
 
     //vereda
