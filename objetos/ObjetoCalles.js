@@ -36,6 +36,13 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     }
   }
 
+  yo.getAncho=function(){
+    return (ladoManzana+tamEsq)*manzanasAlto+tamEsq;
+  }
+  yo.getAlto=function(){
+    return (ladoManzana+tamEsq)*manzanasAncho+tamEsq;
+  }
+
   yo.manzanaEn=function(pos){
     let miPos=yo.obtenerPosicion();
     let posRelativa={
