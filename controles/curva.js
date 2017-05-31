@@ -57,7 +57,14 @@ for(var i=0;i*3<puntos.length;i++){
 function generar(){
   var puntosAux=puntos.slice(0);//clone
   if(puntosAux.length>=3*3){
-      
+    for(var i=1;i<puntosAux.length;i+=3)
+      puntosAux[i]=200-puntosAux[i];
+    for(var i=0;i<puntosAux.length;i++)
+      puntosAux[i]/=200;
+    
+
+
+    console.log(puntosAux);      
     document.getElementById("canvas-espera").style.display="none";
 
     webGLStart(puntosAux);

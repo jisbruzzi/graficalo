@@ -1,3 +1,37 @@
+function normalizarPuntosControl(puntosControl, alto,ancho){
+    var puntoInicio=[(puntosControl[0]+puntosControl[3])/2,(puntosControl[1]+puntosControl[4])/2,(puntosControl[2]+puntosControl[5])/2];//"normalizo"
+    for(var i=0;i<puntosControl.length/3;i++){
+      puntosControl[i*3] -= puntoInicio[0];
+    }
+    var puntoFinal=[(puntosControl[puntosControl.length-6]+puntosControl[puntosControl.length-3])/2,(puntosControl[puntosControl.length-5]+puntosControl[puntosControl.length-2])/2,(puntosControl[puntosControl.length-4]+puntosControl[puntosControl.length-1])/2];
+
+    var coeficienteDeExpansion=(alto)/puntoFinal[0];
+    var mayorY,menorY;
+    for(var i=0;i<puntosControl.length;i++){
+        puntosControl[i]*=coeficienteDeExpansion;
+    }
+    mayorY=menorY=puntosControl[1];
+    for(var i=4;i<puntosControl.length;i+=3){
+        if(mayorY<puntosControl[i])
+            mayorY=puntosControl[i];
+        if(menorY>puntosControl[i])
+            menorY=puntosControl[i];
+    }
+    var diferencia=mayorY-menorY;
+    if(diferencia>ancho){
+        var coeficienteDeContraccion=(ancho)/diferencia;
+        for(var i=1;i<puntosControl.length;i+=3)
+            puntosControl[i]=(puntosControl[i]-menorY)*coeficienteDeContraccion;
+
+    }else{
+        for(var i=1;i<puntosControl.length;i+=3)
+            puntosControl[i]-=menorY+ancho/2;
+    }   
+    return puntosControl;
+}
+
+
+
 function Animador(puntosControl){
   this.archivosShaderPrograms={
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
@@ -51,7 +85,7 @@ function Animador(puntosControl){
 
 
   this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
-    var curvas=curvaBSplineCuadratica(puntosControl);
+
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -66,8 +100,7 @@ function Animador(puntosControl){
 
 
 
-    ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
-    ruta.mover(0,0,2.5);
+    
 
     pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
 
@@ -103,16 +136,27 @@ function Animador(puntosControl){
    // mundo.hijos.push(mars);
 
     //mundo.hijos.push(pilar);
-    mundo.hijos.push(ruta);
 
     //mundo.hijos.push(new ObjetoCuboColores(gl,programaColor));
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
-    let generaFachada=new GeneraFachadaCurvaRuta(curvas);
 
     calles = new ObjetoCalles(3,5,10,gl);
+
+    puntosControl=normalizarPuntosControl(puntosControl,calles.getAlto(),calles.getAncho());
+    var curvas=curvaBSplineCuadratica(puntosControl);
+   
+
+
+    let generaFachada=new GeneraFachadaCurvaRuta(curvas);
+    ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+    
+
+    ruta.mover(0,0,2.5);
+    mundo.hijos.push(ruta);
+
     mundo.hijos.push(calles);
     //calles.mover(10,0,0);
     calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)],generaFachada.desplazada(0));
