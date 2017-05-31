@@ -3,7 +3,7 @@ function ObjetoRuta(curvas,texturaAsfalto,texturaBorde,programaTextura,programaC
 	let gap=0.05*ancho;
 	let alto=0.10*ancho;
 	let canto=0.05*ancho;
-	let contornoAsfalto = [0,-ancho-gap/2.0+0.000001,alto-canto/2.0, 0,-gap/2.0-0.000001,alto-canto/2.0,];
+	let contornoAsfalto = [0,-ancho-gap/2.0+0.00001,alto-canto/2.0, 0,-gap/2.0-0.000001,alto-canto/2.0,];
 	let normalesAsfalto = 	[0,0,1,0,0,1];
 	let contornoBorde =[0,-ancho-gap/2.0,alto,0,-ancho-gap/2.0,0,  0,-ancho-gap/2.0,0,0,-gap/2.0,0, 0,-gap/2.0,0,0,-gap/2.0,alto,  0,-gap/2.0,alto,0,-gap/2.0-canto,alto, 0,-gap/2.0-canto,alto,0,-gap/2.0-canto*1.5,alto-canto, 0,-gap/2.0-canto*1.5,alto-canto,0,-ancho-gap/2.0+canto*1.5,alto-canto, 0,-ancho-gap/2.0+canto*1.5,alto-canto,0,-ancho-gap/2.0+canto,alto, 0,-ancho-gap/2.0+canto,alto,0,-ancho-gap/2.0,alto];
 	let normalesBorde = [0,-1,0,0,-1,0,                             0,0,-1,0,0,-1,                   0,1,0,0,1,0                   ,0,0,1,0,0,1,                           0,-0.83205,0.5447,0,-0.83205,0.5447,                   0,0,1,0,0,1,                                                           0,0.83205,0.5447,0,0.83205,0.5447,                                 0,0,1,0,0,1 ];

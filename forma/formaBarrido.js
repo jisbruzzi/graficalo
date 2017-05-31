@@ -127,7 +127,6 @@ function curvaBSplineCuadratica(posicionesPuntos){
 //pasar en forma de array concatenado vertices y normales,las normales deben estar normalizadas, en el array se debe pasar primero la funcion con las posiciones
 //y la siguiente debe ser la derivada 
 function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
-	console.log(gl);
 
   this.puntosPatron=vertices.length/3;
   this.repeticionesPatron = Math.floor(1/paso)+1;

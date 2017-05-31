@@ -15,6 +15,7 @@ function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 	var vectorBinormal=[0,0,1];//esta condicion se da por ser curva planar en plano xy
 	var vectorTangente, vectorNormal;
 
+
 	
 	for(var i=0;i<2*Math.PI+paso/10;i+=paso){//+paso/10 para evitar errores de redondeo
 		if(i>Math.PI*2) i=2*Math.PI;
@@ -40,7 +41,6 @@ function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 			var u=j*10;
 
 			var v=i*10;
-			console.log(v,i);
 			texture_coord_buffer.push(u);
 
 			texture_coord_buffer.push(v);

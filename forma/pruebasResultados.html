@@ -2,9 +2,12 @@
 <head>
 </head>
 <body>
-
+<script type="text/javascript" src="../objetos/ObjetoLuminaria.js"></script>
 <script type="text/javascript" src="formaBarrido.js"></script>
 <script type="text/javascript">
+
+console.log("_-----__--",combinatoria(3,1),combinatoria(2,2),combinatoria(3,2),combinatoria(30,2));
+
 
   var recta=function(t){
     return [t, 0.0 ,0.0];
@@ -27,7 +30,7 @@ var normal= function(y){
 	var y=1/norma;
 	return 0+","+-z+","+y;
 }
-  	for(var y=0.42;y<1.421;y+=0.1){
+ /* 	for(var y=0.42;y<1.421;y+=0.1){
   		document.write(0+","+y+","+parabola(y)+", ");
 
   	}document.write('<br>');
@@ -41,6 +44,10 @@ var normal= function(y){
   		document.write(0+","++", ");
   		
   	}document.write('<br>');
+  	*/
+
+
+
 /* 	for(var i=0;i<vertices.length/3;i++){
   		document.write(0+","+vertices[i*3]+","+vertices[i*3+1]+",");
   	}

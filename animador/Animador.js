@@ -19,11 +19,10 @@ function Animador(curvas){
   let phobosEje;
   let mundo;
   let calles;
-  let objBarrido;
-  let objRevolucion;
   let oEdificio;
   let pilar;
   let ruta;
+  let luminaria;
 
   this.obtenerMundo=function(){
     return mundo;
@@ -41,10 +40,11 @@ function Animador(curvas){
 
     mars.rotar([0,1,0],0.01);
     //objBarrido.rotar([0,0,1],0.01)
-
+    
     if(jugador!=null){
       jugador.tick();
     }
+
 
     oEdificio.uniforms[0].valor+=0.01;
 
@@ -74,12 +74,9 @@ function Animador(curvas){
     //let formaBarrido= new FormaBarrido(puntos,normales,curvas,0.01,gl);
     //objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
     ruta = new ObjetoRuta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
-    let formaRevolucion= new FormaRevolucion(
-        [0.0,1.0,1.0,  0.0,2.0,0.0,   0.0,1.0,-1.0,   0.0,0.0,0.0,  0.0,1.0,1.0 ],
-        [0.0,0.0,1.0,  0.0,1.0,0.0,   0.0,0.0,-1.0,   0.0,-1.0,0.0,  0.0,0.0,1.0],
-        Math.PI/2,colorido,gl);
-    objRevolucion=new Objeto(new Modelo(formaRevolucion,programaColor,gl));
-    
+   
+    luminaria = new ObjetoLuminaria(programaColor,gl);
+
     pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
 
     pilar.mover(5,0,0);
@@ -87,7 +84,7 @@ function Animador(curvas){
     let formaCalle = plano.copiaConTextura(atlasTexturas.t("tramo-dobleamarilla.jpg"));
     let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
     let objCalle = new Objeto(modeloCalle);
-
+    
      //objBarrido.escalar(10,10,10);
     let esfera64 = new FormaEsfera(64,64,gl);
     let esfera64Texturada =esfera64.copiaConTextura(atlasTexturas.t("mars_1k_color.jpg"));
@@ -144,10 +141,9 @@ function Animador(curvas){
     mundo.hijos.push(cuadAz2);
     mundo.hijos.push(cuadVe1);
     mundo.hijos.push(cuadVe2);
-   // mundo.hijos.push(objBarrido);
-    mundo.hijos.push(objRevolucion);
     mundo.hijos.push(pilar);
     mundo.hijos.push(ruta);
+    mundo.hijos.push(luminaria);
     //mundo.hijos.push(objCalle);
 
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
@@ -190,11 +186,11 @@ function Animador(curvas){
     mars.configurarIluminacion(vec3.fromValues(-1.0, 0.0, -0.0), vec3.fromValues(0.3, 0.3, 0.3), vec3.fromValues(0.05, 0.05, 0.05));
     calles.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
-    objRevolucion.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     oEdificio.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     pilar.configurarIluminacion(vec3.fromValues(+5.0, 0.0, +5.0), vec3.fromValues( 0.1, 0.1, 0.1), vec3.fromValues(0.05,0.05, 0.05));
     ruta.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
-
+    luminaria.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+    
   }
 
 }
