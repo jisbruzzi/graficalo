@@ -39,7 +39,7 @@ function Animador(curvas){
 
     mars.rotar([0,1,0],0.01);
     //objBarrido.rotar([0,0,1],0.01)
-    
+
     if(jugador!=null){
       jugador.tick();
     }
@@ -66,7 +66,8 @@ function Animador(curvas){
     //let formaBarrido= new FormaBarrido(puntos,normales,curvas,0.01,gl);
     //objBarrido=new Objeto(new Modelo(formaBarrido,programaColor,gl));
     ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
-   
+    console.log(curvas);
+
 
     pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
 
@@ -75,7 +76,7 @@ function Animador(curvas){
     let formaCalle = plano.copiaConTextura(atlasTexturas.t("tramo-dobleamarilla.jpg"));
     let modeloCalle = new Modelo(formaCalle,programaTextura,gl);
     let objCalle = new Objeto(modeloCalle);
-    
+
      //objBarrido.escalar(10,10,10);
     let esfera64 = new FormaEsfera(64,64,gl);
     let esfera64Texturada =esfera64.copiaConTextura(atlasTexturas.t("mars_1k_color.jpg"));
@@ -101,18 +102,20 @@ function Animador(curvas){
 
    // mundo.hijos.push(mars);
 
-    mundo.hijos.push(pilar);
+    //mundo.hijos.push(pilar);
     mundo.hijos.push(ruta);
-    //mundo.hijos.push(objCalle);
 
-    mundo.hijos.push(new ObjetoCuboColores(gl,programaColor));
+    //mundo.hijos.push(new ObjetoCuboColores(gl,programaColor));
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
+    let generaFachada=new GeneraFachadaCurvaRuta(curvas);
+
     calles = new ObjetoCalles(3,5,10,gl);
     mundo.hijos.push(calles);
-    calles.mover(10,10,0);
+    calles.mover(15,30,0);
+    calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)]);
 
     //vereda
     /*

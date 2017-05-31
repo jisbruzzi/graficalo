@@ -16,7 +16,7 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
 
   let miBezier=transicionBezierRandom();
 
-  console.log(altoMaximo,retardo,tiempoAnimacion);
+  //console.log(altoMaximo,retardo,tiempoAnimacion);
   let ticks=0;
   let forma=new FormaEdificio(gl,ancho,fondo);
   function elementoAlAzar(array){
