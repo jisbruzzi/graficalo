@@ -15,8 +15,12 @@ function FormaEdificio(gl,ancho,fondo){
     color_buffer=color_buffer.concat([0.2,0.2,0.2]);
     return function(x,y,z){//por qué no?
       normal_buffer=normal_buffer.concat([x,y,z]);
-      return function(u){
-        texture_coord_buffer=texture_coord_buffer.concat([u,h]);
+      return function(u,v){
+        if(v==null){
+          texture_coord_buffer=texture_coord_buffer.concat([u,h]);
+        }else{
+          texture_coord_buffer=texture_coord_buffer.concat([u,v]);
+        }
         return pos;
       }
 
@@ -57,11 +61,11 @@ function FormaEdificio(gl,ancho,fondo){
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
-  //izquierda
-  abi=agregarPunto(0,0,1)(0,0,1)(uIzq);
-  abd=agregarPunto(1,0,1)(0,0,1)(uDer);
-  ari=agregarPunto(0,1,1)(0,0,1)(uIzq);
-  ard=agregarPunto(1,1,1)(0,0,1)(uDer);
+  //ariba
+  abi=agregarPunto(0,0,1)(0,0,1)(0,0);
+  abd=agregarPunto(1,0,1)(0,0,1)(0,0);
+  ari=agregarPunto(0,1,1)(0,0,1)(0,0);
+  ard=agregarPunto(1,1,1)(0,0,1)(0,0);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 

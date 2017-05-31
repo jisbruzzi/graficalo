@@ -20,16 +20,19 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
   }
   let retardoManzanaActual=3;
   function ponerManzana(x,y){
-    let v = new ObjetoVereda(ladoManzana+0.5,0.2,0.03,gl);
+    let v = new ObjetoVereda(ladoManzana+0.5,0.25,0.03,gl);
     v.setPosicion(x,y,0);
+    yo.hijos.push(v);
 
     retardoManzanaActual+=randn_bm()*0.5+1;
-
     let m = new ObjetoManzanaEdificios(ladoManzana,gl,retardoManzanaActual);
     m.setPosicion(x,y,0);
     yo.hijos.push(m);
 
-    yo.hijos.push(v);
+    let s = new ObjetoSuperficieManzana(ladoManzana,false,4,gl);
+    s.setPosicion(x-0,y-0,0.03);
+    //s.escalar((ladoManzana+0.1)/ladoManzana,(ladoManzana+0.1)/ladoManzana,1);
+    yo.hijos.push(s);
 
   }
   function ponerCalleVertical(x,y){

@@ -45,6 +45,9 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
       //TWEEN.Easing.Linear,
       TWEEN.Easing.Quadratic.Out,
       TWEEN.Easing.Sinusoidal.Out,
+      TWEEN.Easing.Circular.Out,
+      TWEEN.Easing.Back.Out,
+      TWEEN.Easing.Bounce.Out,
     ];
     return posibilidades[Math.floor(Math.random()*posibilidades.length)];
   }

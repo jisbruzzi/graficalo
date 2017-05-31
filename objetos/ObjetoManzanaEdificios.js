@@ -28,23 +28,8 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana){
     let area = edificio.ancho*edificio.fondo/lado;
 
     let altura = Math.max(randn_bm()*(area+distCentro)+4*distCentro+2*area,0.5);
-    //let retardo = Math.max(randn_bm()+2,1)+retardoManzana;
     let retardo = Math.max(rand_exp(1)+0.2,0.2)+retardoManzana;
     let tiempoAnimacion=Math.max(2*randn_bm()+5,0.5);
-/*
-    let a1=Math.random()*area*2+distCentro;
-    let a2=Math.random()*(area+distCentro)+(area+distCentro)/2;
-    let a3=Math.random()*distCentro*2+area;
-
-    console.log(area,distCentroX,distCentroY,distCentro);
-
-    let altura = 3*a1+2*a2+1*a3;
-
-    let retardo=Math.random()*(a1+a2)*500;
-
-    let tiempoAnimacion=(Math.random()+Math.random()+Math.random()+Math.random()+Math.random()+Math.random())/3;
-*/
-
 
     let ancho = edificio.ancho-0.2;
     let fondo = edificio.fondo-0.2;

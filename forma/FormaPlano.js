@@ -1,4 +1,4 @@
-function FormaPlano(ancho,alto,gl){
+function FormaPlano(ancho,alto,gl,color){
   //las 4 puntas (recorridas en forma de círculo)
   let position_buffer = [
     -ancho/2,-alto/2,0,
@@ -18,12 +18,14 @@ function FormaPlano(ancho,alto,gl){
     ancho,alto,
     0,alto
   ];
-  let color_buffer = [
-    0,0,0,
-    0,0,0,
-    0,0,0,
-    0,0,0
-  ];
+
+  let color_buffer = [];
+  if (color==null || color == undefined){
+    color_buffer =[0,0,0];
+  }
+  for(let i=0;i<4;i++){
+    color_buffer = color_buffer.concat(color)
+  }
 
   let index_buffer =[0,1,2,2,3,0];
 
