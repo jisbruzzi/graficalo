@@ -1,5 +1,5 @@
 function ObjetoSuperficieManzana(lado,plaza,densidad,gl){
-  let sup=new FormaPlano(lado*densidad,lado*densidad,gl,[0.8,0.1,0.1]);
+  let sup=new FormaPlano(lado*densidad,lado*densidad,gl,[0.1,0.5,0.1]);
   let sp=atlasShaderPs.p("coloreado");
   if(!plaza){
     sup = sup.copiaConTextura(atlasTexturas.t("vereda.jpg"));
