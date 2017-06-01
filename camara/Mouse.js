@@ -12,5 +12,14 @@ function Mouse(canvas){
     };
   });
 
-  this.llamar=[]
+  canvas.addEventListener("wheel",function(e){
+    if(document.pointerLockElement === canvas){
+      yo.llamarScroll.forEach(function(f){
+        f(e.deltaY);
+      })
+    };
+  });
+
+  this.llamar=[];
+  this.llamarScroll=[];
 }

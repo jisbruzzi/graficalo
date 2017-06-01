@@ -41,13 +41,13 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   function easingAlAzar(){
     let posibilidades=[
       TWEEN.Easing.Elastic.Out,
-      TWEEN.Easing.Elastic.InOut,
-      //TWEEN.Easing.Linear,
+      TWEEN.Easing.Elastic.Out,
+
       TWEEN.Easing.Quadratic.Out,
       TWEEN.Easing.Sinusoidal.Out,
       TWEEN.Easing.Circular.Out,
+
       TWEEN.Easing.Back.Out,
-      TWEEN.Easing.Bounce.Out,
     ];
     return posibilidades[Math.floor(Math.random()*posibilidades.length)];
   }
@@ -55,6 +55,12 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   function iniciarAnimacion(){
     if (iniciada) return;
     iniciada=true;
+
+    let easing = easingAlAzar();
+    if(easing==TWEEN.Easing.Elastic.Out || easing==TWEEN.Easing.Back.Out){
+      //Math.min(tiempoAnimacion/=5,2);
+      tiempoAnimacion=1+randn_bm()*0.1;
+    }
 
     let coso ={h:0};
     new TWEEN.Tween(coso)
