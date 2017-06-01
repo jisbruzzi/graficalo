@@ -110,14 +110,16 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       e.escalar(tamEsq,tamEsq,tamEsq);
       yo.hijos.push(e);
     }
-    let retardoManzanaActual=3;
+
+
+    let retardoManzanaActual=0.1;
     function ponerManzana(x,y,plaza){
       let v = new ObjetoVereda(ladoManzana+0.5,0.25,0.03,gl);
       v.setPosicion(x,y,0);
       yo.hijos.push(v);
 
       if(!plaza){
-        retardoManzanaActual+=randn_bm()*0.5+1;
+        retardoManzanaActual+=randn_bm()*1+2;
         let m = new ObjetoManzanaEdificios(ladoManzana,gl,retardoManzanaActual);
         m.setPosicion(x,y,0);
         yo.hijos.push(m);

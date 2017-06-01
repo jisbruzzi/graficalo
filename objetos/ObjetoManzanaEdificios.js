@@ -28,11 +28,11 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana){
     let distCentroY=edificio.y-lado/2;
     let distCentro = 1-Math.sqrt(distCentroX*distCentroX+distCentroY*distCentroY)/lado;
 
-    let area = edificio.ancho*edificio.fondo/lado;
+    let area = Math.sqrt(edificio.ancho*edificio.fondo/lado);
 
     let altura = Math.max(randn_bm()*(area+distCentro)+4*distCentro+2*area,0.5);
     let retardo = Math.max(rand_exp(1)+0.2,0.2)+retardoManzana;
-    let tiempoAnimacion=Math.max(2*randn_bm()+5,0.5);
+    let tiempoAnimacion=Math.max(rand_exp(0.8)+0.2,0.5);
 
     let ancho = edificio.ancho-0.2;
     let fondo = edificio.fondo-0.2;
@@ -45,6 +45,6 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana){
     yo.hijos.push(o);
 
   }
-  
+
   return yo;
 }
