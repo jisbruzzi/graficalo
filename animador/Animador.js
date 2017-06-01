@@ -25,7 +25,7 @@ function normalizarPuntosControl(puntosControl, alto,ancho){
 
     }else{
         for(var i=1;i<puntosControl.length;i+=3)
-            puntosControl[i]-=menorY+ancho/2;
+            puntosControl[i]=puntosControl[i]-menorY-diferencia/2+ancho/2;
     }   
     return puntosControl;
 }
@@ -42,7 +42,7 @@ function Animador(puntosControl){
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
-
+    "llanta.jpg",
     "vereda.jpg"
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
@@ -56,6 +56,8 @@ function Animador(puntosControl){
   let oEdificio;
   let pilar;
   let ruta;
+  let coches;
+
 
   this.obtenerMundo=function(){
     return mundo;
@@ -85,7 +87,7 @@ function Animador(puntosControl){
 
 
   this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
-
+    var cantidadDeCoches=10;
     jugador = new Jugador(camaraNueva,mouse,movedorNuevo);
 
     //camara.setHacia(1,0,0).setPosicion(0, 0, 0).setArriba(0,0,1);
@@ -97,7 +99,6 @@ function Animador(puntosControl){
     let programaEdificio = atlasShaderPs.p("edificio");
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
     var normales=[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)];
-
 
 
     
@@ -149,6 +150,7 @@ function Animador(puntosControl){
     var curvas=curvaBSplineCuadratica(puntosControl);
    
 
+    coches= new GrupoCoches(10,curvas,2.5+0.2-0.05,programaColor,programaTextura,gl);
 
     let generaFachada=new GeneraFachadaCurvaRuta(curvas);
     ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
@@ -156,7 +158,7 @@ function Animador(puntosControl){
 
     ruta.mover(0,0,2.5);
     mundo.hijos.push(ruta);
-
+    mundo.hijos.push(coches);
     mundo.hijos.push(calles);
     //calles.mover(10,0,0);
     calles.generar([generaFachada.desplazada(-1),generaFachada.desplazada(1)],generaFachada.desplazada(0));
@@ -196,6 +198,8 @@ function Animador(puntosControl){
     //objBarrido.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 0.3,0.3, 0.3), vec3.fromValues(0.01, 0.01, 0.01));
     ruta.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
     //oManzana.configurarIluminacion(vec3.fromValues(-5.0, 0.0, -5.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+    coches.configurarIluminacion(vec3.fromValues(-100.0, 0.0, -60.0), vec3.fromValues( 1, 1, 1), vec3.fromValues(0.01, 0.01, 0.01));
+   
   }
 
 }

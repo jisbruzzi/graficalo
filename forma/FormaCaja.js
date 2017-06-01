@@ -44,14 +44,13 @@ function FormaCaja(colores,gl){//los colores se deben pasar por caras, siendo 0 
 
 
 //INTERFAZ
-console.log(normBuffer);
   this.normal_buffer=normBuffer;
 	this.position_buffer=posBuffer;
 	this.index_buffer=indexBuffer;
 	this.color_buffer=colBuffer;
 
   this.modoDibujado = getter(gl.TRIANGLES);
-  this.esIluminado=getter(false);
+  this.esIluminado=getter(true);
 
 
 

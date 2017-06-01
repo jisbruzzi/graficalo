@@ -64,7 +64,6 @@ function generar(){
     
 
 
-    console.log(puntosAux);      
     document.getElementById("canvas-espera").style.display="none";
 
     webGLStart(puntosAux);
