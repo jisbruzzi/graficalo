@@ -30,7 +30,7 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana){
 
     let area = Math.sqrt(edificio.ancho*edificio.fondo/lado);
 
-    let altura = Math.max(randn_bm()*(area+distCentro)+4*distCentro+2*area,0.5);
+    let altura = Math.max(randn_bm()*(area*3/2+distCentro/2)*1.5+4*distCentro+2*area+1,0.5);
     let retardo = Math.max(rand_exp(1)+0.2,0.2)+retardoManzana;
     let tiempoAnimacion=Math.max(rand_exp(0.8)+0.2,0.5);
 

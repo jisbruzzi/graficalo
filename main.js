@@ -86,7 +86,7 @@ function Main(animador){
 
         animador.iniciarMundo(gl,camara,new Mouse(canvas),new Movedor(canvas));
 
-    		gl.clearColor(0.2, 0.2, 0.0, 1);
+    		gl.clearColor(0.82, 0.82, 0.92, 1);
         gl.enable(gl.DEPTH_TEST);
 
     		tick();

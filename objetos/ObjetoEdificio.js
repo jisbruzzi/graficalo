@@ -41,6 +41,7 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   function easingAlAzar(){
     let posibilidades=[
       TWEEN.Easing.Elastic.Out,
+      TWEEN.Easing.Elastic.Out,
 
       TWEEN.Easing.Quadratic.Out,
       TWEEN.Easing.Sinusoidal.Out,
