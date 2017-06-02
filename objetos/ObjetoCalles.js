@@ -133,7 +133,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     var distanciaDesdeUltimoPilar=0;
     function ponerPilarSiPosible(x,y,avance){
       console.log(distanciaDesdeUltimoPilar);
-      if(yo.sePuedePonerColumnaEn(x,y,1)&&distanciaDesdeUltimoPilar>500){
+      if(yo.sePuedePonerColumnaEn(x,y,1)&&distanciaDesdeUltimoPilar>20){
         pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
         pilar.mover(x,y,0);
         pilar.escalar(0.5,0.5,0.5);
