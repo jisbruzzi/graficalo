@@ -177,10 +177,10 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       }
     }
 
-    for(let i=0;i<50;i++){
+    for(let i=0;i<200;i++){
       let miPosicion = yo.obtenerPosicion();
-      let p=curvaPilares(i/50);
-      let avance=normaTangCurva(i/50)*1/50;
+      let p=curvaPilares(i/200);
+      let avance=normaTangCurva(i/200)*1/200;
       p.x-=miPosicion[0];
       p.y-=miPosicion[1];
 
