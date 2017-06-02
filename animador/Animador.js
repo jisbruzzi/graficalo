@@ -107,7 +107,7 @@ function Animador(puntosControl){
 
     coches= new GrupoCoches(10,curvas,2.5+0.2-0.05,programaColor,programaTextura,gl);
 
-    calles.generar([generaFachada.desplazada(-2),generaFachada.desplazada(2)],generaFachada.desplazada(0));
+    calles.generar([generaFachada.desplazada(-2),generaFachada.desplazada(2)],generaFachada.desplazada(0), curvas[2]);
 
     ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
     ruta.mover(0,0,2.5);

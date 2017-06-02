@@ -87,7 +87,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     return true;
   }
 
- yo.generar=function(curvasEsquivar,curvaPilares){
+ yo.generar=function(curvasEsquivar,curvaPilares, normaTangCurva){
 
     function ubicarPlazas(curva){
       for(let i=0;i<1000;i++){
@@ -130,16 +130,18 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       yo.hijos.push(s);
 
     }
-
-    function ponerPilarSiPosible(x,y){
-
-      if(yo.sePuedePonerColumnaEn(x,y,1)){
+    var distanciaDesdeUltimoPilar=0;
+    function ponerPilarSiPosible(x,y,avance){
+      console.log(distanciaDesdeUltimoPilar);
+      if(yo.sePuedePonerColumnaEn(x,y,1)&&distanciaDesdeUltimoPilar>500){
         pilar = new ObjetoPilar(atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
         pilar.mover(x,y,0);
         pilar.escalar(0.5,0.5,0.5);
         yo.hijos.push(pilar);
         pilares.push(new Rectangulo(x-0.5,y-0.5,1,1));
+        distanciaDesdeUltimoPilar=0;
       }
+      distanciaDesdeUltimoPilar+=avance;
     }
 
     function ponerCalleVertical(x,y){
@@ -178,10 +180,11 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     for(let i=0;i<50;i++){
       let miPosicion = yo.obtenerPosicion();
       let p=curvaPilares(i/50);
+      let avance=normaTangCurva(i/50)*1/50;
       p.x-=miPosicion[0];
       p.y-=miPosicion[1];
 
-      ponerPilarSiPosible(p.x,p.y);
+      ponerPilarSiPosible(p.x,p.y,avance);
     }
 
 
