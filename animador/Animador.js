@@ -27,7 +27,7 @@ function normalizarPuntosControl(puntosControl, alto,ancho){
         for(var i=1;i<puntosControl.length;i+=3)
 
             puntosControl[i]=puntosControl[i]-menorY-diferencia/2+ancho/2;
-    }   
+    }
 
     return puntosControl;
 }
@@ -61,6 +61,9 @@ function Animador(puntosControl){
     if(jugador!=null){
       jugador.tick();
     }
+
+    //mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
+    mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(1, 0.01, 0.0108));
   }
 
   let jugador=null;
@@ -120,7 +123,7 @@ function Animador(puntosControl){
     console.log(calles.obtenerPosicion());
     mars.mover(calles.getAlto()/2,calles.getAncho()/2,20);
 
-    mundo.configurarIluminacion(vec3.fromValues(-100.0, 0.0, 0.0), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
+    mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
   }
 
 }
