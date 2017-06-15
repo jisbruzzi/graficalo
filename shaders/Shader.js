@@ -1,10 +1,10 @@
-function cargarShader(nombreArchivo,evExito){
+function cargarShader(nombreArchivo,evExito,textoLib){
   $.get("shaders/"+nombreArchivo,function(texto){
-			evExito(new Shader(nombreArchivo,texto));
+			evExito(new Shader(nombreArchivo,texto,textoLib));
 		});
 }
 
-function Shader(nombre,texto){
+function Shader(nombre,texto,textoLib){
 
   //---  determinar tipo ---//
   let regexFragment= new RegExp("^shader-fs");
@@ -15,8 +15,6 @@ function Shader(nombre,texto){
   if(regexVertex.test(nombre)){
     this.tipo="v";
   }
-
-
 
   //--- parsear variables ---//
   let lineas = texto.split(";");
@@ -56,6 +54,10 @@ function Shader(nombre,texto){
       nombre:a[3]
     };
   });
+
+  //--- hacer funcional el #include ---//
+  texto = texto.replace("#include",textoLib);
+
 
 
 

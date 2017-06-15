@@ -14,17 +14,20 @@ const atlasShaderPs=(function(){
   }
 
   function cargarShaderProgram(nombresShaders,evExito){
-    let cargados = [];
-    let exitoShader=function(s){
-      cargados.push(s);
-      if(cargados.length == nombresShaders.length){
-        evExito(new ShaderProgram(gl,cargados));
-      }
-    };
-    nombresShaders.forEach(function(n){
-      cargarShader(n,exitoShader);
+    $.get("shaders/lib/"+"included.glsl",function(textoLib){
+      let cargados = [];
+      let exitoShader=function(s){
+        cargados.push(s);
+        if(cargados.length == nombresShaders.length){
+          evExito(new ShaderProgram(gl,cargados));
+        }
+      };
+      nombresShaders.forEach(function(n){
+        cargarShader(n,exitoShader,textoLib);
+      });
     });
   }
+
 
   yo.cargarShaderPrograms=function(listaDeShaders,evExito){
     let total = Object.keys(listaDeShaders).length;
