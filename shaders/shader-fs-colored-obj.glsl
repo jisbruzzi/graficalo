@@ -5,7 +5,6 @@ varying vec3 vVertexNormal;
 varying vec3 vPosRelFuente;
 varying vec3 vVertexColor;
 
-uniform sampler2D uSampler;
 uniform vec3 uAmbientColor;
 
 uniform vec3 uDirectionalColor;
@@ -14,9 +13,6 @@ uniform mat3 uNMatrix;
 
 
 void main(void) {
-  //textura
-  vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
-
   //iluminación
   vec3 light_dir =  vPosRelFuente;
   normalize(light_dir);
@@ -30,4 +26,6 @@ void main(void) {
   }
 
   gl_FragColor = vec4(vVertexColor.rgb * pesosUniforme, 1.0);
+
+  //gl_FragColor=vec4(1.0,1.0,0.0,1.0);
 }

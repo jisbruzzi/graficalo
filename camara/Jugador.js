@@ -62,6 +62,8 @@ function Jugador(camara,mouse,movedor){
       configurarCamaraGlobal();
     }
 
+    //console.log(camara.obtenerMatrizCamara());
+
   };
   mouse.llamar=[enganchaCamara];
 

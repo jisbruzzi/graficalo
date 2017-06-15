@@ -42,7 +42,8 @@ function Animador(puntosControl){
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
     "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"],
-    "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"]
+    "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"],
+    "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"]
   };
   this.archivosImagenes=[
     "mars_1k_color.jpg",
@@ -66,9 +67,12 @@ function Animador(puntosControl){
 
     //mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
     mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(1, 0.01, 0.0108));
+    let p =jugador.obtenerPosicion();
+    cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
   let jugador=null;
+  let cielo = null;
 
 
   this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
@@ -106,6 +110,7 @@ function Animador(puntosControl){
     calles = new ObjetoCalles(6,4,10,gl);
     mundo.hijos.push(calles);
 
+
     puntosControl=normalizarPuntosControl(puntosControl,calles.getAlto(),calles.getAncho());
     var curvas=curvaBSplineCuadratica(puntosControl);
     let generaFachada=new GeneraFachadaCurvaRuta(curvas);
@@ -130,7 +135,13 @@ function Animador(puntosControl){
     mundo.hijos.push(obra);
 
 
+    cielo = new ObjetoCielo(gl,900);
+    mundo.hijos.push(cielo);
+
+
     mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
+
+
   }
 
 }

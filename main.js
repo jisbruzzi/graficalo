@@ -82,7 +82,7 @@ function Main(animador){
     cargarImagenes(listaImagenes,function(atlasImagenes){
       atlasTexturas.cargarTexturas(listaImagenes,function(){
 
-        camara.setPerspectiva(3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
+        camara.setPerspectiva(3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 10000.0);
 
         animador.iniciarMundo(gl,camara,new Mouse(canvas),new Movedor(canvas));
 

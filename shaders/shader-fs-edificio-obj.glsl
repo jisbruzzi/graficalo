@@ -26,7 +26,7 @@ void main(void) {
     uvDef.x/=0.25/uAlturaBase;
     textureColor = texture2D(uSamplerBase, uvDef);
   }else{
-    uvDef.y-=uAlturaBase;
+    uvDef.y-=0.25;
     uvDef.y/=uAlturaSobre;
     textureColor = texture2D(uSamplerSobre, uvDef);
   }
@@ -44,5 +44,7 @@ void main(void) {
   }
 
   gl_FragColor = vec4(textureColor.rgb * pesosUniforme, textureColor.a);
+
+  //gl_FragColor=vec4(0.0,1.0,0.0,1.0);
 
 }
