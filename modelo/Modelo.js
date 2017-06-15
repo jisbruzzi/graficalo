@@ -64,7 +64,13 @@ function Modelo(forma,shaderProgram,gl){
 			lighting = forma.esIluminado();
 		}
 		gl.uniform1i(shaderProgram.uUseLighting, lighting);
-
+/*
+		if (camara !=null){
+			lightPos4=vec4.create()
+			vec4.transformMat4(lightPos4,lightPos4,camara.obtenerMatrizCamara());
+			lightPosition=vec3.fromValues(lightPos4[0],lightPos4[1],lightPos4[2]);
+		}
+*/
 		gl.uniform3fv(shaderProgram.uLightPosition, lightPosition);
 		gl.uniform3fv(shaderProgram.uAmbientColor, ambientColor );
 		gl.uniform3fv(shaderProgram.uDirectionalColor, diffuseColor);

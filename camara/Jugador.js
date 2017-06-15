@@ -121,4 +121,8 @@ function Jugador(camara,mouse,movedor){
     }
   }
 
+  this.obtenerPosicion=function(){
+    return vec3.fromValues(x,y,z);
+  }
+
 }
