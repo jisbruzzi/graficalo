@@ -90,4 +90,5 @@ function FormaEdificio(gl,ancho,fondo){
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);
   this.modoDibujado = getter(gl.TRIANGLES);
   //this.esIluminado=getter(false);
+  this.hacerCopiaConTextura=hacerMetodoCopiaConTextura(this);
 }

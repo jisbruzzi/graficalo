@@ -41,14 +41,16 @@ function Animador(puntosControl){
   this.archivosShaderPrograms={
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
-    "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"]
+    "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"],
+    "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"]
   };
   this.archivosImagenes=[
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
     "llanta.jpg",
-    "vereda.jpg"
+    "vereda.jpg",
+    "refmap.jpg"
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
 
@@ -122,6 +124,11 @@ function Animador(puntosControl){
     mars.escalar(7,7,7);
     console.log(calles.obtenerPosicion());
     mars.mover(calles.getAlto()/2,calles.getAncho()/2,20);
+
+    //obra de arte
+    let obra = new ObjetoObraDeArte(gl);
+    mundo.hijos.push(obra);
+
 
     mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
   }

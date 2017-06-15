@@ -12,8 +12,6 @@ function transicionBezierRandom(){
 }
 
 function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
-
-
   let miBezier=transicionBezierRandom();
 
   //console.log(altoMaximo,retardo,tiempoAnimacion);
@@ -59,7 +57,7 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
     let easing = easingAlAzar();
     if(easing==TWEEN.Easing.Elastic.Out || easing==TWEEN.Easing.Back.Out){
       //Math.min(tiempoAnimacion/=5,2);
-      tiempoAnimacion=1+randn_bm()*0.1;
+      tiempoAnimacion=Math.max(1.2+randn_bm()*0.3,1);
     }
 
     let coso ={h:0};

@@ -100,6 +100,11 @@ function Modelo(forma,shaderProgram,gl){
 			gl.uniform1i(shaderProgram.uSampler, 0);
 		}
 
+
+		if(shaderProgram.uPosMundoCamara!=undefined){
+			gl.uniform3fv(shaderProgram.uPosMundoCamara, camara.getPosicion());
+		}
+
 		if(forma.uSamplerBase && shaderProgram.uSamplerBase!=undefined){
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerBase());
