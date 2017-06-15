@@ -68,7 +68,7 @@ function Animador(puntosControl){
     //mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
     mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(1, 0.01, 0.0108));
     let p =jugador.obtenerPosicion();
-    cielo.anularPosicion().mover(p[0],p[1],p[2]);
+    if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
   let jugador=null;
