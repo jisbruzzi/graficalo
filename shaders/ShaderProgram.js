@@ -1,9 +1,25 @@
 const atlasShaderPs=(function(){
+  let libreriaShaders={};
+  let nombresLibreriaShaders=["llamadaIluminacion","pesosIluminacion","varsIluminacion"];
   let yo={};
   let gl=null;
   let shaderPrograms={};
   yo.configurarGl=function(nGl){
     gl=nGl;
+  }
+
+  function cargarLibreriaShaders(fin){
+    let cargados=0;
+    nombresLibreriaShaders.forEach(function(n){
+      $.get("shaders/lib/"+n+".glsl",function(texto){
+        libreriaShaders[n]=texto;
+        cargados+=1;
+        if (cargados==nombresLibreriaShaders.length){
+          fin();
+        }
+      });
+    });
+
   }
 
   yo.p=function(nombre){
@@ -12,35 +28,42 @@ const atlasShaderPs=(function(){
     }
     return shaderPrograms[nombre];
   }
+  function getLibreria(nombre){
+    if(libreriaShaders[nombre]===undefined){
+      console.log(libreriaShaders);
+      throw "no existe una libreria llamada "+nombre;
+    }
+    return libreriaShaders[nombre];
+  }
 
   function cargarShaderProgram(nombresShaders,evExito){
-    $.get("shaders/lib/"+"included.glsl",function(textoLib){
-      let cargados = [];
-      let exitoShader=function(s){
-        cargados.push(s);
-        if(cargados.length == nombresShaders.length){
-          evExito(new ShaderProgram(gl,cargados));
-        }
-      };
-      nombresShaders.forEach(function(n){
-        cargarShader(n,exitoShader,textoLib);
-      });
+    let cargados = [];
+    let exitoShader=function(s){
+      cargados.push(s);
+      if(cargados.length == nombresShaders.length){
+        evExito(new ShaderProgram(gl,cargados));
+      }
+    };
+    nombresShaders.forEach(function(n){
+      cargarShader(n,exitoShader,libreriaShaders);
     });
   }
 
 
   yo.cargarShaderPrograms=function(listaDeShaders,evExito){
-    let total = Object.keys(listaDeShaders).length;
-    let cargados =0;
-    Object.keys(listaDeShaders).forEach(function(k){
-      cargarShaderProgram(listaDeShaders[k],function(programa){
-        shaderPrograms[k]=programa;
-        cargados +=1;
-        if(cargados==total){
-          evExito();
-        }
+    cargarLibreriaShaders(function(){
+      let total = Object.keys(listaDeShaders).length;
+      let cargados =0;
+      Object.keys(listaDeShaders).forEach(function(k){
+        cargarShaderProgram(listaDeShaders[k],function(programa){
+          shaderPrograms[k]=programa;
+          cargados +=1;
+          if(cargados==total){
+            evExito();
+          }
+        });
       });
-    });
+    })
   };
 
 

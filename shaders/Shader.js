@@ -1,10 +1,18 @@
-function cargarShader(nombreArchivo,evExito,textoLib){
+function cargarShader(nombreArchivo,evExito,libreria){
   $.get("shaders/"+nombreArchivo,function(texto){
-			evExito(new Shader(nombreArchivo,texto,textoLib));
+			evExito(new Shader(nombreArchivo,texto,libreria));
 		});
 }
 
-function Shader(nombre,texto,textoLib){
+function Shader(nombre,texto,libreriaShaders){
+
+  //--- hacer funcional el #include ---//
+  Object.keys(libreriaShaders).forEach(function(n){
+    let regexInclude= new RegExp("#include [ ]*"+n,"gi");
+    texto=texto.replace(regexInclude,libreriaShaders[n]);
+  })
+  console.log(nombre+" despues de linkear");
+  console.log(texto);
 
   //---  determinar tipo ---//
   let regexFragment= new RegExp("^shader-fs");
@@ -55,9 +63,6 @@ function Shader(nombre,texto,textoLib){
     };
   });
 
-  //--- hacer funcional el #include ---//
-  texto = texto.replace("#include",textoLib);
-
 
 
 
@@ -79,7 +84,8 @@ function Shader(nombre,texto,textoLib){
     gl.compileShader(s);
 
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      alert(gl.getShaderInfoLog(s));
+      alert("error con el shader "+nombre+"\n"+gl.getShaderInfoLog(s));
+      throw "error con el shader "+nombre+"\n"+gl.getShaderInfoLog(s)+"\n\n"+texto;
       return null;
     }
 
