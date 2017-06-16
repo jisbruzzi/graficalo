@@ -6,12 +6,10 @@ uniform mat4 uViewMatrix;
 uniform mat4 uModelMatrix;
 uniform mat4 uPMatrix;
 
-
-uniform vec3 uLightPosition;
-
 varying vec2 vTextureCoord;
 varying vec3 vVertexNormal;
-varying vec3 vPosRelFuente;
+
+#include pesosIluminacion-vs
 
 void main(void) {
   // Transformamos al vértice al espacio de la cámara
@@ -25,5 +23,5 @@ void main(void) {
   // normal sin modificaciones
   vVertexNormal = aVertexNormal;
   // posición de la fuente
-  vPosRelFuente = uLightPosition-vec3(uModelMatrix * vec4(aVertexPosition, 1.0));
+  prepararPesosIluminacion(aVertexPosition);
 }

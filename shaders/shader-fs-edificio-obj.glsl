@@ -1,6 +1,6 @@
 precision highp float;
 
-#include pesosIluminacion
+#include pesosIluminacion-fs
 
 varying vec2 vTextureCoord;
 

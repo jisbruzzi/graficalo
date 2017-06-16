@@ -2,7 +2,7 @@ precision highp float;
 
 varying vec2 vTextureCoord;
 
-#include pesosIluminacion
+#include pesosIluminacion-fs
 
 
 uniform sampler2D uSampler;
