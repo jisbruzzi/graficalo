@@ -11,8 +11,6 @@ function Shader(nombre,texto,libreriaShaders){
     let regexInclude= new RegExp("#include [ ]*"+n,"gi");
     texto=texto.replace(regexInclude,libreriaShaders[n]);
   })
-  console.log(nombre+" despues de linkear");
-  console.log(texto);
 
   //---  determinar tipo ---//
   let regexFragment= new RegExp("^shader-fs");
@@ -45,7 +43,7 @@ function Shader(nombre,texto,libreriaShaders){
   }
   tipos+="float)";
 
-  let regexVariable=new RegExp(pretipos+"[ ]*"+tipos+"[ ]*"+"([^ ]*)$");
+  let regexVariable=new RegExp(pretipos+"[ ]*"+tipos+"[ ]*"+"([^ \[]+)");
 
   let variables=lineas.map(function(s){
     return regexVariable.exec(s);
@@ -62,6 +60,8 @@ function Shader(nombre,texto,libreriaShaders){
       nombre:a[3]
     };
   });
+
+  console.log(variables);
 
 
 

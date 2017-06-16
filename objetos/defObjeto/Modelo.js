@@ -71,6 +71,7 @@ function Modelo(forma,shaderProgram,gl){
 			lightPosition=vec3.fromValues(lightPos4[0],lightPos4[1],lightPos4[2]);
 		}
 */
+		//gl.uniform3fv(shaderProgram.uLightPosition, [1,1,1, 0,1,0]);
 		gl.uniform3fv(shaderProgram.uLightPosition, lightPosition);
 		gl.uniform3fv(shaderProgram.uAmbientColor, ambientColor );
 		gl.uniform3fv(shaderProgram.uDirectionalColor, diffuseColor);
