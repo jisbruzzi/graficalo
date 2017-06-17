@@ -36,8 +36,9 @@ function Main(animador){
       gl = canvas.getContext("experimental-webgl");
       gl.viewportWidth = canvas.width;
       gl.viewportHeight = canvas.height;
+
       /*
-      ANDA PEOR CON CULLING!
+      //anda apenas mejor con culling pero hay que hacer todas las formas de nuevo
       gl.enable(gl.CULL_FACE);
       gl.cullFace(gl.BACK);
       */

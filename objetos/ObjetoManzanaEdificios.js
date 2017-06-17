@@ -38,7 +38,7 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana){
     let fondo = edificio.fondo-0.2;
     let x = edificio.x-lado/2+edificio.ancho/2;
     let y = edificio.y-lado/2+edificio.fondo/2;
-    let o = new ObjetoEdificio(edificio.ancho,edificio.fondo,gl,altura,retardo,tiempoAnimacion);
+    let o = colectorEdificios.nuevoEdificio(edificio.ancho,edificio.fondo,gl,altura,retardo,tiempoAnimacion);
     o.mover(x,y,0);
     o.escalar(ancho/edificio.ancho,fondo/edificio.fondo,1);
 

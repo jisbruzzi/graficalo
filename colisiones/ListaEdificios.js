@@ -1,6 +1,6 @@
 
 function ListaEdificios(lado){
-  let cantidadEdificios = 11+2*Math.random();//lado*lado*(0.2+Math.random())/2;
+  let cantidadEdificios = 10;//lado*lado*(0.2+Math.random())/2;//
   let yo=[];
 
   function agregarEdficioPosRandom(){

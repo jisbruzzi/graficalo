@@ -113,7 +113,7 @@ function Animador(puntosControl){
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
     //calles = new ObjetoCalles(5,5,12,gl);
-    calles = new ObjetoCalles(4,4,10,gl);
+    calles = new ObjetoCalles(4,5,10,gl);
     mundo.hijos.push(calles);
 
 

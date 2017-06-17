@@ -11,6 +11,19 @@ function transicionBezierRandom(){
   return poliBezier(0,1,3,1);
 }
 
+//voy a hacer como si fueran posibles sólo 8 texturas: 4 bajo y 4
+const colectorEdificios=(function(){
+  let yo={};
+  let edificios=[];
+  yo.nuevoEdificio=function(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
+    let edificio = new ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion);
+    edificios.push(edificio);
+    return edificio;
+  }
+
+  return yo;
+})();
+
 function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   let miBezier=transicionBezierRandom();
 
@@ -30,9 +43,8 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   let fEdificio=forma.hacerCopiaConTexturas(tPlantabaja,tPisos);
   let mEdificio=new Modelo(fEdificio,programaEdificio,gl);
   let oEdificio = new Objeto(mEdificio);
-  oEdificio.uniforms.push({nombre:"uAltura",valor:0.0});
-  oEdificio.uniforms.push({nombre:"uAlturaBase",valor:tPlantabaja.height/tPlantabaja.width});
-  oEdificio.uniforms.push({nombre:"uAlturaSobre",valor:tPisos.height/tPisos.width});
+  DibujableEdificio(oEdificio,mEdificio,fEdificio);
+  oEdificio.iniciarUniforms(0,tPlantabaja.height/tPlantabaja.width,tPisos.height/tPisos.width);
 
   let iniciada = false;
 
@@ -65,7 +77,8 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
     .easing(easingAlAzar())
     .to({ h:1 }, 1000*tiempoAnimacion)
     .onUpdate(function() {
-        oEdificio.uniforms[0].valor=coso.h*altoMaximo;
+      oEdificio.cambiarAltura(coso.h*altoMaximo);
+      //oEdificio.uniforms[0].valor=coso.h*altoMaximo;
     }).start();
   }
 
