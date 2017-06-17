@@ -1,0 +1,3 @@
+function ParametrosLuzGlobal(){
+  return {}//nada!
+}

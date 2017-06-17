@@ -1,4 +1,4 @@
-function Iluminable(o){
+function Iluminable(o,modelo){
   o.luces=[];
   o.obtenerLucesHijos=function(m){
     let ret=[].concat(o.luces);
@@ -6,10 +6,15 @@ function Iluminable(o){
     if (m != null) mat4.multiply(def,m,def);
 
     for (l of o.luces){
-      if (modelo != null) modelo.actualizarMatModeladoAnterior(def);
+      if (modelo != null) l.actualizarMatModeladoAnterior(def);
     }
     for ( h of o.hijos){
-      ret = ret.concat(h.obtenerLucesHijos());
+      try{
+        ret = ret.concat(h.obtenerLucesHijos(def));
+      }catch(e){
+        console.log(h);
+        throw e;
+      }
     }
     return ret;
   }

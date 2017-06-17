@@ -1,4 +1,6 @@
 function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaTextura,gl){
+	let yo=new Objeto();
+
 	var cochePrincipal=new ObjetoCoche(programaColor,porgramaTextura,gl);
 	var i=0;
 	var paso=1.5;
@@ -26,16 +28,16 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 		cochesCentrados.push(new Objeto());
 		cochesCentrados[i].hijos.push(auxiliar);
 	}
-	
+
 	inicioIntervalo=0
 	for(var i=0;i<cantidadCoches;i++){
-		
+
 		posicionEnCurva[i]=Math.random()/cantidadCoches/2+inicioIntervalo+1/4/cantidadCoches;// /2 y sumarle 1/4 es para dar un margen para no solapamiento
 		inicioIntervalo+=1/cantidadCoches;
 	}
 	//inicializar posicon en curva
 
-	this.actualizarPosicionesEnCurva=function(paso){
+	yo.actualizarPosicionesEnCurva=function(paso){
 		let par=true;
 		for(var i=0;i<cantidadCoches;i++){
 			var normaTang =curvas[2](posicionEnCurva[i]);
@@ -52,15 +54,15 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 			par=!par;
 		}
 	}
-	this.tick=function(){
+	yo.tick=function(){
 
-		this.avanzar();
+		yo.avanzar();
 	}
-	this.avanzar=function(){
+	yo.avanzar=function(){
 		cochePrincipal.avanzar(paso/100);
-		this.actualizarPosicionesEnCurva(paso);
+		yo.actualizarPosicionesEnCurva(paso);
 		par=true;
-		
+
 		for(var i=0;i<cantidadCoches;i++){
 			var desp = curvas[0](posicionEnCurva[i]);
 			var tang = curvas[1](posicionEnCurva[i]);
@@ -71,7 +73,7 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 			}
 			cochesCentrados[i].anularRotacion();
 			cochesCentrados[i].anularPosicion();
-			
+
 
 			cochesCentrados[i].mover(desp[0],desp[1],desp[2]);
 			cochesCentrados[i].rotar([0,0,1], -ang);
@@ -81,22 +83,25 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 
 		}
 	}
-	this.configurarIluminacion=function(lightPosition, ambientColor, diffuseColor){
+	yo.hijos=cochesCentrados;
+	/*
+	yo.configurarIluminacion=function(lightPosition, ambientColor, diffuseColor){
 		for(var i=0;i<cantidadCoches;i++){//sentido creciente en curva
 			cochesCentrados[i].configurarIluminacion(lightPosition, ambientColor, diffuseColor);
 		}
 
 	}
-	this.configurarCamara= function(camara){
+	yo.configurarCamara= function(camara){
 		for(var i=0;i<cantidadCoches;i++){//sentido creciente en curva
 			cochesCentrados[i].configurarCamara(camara);
 		}
 
 	}
-	this.dibujar=function(){
+	yo.dibujar=function(){
 		for(var i=0;i<cantidadCoches;i++){//sentido creciente en curva
 			cochesCentrados[i].dibujar();
 		}
 	}
-	return this;
+	*/
+	return yo;
 }

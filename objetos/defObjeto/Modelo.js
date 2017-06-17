@@ -46,35 +46,61 @@ function Modelo(forma,shaderProgram,gl){
 
 
 
-	let lightPosition =vec3.create();
-	let ambientColor =vec3.create();
-	let diffuseColor =vec3.create();
+	let listaLuces=[];
+	let luzGlobal=new ParametrosLuzGlobal();
 	let camara;
 
 	this.setupShaders = function(){
 		shaderProgram.usar();
 	}
 
-	this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-		////////////////////////////////////////////////////
-		// Configuración de la luz
-		// Se inicializan las variables asociadas con la Iluminación
+	function desplegarParametroDeLuz(f,componentes){
+		const CANT_LUCES=2;
+
+		let ret=[];
+		for (luz of listaLuces) {
+			let res = f(luz);
+			ret=ret.concat(Array.prototype.slice.call(res));
+		}
+
+		while (ret.length<CANT_LUCES*componentes){
+			ret.push(0);
+		}
+
+		return ret;
+	}
+
+	this.setupLighting = function(){
+
+		//-- si se usa iluminación --//
 		let lighting = true;
 		if (forma.esIluminado != undefined){
 			lighting = forma.esIluminado();
 		}
 		gl.uniform1i(shaderProgram.uUseLighting, lighting);
-/*
-		if (camara !=null){
-			lightPos4=vec4.create()
-			vec4.transformMat4(lightPos4,lightPos4,camara.obtenerMatrizCamara());
-			lightPosition=vec3.fromValues(lightPos4[0],lightPos4[1],lightPos4[2]);
-		}
-*/
-		//gl.uniform3fv(shaderProgram.uLightPosition, [1,1,1, 0,1,0]);
-		gl.uniform3fv(shaderProgram.uLightPosition, lightPosition);
-		gl.uniform3fv(shaderProgram.uAmbientColor, ambientColor );
-		gl.uniform3fv(shaderProgram.uDirectionalColor, diffuseColor);
+
+		//-- desplegar los parámetros de las luces --//
+
+		let listaPosiciones=desplegarParametroDeLuz(function(l){return l.obtenerPosicionFinal()},3);
+		gl.uniform3fv(shaderProgram.uLightPosition, listaPosiciones);
+
+		let listaHacia = desplegarParametroDeLuz(function(l){return l.obtenerHaciaFinal()},3);
+		gl.uniform3fv(shaderProgram.uDireccionLuz, listaHacia);
+
+		let listaConcentraciones = desplegarParametroDeLuz(function(l){return l.concentracion},1);
+		gl.uniform1fv(shaderProgram.uDireccionLuz, listaConcentraciones);
+
+		let listaDistancia = desplegarParametroDeLuz(function(l){return [l.distanciaIluminada]},1);
+		gl.uniform1fv(shaderProgram.uDistanciaIluminada, listaDistancia);
+
+		let listaColores = desplegarParametroDeLuz(function(l){return l.color},3);
+		gl.uniform1fv(shaderProgram.uColorLuz, listaColores);
+
+
+
+		gl.uniform3fv(shaderProgram.uAmbientColor, [1,1,1] );
+
+		gl.uniform3fv(shaderProgram.uDirectionalColor, [1,0,0]);
 	}
 
 	this.draw = function(modelMatrix){
@@ -146,15 +172,14 @@ function Modelo(forma,shaderProgram,gl){
 
 	this.dibujar=function(modelMatrix,uniforms){
 		this.setupShaders();
-		this.setupLighting(lightPosition, ambientColor, diffuseColor);
+		this.setupLighting();
 		this.setupUniforms(uniforms);
 		this.draw(modelMatrix);
 	}
 
-	this.configurarIluminacion=function(lightPositionNueva, ambientColorNueva, diffuseColorNueva){
-		lightPosition=lightPositionNueva;
-		ambientColor=ambientColorNueva;
-		diffuseColor=diffuseColorNueva;
+	this.configurarIluminacion=function(listaLucesNueva,luzGlobalNueva){
+		listaLuces = listaLucesNueva;
+		luzGlobal = luzGlobalNueva;
 	}
 
 	this.configurarCamara=function(nuevaCamara){

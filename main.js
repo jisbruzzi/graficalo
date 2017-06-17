@@ -36,6 +36,11 @@ function Main(animador){
       gl = canvas.getContext("experimental-webgl");
       gl.viewportWidth = canvas.width;
       gl.viewportHeight = canvas.height;
+      /*
+      ANDA PEOR CON CULLING!
+      gl.enable(gl.CULL_FACE);
+      gl.cullFace(gl.BACK);
+      */
 
     } catch (e) {
     }
@@ -44,6 +49,7 @@ function Main(animador){
     }
   }
 
+  let ultimoTick=new Date().getTime();
   let tick = function(delta) {
     requestAnimFrame(tick);
     try{
@@ -63,6 +69,12 @@ function Main(animador){
 
     //---- dibujado ----//
     animador.obtenerMundo().configurarCamara(camara).dibujar();
+
+    //--- fps ---//
+    let ahora = new Date().getTime();
+    let milis = ahora-ultimoTick;
+    document.getElementById("fps").innerHTML=milis;
+    ultimoTick=ahora;
   };
 
   this.tick=tick;

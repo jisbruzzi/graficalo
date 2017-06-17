@@ -13,11 +13,11 @@ function Dibujable(o,modelo){
     });
   };
 
-  o.configurarIluminacion=function(lightPosition, ambientColor, diffuseColor){
-    if(modelo!=null) modelo.configurarIluminacion(lightPosition, ambientColor, diffuseColor);
+  o.configurarIluminacion=function(listaLuces, luzGlobal){
+    if(modelo!=null) modelo.configurarIluminacion(listaLuces,luzGlobal);
 
     o.hijos.forEach(function(h){
-      h.configurarIluminacion(lightPosition, ambientColor, diffuseColor);
+      h.configurarIluminacion(listaLuces,luzGlobal);
     });
 
     return o;
