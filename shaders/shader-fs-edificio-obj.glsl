@@ -6,8 +6,8 @@ varying vec2 vTextureCoord;
 
 uniform sampler2D uSamplerBase;
 uniform sampler2D uSamplerSobre;
-uniform float uAlturaBase;
-uniform float uAlturaSobre;
+varying float vAlturaBase;
+varying float vAlturaSobre;
 
 void main(void) {
   //textura
@@ -15,11 +15,11 @@ void main(void) {
   vec4 textureColor=vec4(0.0,0.0,0.0,0.0);
   if(vTextureCoord.y<=0.25){
     uvDef.y/=0.25;
-    uvDef.x/=0.25/uAlturaBase;
+    uvDef.x/=0.25/vAlturaBase;
     textureColor = texture2D(uSamplerBase, uvDef);
   }else{
     uvDef.y-=0.25;
-    uvDef.y/=uAlturaSobre;
+    uvDef.y/=vAlturaSobre;
     textureColor = texture2D(uSamplerSobre, uvDef);
   }
 

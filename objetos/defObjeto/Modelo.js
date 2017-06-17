@@ -10,7 +10,7 @@ VARIOS OBJETOS PUEDEN COMPARTIR EL MISMO MODELO
 */
 
 function Modelo(forma,shaderProgram,gl){
-	const atributosPosibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor"];
+	const atributosPosibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor","aAlturaBase","aAlturaSobre","aAltura"];
 	const nombresLegibles=["position_buffer","texture_coord_buffer","normal_buffer","color_buffer"]
 
 	function glizarForma(){

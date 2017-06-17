@@ -78,7 +78,6 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
     .to({ h:1 }, 1000*tiempoAnimacion)
     .onUpdate(function() {
       oEdificio.cambiarAltura(coso.h*altoMaximo);
-      //oEdificio.uniforms[0].valor=coso.h*altoMaximo;
     }).start();
   }
 
@@ -91,5 +90,4 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   });
 
   return oEdificio;
-
 }

@@ -12,10 +12,10 @@ function DibujableEdificio(o,modelo,forma){
     });
   };
 
-  o.iniciarUniforms(altura,alturaBase,alturaSobre){
+  o.iniciarUniforms=function(altura,alturaBase,alturaSobre){
+    forma.cambiarAtributoConstante("aAlturaBase",alturaBase);
+    forma.cambiarAtributoConstante("aAlturaSobre",alturaSobre);
     o.uniforms.push({nombre:"uAltura",valor:altura});
-    o.uniforms.push({nombre:"uAlturaBase",valor:alturaBase});
-    o.uniforms.push({nombre:"uAlturaSobre",valor:alturaSobre});
   }
 
   o.cambiarAltura=function(altura){

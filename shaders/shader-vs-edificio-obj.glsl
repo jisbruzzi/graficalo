@@ -1,6 +1,8 @@
 attribute vec3 aVertexPosition;
 attribute vec3 aVertexNormal;
 attribute vec2 aTextureCoord;
+attribute float aAlturaBase;
+attribute float aAlturaSobre;
 
 uniform mat4 uViewMatrix;
 uniform mat4 uModelMatrix;
@@ -8,6 +10,8 @@ uniform mat4 uPMatrix;
 
 varying vec2 vTextureCoord;
 varying vec3 vVertexNormal;
+varying float vAlturaBase;
+varying float vAlturaSobre;
 
 uniform float uAltura;
 
@@ -30,4 +34,8 @@ void main(void) {
   vVertexNormal = aVertexNormal;
   // posición de la fuente
   prepararPesosIluminacion(vDef);
+
+  //lo que antes eran uniforms
+  vAlturaBase=aAlturaBase;
+  vAlturaSobre=aAlturaSobre;
 }

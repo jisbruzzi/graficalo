@@ -78,6 +78,18 @@ function FormaEdificio(gl,ancho,fondo){
     return copia;
   }
 
+  //interfaz particular
+  this.cambiarAtributoConstante=function(nombre,valor){
+    let yo=this;
+    let buf_nuevo=[]
+    for(let i=0;i<position_buffer.length;i++){
+      buf_nuevo.push(valor);
+    }
+
+    let webgl_buffer = new GlFloatBufferDinamico(gl).aPartirDe(buf_nuevo);
+    yo[nombre]=getter(webgl_buffer);
+  }
+
 
   //INTERFAZ
   this.normal_buffer=normal_buffer;
