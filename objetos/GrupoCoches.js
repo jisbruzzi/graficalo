@@ -57,7 +57,7 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 		this.avanzar();
 	}
 	this.avanzar=function(){
-		cochePrincipal.avanzar(paso/100);
+		cochePrincipal.avanzar(paso);
 		this.actualizarPosicionesEnCurva(paso);
 		par=true;
 		
@@ -82,19 +82,19 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 		}
 	}
 	this.configurarIluminacion=function(lightPosition, ambientColor, diffuseColor){
-		for(var i=0;i<cantidadCoches;i++){//sentido creciente en curva
+		for(var i=0;i<cantidadCoches;i++){
 			cochesCentrados[i].configurarIluminacion(lightPosition, ambientColor, diffuseColor);
 		}
 
 	}
 	this.configurarCamara= function(camara){
-		for(var i=0;i<cantidadCoches;i++){//sentido creciente en curva
+		for(var i=0;i<cantidadCoches;i++){
 			cochesCentrados[i].configurarCamara(camara);
 		}
 
 	}
 	this.dibujar=function(){
-		for(var i=0;i<cantidadCoches;i++){//sentido creciente en curva
+		for(var i=0;i<cantidadCoches;i++){
 			cochesCentrados[i].dibujar();
 		}
 	}

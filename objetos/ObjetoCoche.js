@@ -46,7 +46,7 @@ function ObjetoCoche(programaColor,programaTextura,gl){
 	obj.hijos.push(objRuedaTraseraDerecha);
 	obj.hijos.push(objRuedaDelanteraDerecha);
 	obj.avanzar=function(distancia){
-		objRuedaGenerica.rotar([0,1,0],distancia/(1.2/15));//como las ruedas estan espejadas(y no rotadas) no necesito hacer tratamiento especial para el giro
+		objRuedaGenerica.rotar([0,1,0],distancia*(1.2/15));//como las ruedas estan espejadas(y no rotadas) no necesito hacer tratamiento especial para el giro
 	}
 
 
