@@ -39,7 +39,7 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   let tPisos = atlasTexturas.t(elementoAlAzar(nombresImagenesPisos));
   let tPlantabaja = atlasTexturas.t(elementoAlAzar(nombresImagenesPlantabajas));
 
-  let programaEdificio = atlasShaderPs.p("binormal");
+  let programaEdificio = atlasShaderPs.p("edificio");
   let fEdificio=forma.hacerCopiaConTexturas(tPlantabaja,tPisos);
   let mEdificio=new Modelo(fEdificio,programaEdificio,gl);
   let oEdificio = new Objeto(mEdificio);
