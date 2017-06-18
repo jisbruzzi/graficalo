@@ -37,8 +37,9 @@ function FormaPlano(ancho,alto,gl,color){
 	this.index_buffer=index_buffer;
 	this.color_buffer=color_buffer;
 
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.TRIANGLES);
 
   this.esIluminado=getter(true);
+   
 }

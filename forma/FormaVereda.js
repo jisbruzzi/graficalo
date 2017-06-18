@@ -163,10 +163,11 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   this.aTextureCoord  =getter(webgl_texture_coord_buffer);
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.TRIANGLES);
   this.esIluminado=getter(true);
+   
 
 
 

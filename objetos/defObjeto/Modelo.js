@@ -10,46 +10,11 @@ VARIOS OBJETOS PUEDEN COMPARTIR EL MISMO MODELO
 */
 
 function Modelo(forma,shaderProgram,gl){
+	Glizable(forma,gl);
+	forma.glizar();
+
 	const atributosPosibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor","aAlturaBase","aAlturaSobre","aAltura"];
 	const nombresLegibles=["position_buffer","texture_coord_buffer","normal_buffer","color_buffer"]
-
-	function glizarForma(){
-		if(forma.glizada!=undefined && forma.glizada) return;
-
-		forma.glizada=true;
-
-		//generar los buffers de opengl
-		if(forma.position_buffer!=undefined){
-			let webgl_position_buffer = new GlPositionBuffer(gl).aPartirDe(forma.position_buffer);
-			forma.aVertexPosition=getter(webgl_position_buffer);
-		}
-		if(forma.normal_buffer!=undefined){
-			let glb = new GlNormalBuffer(gl).aPartirDe(forma.normal_buffer);
-			forma.aVertexNormal=getter(glb);
-		}
-		if(forma.color_buffer!=undefined){
-			let glb = new GlColorBuffer(gl).aPartirDe(forma.color_buffer);
-			forma.aVertexColor=getter(glb);
-		}
-		if(forma.texture_coord_buffer!=undefined){
-			let glb = new GlTextureCoordBuffer(gl).aPartirDe(forma.texture_coord_buffer);
-			forma.aTextureCoord=getter(glb);
-		}
-		if(forma.tangent_buffer!=undefined){
-			let glb = new GlNormalBuffer(gl).aPartirDe(forma.tangent_buffer);
-			forma.aVertexTangent=getter(glb);
-		}
-		if(forma.binormal_buffer!=undefined){
-			let glb = new GlNormalBuffer(gl).aPartirDe(forma.binormal_buffer);
-			forma.aVertexBinormal=getter(glb);
-		}
-		if(forma.index_buffer!=undefined){
-			let glb = new GlIndexBuffer(gl).aPartirDe(forma.index_buffer);
-			forma.getIndexBuffer=getter(glb);
-		}
-	}
-
-	glizarForma();
 
 
 
@@ -121,6 +86,7 @@ function Modelo(forma,shaderProgram,gl){
 		let asigne=[]
 		Object.keys(shaderProgram.attributes).forEach(function(s){
 			if(forma[s]===undefined){
+				console.log(forma);
 				throw "esta forma no define un atributo "+s;
 			}else{
 				forma[s]().asignarAtributoShader(shaderProgram.attributes[s]);
@@ -215,6 +181,7 @@ function Modelo(forma,shaderProgram,gl){
 	}
 
 	this.dibujar=function(modelMatrix,uniforms){
+		//console.log(forma);
 		shaderProgram.usar();
 		this.setupLighting();
 		this.setupUniforms(uniforms);

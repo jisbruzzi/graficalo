@@ -12,6 +12,7 @@ function transicionBezierRandom(){
 }
 
 //voy a hacer como si fueran posibles sólo 8 texturas: 4 bajo y 4
+/*
 const colectorEdificios=(function(){
   let yo={};
   let edificios=[];
@@ -23,7 +24,7 @@ const colectorEdificios=(function(){
 
   return yo;
 })();
-
+*/
 function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
   let miBezier=transicionBezierRandom();
 

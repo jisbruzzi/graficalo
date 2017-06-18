@@ -87,7 +87,8 @@ function FormaCuadricula(ancho,alto,gl,color){
 	this.index_buffer=indexBuffer;
 	this.color_buffer=colBuffer;
   //-- interfaz obligatoria --//
-  //this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  //this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.LINES);
   this.esIluminado=getter(false);
+   
 }

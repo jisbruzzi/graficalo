@@ -111,8 +111,9 @@ function FormaEdificio(gl,ancho,fondo){
   this.binormal_buffer=binormal_buffer;
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.TRIANGLES);
   //this.esIluminado=getter(false);
-  this.hacerCopiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.hacerCopiaConTextura=hacerMetodoCopiaConTextura(this,gl);
+
 }

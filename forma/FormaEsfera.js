@@ -1,4 +1,4 @@
-function hacerMetodoCopiaConTextura(deQuien){
+function hacerMetodoCopiaConTextura(deQuien,gl){
   return function(textura){
     let copia=jQuery.extend({},deQuien);
     copia.obtenerTextura = function(){
@@ -92,6 +92,7 @@ function FormaEsfera(latitudeBands,longitudeBands,gl){
 	this.color_buffer=color_buffer;
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.TRIANGLES);
+
 }

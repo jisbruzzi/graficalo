@@ -13,13 +13,15 @@ function rand_exp(lambda){
 
 
 
-function ObjetoManzanaEdificios(lado,gl,retardoManzana){
+function ObjetoManzanaEdificios(lado,gl,retardoManzana,colectorEdificios,xManzana,yManzana){
   let yo = new Objeto();
+  yo.setPosicion(xManzana,yManzana,0);
 
   let listaEdificios=new ListaEdificios(lado);
 
 
   listaEdificios.forEach(agregarEdificio);
+  colectorEdificios.actualizar();
 
   function agregarEdificio(edificio){
 
@@ -38,11 +40,7 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana){
     let fondo = edificio.fondo-0.2;
     let x = edificio.x-lado/2+edificio.ancho/2;
     let y = edificio.y-lado/2+edificio.fondo/2;
-    let o = colectorEdificios.nuevoEdificio(edificio.ancho,edificio.fondo,gl,altura,retardo,tiempoAnimacion);
-    o.mover(x,y,0);
-    o.escalar(ancho/edificio.ancho,fondo/edificio.fondo,1);
-
-    yo.hijos.push(o);
+    let o = colectorEdificios.agregarEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x+xManzana,y+yManzana);
 
   }
 

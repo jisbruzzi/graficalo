@@ -1,5 +1,8 @@
 function WebglBuffer(gl,target,obtenerSrcData,usage,itemSize,tipo){
   let glBuffer = gl.createBuffer();
+  this.mismoTipoCon=function(datos){
+    return new WebglBuffer(gl,target,obtenerSrcData,itemSize,tipo).aPartirDe(datos);
+  }
   this.aPartirDe=function(datos){
     gl.bindBuffer(target, glBuffer);
     gl.bufferData(target, obtenerSrcData(datos), usage);

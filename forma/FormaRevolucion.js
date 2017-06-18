@@ -1,5 +1,5 @@
 
-//pasar en forma de array concatenado vertices y normales, el paso debe ser en radianes, funcionesColor debe tener funciones que indiquen color de 0 a 1 para RGB, en ese orde, como parametro deben tomar angulo, y numero de pixel en patron inicial 
+//pasar en forma de array concatenado vertices y normales, el paso debe ser en radianes, funcionesColor debe tener funciones que indiquen color de 0 a 1 para RGB, en ese orde, como parametro deben tomar angulo, y numero de pixel en patron inicial
 function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 
 
@@ -16,7 +16,7 @@ function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 	var vectorTangente, vectorNormal;
 
 
-	
+
 	for(var i=0;i<2*Math.PI+paso/10;i+=paso){//+paso/10 para evitar errores de redondeo
 		if(i>Math.PI*2) i=2*Math.PI;
 		//vectorNormal=productoVectorial(vectorTangente,vectorBinormal);//norma==1,porque las otras dos normas son ==1
@@ -32,7 +32,7 @@ function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 			for(var aux=0;aux<3;aux++){
 				position_buffer.push(punto[aux]);
 				normal_buffer.push(normal[aux]);
-				
+
 			}
 			color_buffer.push(funcionesColor[0](i,j));
 
@@ -76,8 +76,9 @@ function FormaRevolucion(vertices,normales,paso,funcionesColor,gl){
 	this.color_buffer=color_buffer;
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
     this.esIluminado=getter(true);
 
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
+   
 }

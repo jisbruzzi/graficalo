@@ -23,7 +23,8 @@ function FormaLlanta(gl){//los colores se deben pasar por caras, siendo 0 YZ,1XZ
 
   this.modoDibujado = getter(gl.TRIANGLE_FAN);
   this.esIluminado=getter(true);
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
+	 
 
 
 

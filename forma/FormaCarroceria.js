@@ -9,8 +9,8 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
   let altoCoche=1.5;
   let altoTecho=0.75;
                               //cubo inferior visto desde el frente
-  //costado izquierdo                                                                                                    
-  let posBuffer=[-largoCoche/2,-anchoCoche/2,altoCoche-altoTecho,-largoCoche/2,-anchoCoche/2,0,  largoCoche/2,-anchoCoche/2,altoCoche-altoTecho,largoCoche/2,-anchoCoche/2,0,   
+  //costado izquierdo
+  let posBuffer=[-largoCoche/2,-anchoCoche/2,altoCoche-altoTecho,-largoCoche/2,-anchoCoche/2,0,  largoCoche/2,-anchoCoche/2,altoCoche-altoTecho,largoCoche/2,-anchoCoche/2,0,
   //frente
     largoCoche/2,-anchoCoche/2,altoCoche-altoTecho,largoCoche/2,-anchoCoche/2,0, largoCoche/2,anchoCoche/2,altoCoche-altoTecho,largoCoche/2,anchoCoche/2,0,
   //costado derecho
@@ -32,9 +32,9 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
 
   //parabrisa
 
-  largoTechoSup/2,-anchoTecho/2,altoCoche,largoTechoSup/2,anchoTecho/2,altoCoche,   largoTecho/2,-anchoCoche/2,altoCoche-altoTecho,largoTecho/2,anchoCoche/2,altoCoche-altoTecho,  
+  largoTechoSup/2,-anchoTecho/2,altoCoche,largoTechoSup/2,anchoTecho/2,altoCoche,   largoTecho/2,-anchoCoche/2,altoCoche-altoTecho,largoTecho/2,anchoCoche/2,altoCoche-altoTecho,
 
-  //"capot" 
+  //"capot"
   largoTecho/2,-anchoCoche/2,altoCoche-altoTecho,largoTecho/2,anchoCoche/2,altoCoche-altoTecho,     largoCoche/2,-anchoCoche/2,altoCoche-altoTecho,largoCoche/2,anchoCoche/2,altoCoche-altoTecho,
 
   //ventanilla der
@@ -48,7 +48,7 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
                 //              cost izq                      frente                  derecho                          trasero
   let normBuffer=[0,-1,0, 0,-1,0,0,-1,0, 0,-1,0,     1,0,0,1,0,0,1,0,0,1,0,0,   0,1,0,0,1,0,0,1,0,0,1,0,   0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,
 
-//         baul               luneta                                                       techoSup                              parabrisa                                                                capot 
+//         baul               luneta                                                       techoSup                              parabrisa                                                                capot
   0,0,1,0,0,1,0,0,1,0,0,1,    -raiz,0,raiz,-raiz,0,raiz,-raiz,0,raiz,-raiz,0,raiz,         0,0,1,0,0,1,0,0,1,0,0,1,              raiz,0,raiz,raiz,0,raiz,raiz,0,raiz,raiz,0,raiz,               0,0,1,0,0,1,0,0,1,0,0,1,
 
 //     ventanilla derecha                               ventanilla izquierda
@@ -119,7 +119,6 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
 
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
   this.esIluminado=getter(true);
-
-
+   
 
 }
