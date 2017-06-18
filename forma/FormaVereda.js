@@ -166,7 +166,7 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);
   this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.TRIANGLES);
-  this.esIluminado=getter(false);
+  this.esIluminado=getter(true);
 
 
 

@@ -14,11 +14,6 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
     posBuffer.push(z);
 
     //color
-    /*
-    colBuffer.push(1);
-    colBuffer.push(1);
-    colBuffer.push(1);
-    */
     colBuffer=colBuffer.concat(color);
 
     //normal
@@ -27,12 +22,23 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
     normBuffer.push(1);
   }
 
+  function insertarPuntoNormal(x,y,z){
+    //posicion;
+    posBuffer=posBuffer.concat([x,y,z]);
+
+    //color
+    colBuffer=colBuffer.concat(color);
+
+    //normal
+    return function(xn,yn){
+      normBuffer=normBuffer.concat([xn,yn,0]);
+    }
+  }
+
 
 
   function curvaNoventa(offx,offy,offAngulo){
     let eje = posBuffer.length/3;
-
-    puntoNormalArriba(offx,offy,profundidad);
 
 
     let inicio = posBuffer.length/3;
@@ -50,9 +56,13 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
 
   function bordeCurvaNoventa(offx,offy,offAngulo){
     let prev=null;
-    recorridoCurvoNoventa(offx,offy,offAngulo,radioBorde,function(x,y){
+    recorridoCurvoNoventa(offx,offy,offAngulo,radioBorde,function(x,y,ang){
       if(prev!=null){
-        rectanguloV(x,y,prev.x,prev.y);
+        let angDef = ang+offAngulo;
+        while(angDef>=2*Math.PI){
+          angDef-=2*Math.PI;
+        }
+        rectanguloV(x,y,prev.x,prev.y)(Math.cos(angDef),Math.sin(angDef));
       }
       prev={};
       prev.x=x;
@@ -61,18 +71,19 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
   }
 
   function rectanguloV(x1,y1,x2,y2){
-    rectangulo(posBuffer.length/3,indexBuffer,function(h,d){
-      let x=x1+(x2-x1)*d;
-      let y=y1+(y2-y1)*d;
-      puntoNormalArriba(x,y,h*profundidad);
-    });
+    return function(xn,yn){
+      rectangulo(posBuffer.length/3,indexBuffer,function(h,d){
+        let x=x1+(x2-x1)*d;
+        let y=y1+(y2-y1)*d;
+        insertarPuntoNormal(x,y,h*profundidad)(xn,yn);
+      });
+    };
   }
 
 
 
   function esquina(offx,offy,offAngulo){
     bordeCurvaNoventa(offx,offy,offAngulo);
-
   }
 
   //esquinas
@@ -88,18 +99,18 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
   let dBordeExterior=ladoManzana/2
 
   //rectangulos interiores
-  rectanguloV( dBordeInterior,-dBordeInterior, dBordeInterior,dBordeInterior);
-  rectanguloV(-dBordeInterior,-dBordeInterior,-dBordeInterior,dBordeInterior);
-  rectanguloV(-dBordeInterior,-dBordeInterior, dBordeInterior,-dBordeInterior);
-  rectanguloV(-dBordeInterior, dBordeInterior, dBordeInterior, dBordeInterior);
+  rectanguloV( dBordeInterior,-dBordeInterior, dBordeInterior, dBordeInterior)(-1, 0);
+  rectanguloV(-dBordeInterior,-dBordeInterior,-dBordeInterior, dBordeInterior)( 1, 0);
+  rectanguloV(-dBordeInterior,-dBordeInterior, dBordeInterior,-dBordeInterior)( 0, 1);
+  rectanguloV(-dBordeInterior, dBordeInterior, dBordeInterior, dBordeInterior)( 0,-1);
 
   //rectangulos exteriores
   let finCurva = ladoManzana/2-radioBorde;
-  rectanguloV( dBordeExterior,-finCurva, dBordeExterior,finCurva);
-  rectanguloV(-dBordeExterior,-finCurva,-dBordeExterior,finCurva);
+  rectanguloV( dBordeExterior,-finCurva, dBordeExterior,finCurva)( 1, 0);
+  rectanguloV(-dBordeExterior,-finCurva,-dBordeExterior,finCurva)(-1, 0);
 
-  rectanguloV(finCurva, dBordeExterior,-finCurva, dBordeExterior);
-  rectanguloV(finCurva,-dBordeExterior,-finCurva,-dBordeExterior);
+  rectanguloV(finCurva, dBordeExterior,-finCurva, dBordeExterior)(0, 1);
+  rectanguloV(finCurva,-dBordeExterior,-finCurva,-dBordeExterior)(0,-1);
 
 
 //INTERFAZ
@@ -109,7 +120,7 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
 	this.color_buffer=colBuffer;
 
   this.modoDibujado = getter(gl.TRIANGLES);
-  this.esIluminado=getter(false);
+  this.esIluminado=getter(true);
 
 
 

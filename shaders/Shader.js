@@ -1,22 +1,26 @@
-function cargarShader(nombreArchivo,evExito){
+function cargarShader(nombreArchivo,evExito,libreria){
   $.get("shaders/"+nombreArchivo,function(texto){
-			evExito(new Shader(nombreArchivo,texto));
+			evExito(new Shader(nombreArchivo,texto,libreria));
 		});
 }
 
-function Shader(nombre,texto){
+function Shader(nombre,texto,libreriaShaders){
+
+  //--- hacer funcional el #include ---//
+  Object.keys(libreriaShaders).forEach(function(n){
+    let regexInclude= new RegExp("#include [ ]*"+n,"gi");
+    texto=texto.replace(regexInclude,libreriaShaders[n]);
+  })
 
   //---  determinar tipo ---//
-  let regexFragment= new RegExp("^shader-fs");
-  let regexVertex  = new RegExp("^shader-vs");
+  let regexFragment= new RegExp("shader-fs");
+  let regexVertex  = new RegExp("shader-vs");
   if(regexFragment.test(nombre)){
     this.tipo="f";
   }
   if(regexVertex.test(nombre)){
     this.tipo="v";
   }
-
-
 
   //--- parsear variables ---//
   let lineas = texto.split(";");
@@ -39,7 +43,7 @@ function Shader(nombre,texto){
   }
   tipos+="float)";
 
-  let regexVariable=new RegExp(pretipos+"[ ]*"+tipos+"[ ]*"+"([^ ]*)$");
+  let regexVariable=new RegExp(pretipos+"[ ]*"+tipos+"[ ]*"+"([^ \[]+)");
 
   let variables=lineas.map(function(s){
     return regexVariable.exec(s);
@@ -56,6 +60,9 @@ function Shader(nombre,texto){
       nombre:a[3]
     };
   });
+
+  console.log(variables);
+
 
 
 
@@ -77,7 +84,8 @@ function Shader(nombre,texto){
     gl.compileShader(s);
 
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      alert(gl.getShaderInfoLog(s));
+      alert("error con el shader "+nombre+"\n"+gl.getShaderInfoLog(s));
+      throw "error con el shader "+nombre+"\n"+gl.getShaderInfoLog(s)+"\n\n"+texto;
       return null;
     }
 

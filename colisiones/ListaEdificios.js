@@ -1,6 +1,6 @@
 
 function ListaEdificios(lado){
-  let cantidadEdificios = lado*lado*(0.2+Math.random())/2;
+  let cantidadEdificios = 10;//lado*lado*(0.2+Math.random())/2;//
   let yo=[];
 
   function agregarEdficioPosRandom(){
@@ -72,7 +72,7 @@ function ListaEdificios(lado){
   for(let i = 0;i<lado;i++){
     revolverTodo();
   }
-  
+
 
   return yo;
 }

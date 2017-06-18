@@ -35,15 +35,19 @@ function normalizarPuntosControl(puntosControl, alto,ancho){
 
 
 function Animador(puntosControl){
-  let mundo;
-  let mars;
+  let mundo=new Objeto();
+  let mars=new Objeto();
 
   this.archivosShaderPrograms={
+
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
     "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"],
     "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"],
-    "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"]
+    "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"],
+    "normal":["debug/shader-fs-normal.glsl","debug/shader-vs-normal.glsl"],
+    "binormal":["debug/shader-fs-binormal.glsl","debug/shader-vs-binormal.glsl"],
+    "tangente":["debug/shader-fs-tangent.glsl","debug/shader-vs-tangent.glsl"]
   };
   this.archivosImagenes=[
     "mars_1k_color.jpg",
@@ -59,6 +63,7 @@ function Animador(puntosControl){
     return mundo;
   }
 
+
   this.tick=function(){
     mars.rotar([0,1,0],0.01);
     if(jugador!=null){
@@ -66,13 +71,18 @@ function Animador(puntosControl){
     }
 
     //mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
-    mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(1, 0.01, 0.0108));
     let p =jugador.obtenerPosicion();
+
+    luz1.anularPosicion().mover(p[0],p[1],p[2]);
+    luz2.anularPosicion().mover(p[0],p[1],p[2]).mover(3,0,0);
+    mundo.configurarIluminacion(mundo.obtenerLucesHijos(),new ParametrosLuzGlobal());
     if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
   let jugador=null;
   let cielo = null;
+  let luz1 = new Luz();
+  let luz2 = new Luz();
 
 
   this.iniciarMundo=function(gl,camaraNueva,mouse,movedorNuevo){
@@ -98,16 +108,16 @@ function Animador(puntosControl){
     let esfera64 = new FormaEsfera(64,64,gl);
     let esfera64Texturada =esfera64.copiaConTextura(atlasTexturas.t("mars_1k_color.jpg"));
     let modeloTexturada = new Modelo(esfera64Texturada,programaTextura,gl);
+
     mars  =new Objeto(modeloTexturada);
     mundo.hijos.push(mars);
-
 
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
     //calles = new ObjetoCalles(5,5,12,gl);
-    calles = new ObjetoCalles(6,4,10,gl);
+    calles = new ObjetoCalles(4,5,10,gl);
     mundo.hijos.push(calles);
 
 
@@ -138,9 +148,13 @@ function Animador(puntosControl){
     cielo = new ObjetoCielo(gl,900);
     mundo.hijos.push(cielo);
 
+    //luces
+    mundo.luces.push(luz1);
+    luz1.cambiarHacia([1,0,0]);
+    mundo.luces.push(luz2);
 
-    mundo.configurarIluminacion(jugador.obtenerPosicion(), vec3.fromValues( 0.9, 0.9, 1), vec3.fromValues(0.01, 0.01, 0.0108));
-
+    luz1.mover(30,30,30);
+    luz2.mover(0,0,0.5);
 
   }
 

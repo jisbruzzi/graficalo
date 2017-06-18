@@ -10,7 +10,7 @@ VARIOS OBJETOS PUEDEN COMPARTIR EL MISMO MODELO
 */
 
 function Modelo(forma,shaderProgram,gl){
-	const atributosPosibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor"];
+	const atributosPosibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor","aAlturaBase","aAlturaSobre","aAltura"];
 	const nombresLegibles=["position_buffer","texture_coord_buffer","normal_buffer","color_buffer"]
 
 	function glizarForma(){
@@ -35,6 +35,14 @@ function Modelo(forma,shaderProgram,gl){
 			let glb = new GlTextureCoordBuffer(gl).aPartirDe(forma.texture_coord_buffer);
 			forma.aTextureCoord=getter(glb);
 		}
+		if(forma.tangent_buffer!=undefined){
+			let glb = new GlNormalBuffer(gl).aPartirDe(forma.tangent_buffer);
+			forma.aVertexTangent=getter(glb);
+		}
+		if(forma.binormal_buffer!=undefined){
+			let glb = new GlNormalBuffer(gl).aPartirDe(forma.binormal_buffer);
+			forma.aVertexBinormal=getter(glb);
+		}
 		if(forma.index_buffer!=undefined){
 			let glb = new GlIndexBuffer(gl).aPartirDe(forma.index_buffer);
 			forma.getIndexBuffer=getter(glb);
@@ -46,34 +54,58 @@ function Modelo(forma,shaderProgram,gl){
 
 
 
-	let lightPosition =vec3.create();
-	let ambientColor =vec3.create();
-	let diffuseColor =vec3.create();
+	let listaLuces=[];
+	let luzGlobal=new ParametrosLuzGlobal();
 	let camara;
 
-	this.setupShaders = function(){
-		shaderProgram.usar();
+	function desplegarParametroDeLuz(f,componentes){
+		const CANT_LUCES=2;
+
+		let ret=[];
+		for (luz of listaLuces) {
+			let res = f(luz);
+			ret=ret.concat(Array.prototype.slice.call(res));
+		}
+
+		while (ret.length<CANT_LUCES*componentes){
+			ret.push(0);
+		}
+
+		return ret;
 	}
 
-	this.setupLighting = function(lightPosition, ambientColor, diffuseColor){
-		////////////////////////////////////////////////////
-		// Configuración de la luz
-		// Se inicializan las variables asociadas con la Iluminación
+	this.setupLighting = function(){
+
+		//-- si se usa iluminación --//
 		let lighting = true;
 		if (forma.esIluminado != undefined){
 			lighting = forma.esIluminado();
 		}
 		gl.uniform1i(shaderProgram.uUseLighting, lighting);
-/*
-		if (camara !=null){
-			lightPos4=vec4.create()
-			vec4.transformMat4(lightPos4,lightPos4,camara.obtenerMatrizCamara());
-			lightPosition=vec3.fromValues(lightPos4[0],lightPos4[1],lightPos4[2]);
-		}
-*/
-		gl.uniform3fv(shaderProgram.uLightPosition, lightPosition);
-		gl.uniform3fv(shaderProgram.uAmbientColor, ambientColor );
-		gl.uniform3fv(shaderProgram.uDirectionalColor, diffuseColor);
+
+		//-- desplegar los parámetros de las luces --//
+
+		let listaPosiciones=desplegarParametroDeLuz(function(l){return l.obtenerPosicionFinal()},3);
+		gl.uniform3fv(shaderProgram.uLightPosition, listaPosiciones);
+
+		let listaHacia = desplegarParametroDeLuz(function(l){return l.obtenerHaciaFinal()},3);
+		gl.uniform3fv(shaderProgram.uDireccionLuz, listaHacia);
+
+		///ESTE 1FV ES EL QUE TIRA EL WARNING ANALIZAR BIEN!!
+		let listaConcentraciones = desplegarParametroDeLuz(function(l){return [l.concentracion]},1);
+		gl.uniform1fv(shaderProgram.uConcentracion, new Float32Array(listaConcentraciones));
+
+		let listaDistancia = desplegarParametroDeLuz(function(l){return [l.distanciaIluminada]},1);
+		gl.uniform1fv(shaderProgram.uDistanciaIluminada, new Float32Array(listaDistancia));
+
+		let listaColores = desplegarParametroDeLuz(function(l){return l.color},3);
+		gl.uniform3fv(shaderProgram.uColorLuz, listaColores);
+
+
+
+		gl.uniform3fv(shaderProgram.uAmbientColor, [1,1,1] );
+
+		gl.uniform3fv(shaderProgram.uDirectionalColor, [1,0,0]);
 	}
 
 	this.draw = function(modelMatrix){
@@ -85,12 +117,37 @@ function Modelo(forma,shaderProgram,gl){
 		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, camara.obtenerMatrizProyeccion());
 		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, camara.obtenerMatrizCamara());
 
-
-		atributosPosibles.forEach(function(s){
-			if(forma[s]!=undefined && shaderProgram[s]!=undefined){
-				forma[s]().asignarAtributoShader(shaderProgram[s]);
+		//console.log(shaderProgram.attributes);
+		let asigne=[]
+		Object.keys(shaderProgram.attributes).forEach(function(s){
+			if(forma[s]===undefined){
+				throw "esta forma no define un atributo "+s;
+			}else{
+				forma[s]().asignarAtributoShader(shaderProgram.attributes[s]);
+				asigne.push(s);
 			}
 		});
+/*
+		let asignados = [];
+		let atributosShaderProgram=[];
+		atributosPosibles.forEach(function(s){
+			if(shaderProgram[s]!=undefined){
+				atributosShaderProgram.push(s);
+			}
+			if(forma[s]!=undefined && shaderProgram[s]!=undefined){
+				//console.log("Asigno "+s);
+				forma[s]().asignarAtributoShader(shaderProgram[s]);
+				asignados.push(s);
+			}
+		});
+		if(asignados.length != Object.keys(shaderProgram.propiedades).length){
+			console.log(asignados);
+			console.log(atributosShaderProgram);
+			console.log(forma);
+			console.log(shaderProgram.propiedades);
+			throw "Falta asignar buffer a atributos.";
+		}
+*/
 
 		//ahora sólo soporto 1 textura por shaderprogram, YAGNI
 		if(forma.obtenerTextura && shaderProgram.uSampler!=undefined){
@@ -132,6 +189,20 @@ function Modelo(forma,shaderProgram,gl){
 		}else{
 			forma.getIndexBuffer().dibujarModo(forma.modoDibujado());
 		}
+//		console.log(asigne);
+//		console.log(shaderProgram.attributes);
+/*
+		let atributos = gl.getProgramParameter(shaderProgram.obtenerProgram(), gl.ACTIVE_ATTRIBUTES);
+		let program = shaderProgram.obtenerProgram();
+		for (i = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)-1; i >= 0; i--) {
+			try{
+  			let name = gl.getActiveAttrib(program, i).name;
+  			//attribs[name] = gl.getAttribLocation(program, name);
+//				console.log(name);
+			} catch(e){};
+		}
+*/
+//		console.log(atributos);
 
 	};
 
@@ -144,20 +215,21 @@ function Modelo(forma,shaderProgram,gl){
 	}
 
 	this.dibujar=function(modelMatrix,uniforms){
-		this.setupShaders();
-		this.setupLighting(lightPosition, ambientColor, diffuseColor);
+		shaderProgram.usar();
+		this.setupLighting();
 		this.setupUniforms(uniforms);
 		this.draw(modelMatrix);
+		shaderProgram.disableAttributes();
 	}
 
-	this.configurarIluminacion=function(lightPositionNueva, ambientColorNueva, diffuseColorNueva){
-		lightPosition=lightPositionNueva;
-		ambientColor=ambientColorNueva;
-		diffuseColor=diffuseColorNueva;
+	this.configurarIluminacion=function(listaLucesNueva,luzGlobalNueva){
+		listaLuces = listaLucesNueva;
+		luzGlobal = luzGlobalNueva;
 	}
 
 	this.configurarCamara=function(nuevaCamara){
 		//console.log("tengo camara!");
 		camara=nuevaCamara;
 	}
+
 }

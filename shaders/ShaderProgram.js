@@ -1,4 +1,6 @@
 const atlasShaderPs=(function(){
+  let libreriaShaders={};
+  let nombresLibreriaShaders=["pesosIluminacion-fs","pesosIluminacion-vs"];
   let yo={};
   let gl=null;
   let shaderPrograms={};
@@ -6,11 +8,32 @@ const atlasShaderPs=(function(){
     gl=nGl;
   }
 
+  function cargarLibreriaShaders(fin){
+    let cargados=0;
+    nombresLibreriaShaders.forEach(function(n){
+      $.get("shaders/lib/"+n+".glsl",function(texto){
+        libreriaShaders[n]=texto;
+        cargados+=1;
+        if (cargados==nombresLibreriaShaders.length){
+          fin();
+        }
+      });
+    });
+
+  }
+
   yo.p=function(nombre){
     if(shaderPrograms[nombre]==undefined){
       throw "no hay un shader program que se llame "+nombre;
     }
     return shaderPrograms[nombre];
+  }
+  function getLibreria(nombre){
+    if(libreriaShaders[nombre]===undefined){
+      console.log(libreriaShaders);
+      throw "no existe una libreria llamada "+nombre;
+    }
+    return libreriaShaders[nombre];
   }
 
   function cargarShaderProgram(nombresShaders,evExito){
@@ -22,22 +45,25 @@ const atlasShaderPs=(function(){
       }
     };
     nombresShaders.forEach(function(n){
-      cargarShader(n,exitoShader);
+      cargarShader(n,exitoShader,libreriaShaders);
     });
   }
 
+
   yo.cargarShaderPrograms=function(listaDeShaders,evExito){
-    let total = Object.keys(listaDeShaders).length;
-    let cargados =0;
-    Object.keys(listaDeShaders).forEach(function(k){
-      cargarShaderProgram(listaDeShaders[k],function(programa){
-        shaderPrograms[k]=programa;
-        cargados +=1;
-        if(cargados==total){
-          evExito();
-        }
+    cargarLibreriaShaders(function(){
+      let total = Object.keys(listaDeShaders).length;
+      let cargados =0;
+      Object.keys(listaDeShaders).forEach(function(k){
+        cargarShaderProgram(listaDeShaders[k],function(programa){
+          shaderPrograms[k]=programa;
+          cargados +=1;
+          if(cargados==total){
+            evExito();
+          }
+        });
       });
-    });
+    })
   };
 
 
@@ -59,28 +85,46 @@ const atlasShaderPs=(function(){
       variables=shader.obtenerVariables().concat(variables);
     });
 
-    let engancharPropiedades=function(quien){
 
-      variables.forEach(function(v){
-        if(v.pretipo === "uniform"){
-          quien[v.nombre]=gl.getUniformLocation(programa, v.nombre);
-        }
 
-        if(v.pretipo === "attribute"){
-          quien[v.nombre]=gl.getAttribLocation(programa, v.nombre);
-          gl.enableVertexAttribArray(quien[v.nombre]);
-          //console.log(v.nombre);
-          //console.log(this[v.nombre]);
-        }
-      });
+    let yo=this;
+    let uniforms={};
+    let attributes={};
+    variables.forEach(function(v){
+      if(v.pretipo === "uniform"){
+        uniforms[v.nombre]=gl.getUniformLocation(programa, v.nombre);
+        yo[v.nombre]=uniforms[v.nombre];
+      }
+    });
 
+    let atributosActivos=gl.getProgramParameter(programa, gl.ACTIVE_ATTRIBUTES);
+    let atributosPosta = []
+    for (i = 0; i < atributosActivos; i+=1) {
+      atributosPosta.push(gl.getActiveAttrib(programa, i).name);
     }
+    atributosPosta.forEach(function(nombre){
+      attributes[nombre]=gl.getAttribLocation(programa, nombre);
+    });
 
-    engancharPropiedades(this);
+    this.uniforms=uniforms;
+    this.attributes=attributes;
+
+
 
     //--- interfaz ---//
     this.usar=function(){
       gl.useProgram(programa);
+      Object.keys(attributes).forEach(function(s){
+        gl.enableVertexAttribArray(attributes[s]);
+      });
+    }
+    this.disableAttributes=function(){
+      Object.keys(attributes).forEach(function(s){
+        gl.disableVertexAttribArray(attributes[s]);
+      });
+    }
+    this.obtenerProgram=function(){
+      return programa;
     }
   }
 

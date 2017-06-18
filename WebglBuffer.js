@@ -67,3 +67,10 @@ function GlIndexBuffer(gl){
   }
   return( new WebglBuffer(gl,gl.ELEMENT_ARRAY_BUFFER,obtenerSrcData,gl.STATIC_DRAW,1,gl.UNSIGNED_SHORT) );//epa ese -1 !!
 }
+
+function GlFloatBufferDinamico(gl){
+  let obtenerSrcData = function(datos){
+    return new Float32Array(datos);
+  }
+  return( new WebglBuffer(gl,gl.ARRAY_BUFFER,obtenerSrcData,gl.DYNAMIC_DRAW,1,gl.FLOAT) );
+}

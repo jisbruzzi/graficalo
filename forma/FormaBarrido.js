@@ -147,9 +147,8 @@ function curvaBSplineCuadratica(posicionesPuntos){
 
 
 //pasar en forma de array concatenado vertices y normales,las normales deben estar normalizadas, en el array se debe pasar primero la funcion con las posiciones
-//y la siguiente debe ser la derivada 
+//y la siguiente debe ser la derivada
 function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
-
   this.puntosPatron=vertices.length/3;
   this.repeticionesPatron = Math.floor(1/paso)+1;
 
@@ -161,7 +160,7 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 
 	var vectorBinormal=[0,0,1];//esta condicion se da por ser curva planar en plano xy
 	var vectorTangente, vectorNormal;
-	
+
 	for(var i=0;i<1+paso;i+=paso){//el paso /10 es para evitar errores de redondeo que generen que no se ponga el ultimo numero
 		if(i>1) i=1;
 		var desplazamientos=new Array();
@@ -174,7 +173,7 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 		if(vectorGiro[2]<0)
 			seno*=-1;
 		var matrizRotacion=matrizRotacionEjeZ(coseno,seno);
-		var matrizCompleta=multiplicarMatriz(matrizTraslacion(desplazamientos),matrizRotacion);	
+		var matrizCompleta=multiplicarMatriz(matrizTraslacion(desplazamientos),matrizRotacion);
 		for(var j=0;j<this.puntosPatron;j++){
 			var punto=vertices.slice(j*3,(j+1)*3);
 			var normal=normales.slice(j*3,(j+1)*3);
@@ -186,7 +185,7 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 			position_buffer.push(punto[1]);
 			position_buffer.push(punto[2]);
 			normal=multiplicarMatrizHomogeneaVector(matrizRotacion,normal);
-			
+
 			normal_buffer.push(normal[0]);
 			normal_buffer.push(normal[1]);
 			normal_buffer.push(normal[2]);
@@ -219,8 +218,8 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 	    	index_buffer.push(this.puntosPatron*(i+1)+j);
 	    }
 
-    
-  
+
+
 
 
   }

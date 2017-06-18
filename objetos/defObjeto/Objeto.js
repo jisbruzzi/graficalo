@@ -10,7 +10,7 @@ function Objeto(modelo){
   Dibujable(yo,modelo);
   Tickeable(yo);
   Modelable(yo);
-  Iluminable(yo);
+  Iluminable(yo,modelo);
 
   return yo;
 }
