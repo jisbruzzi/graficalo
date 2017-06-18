@@ -13,8 +13,8 @@ function Shader(nombre,texto,libreriaShaders){
   })
 
   //---  determinar tipo ---//
-  let regexFragment= new RegExp("^shader-fs");
-  let regexVertex  = new RegExp("^shader-vs");
+  let regexFragment= new RegExp("shader-fs");
+  let regexVertex  = new RegExp("shader-vs");
   if(regexFragment.test(nombre)){
     this.tipo="f";
   }

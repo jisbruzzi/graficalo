@@ -85,28 +85,46 @@ const atlasShaderPs=(function(){
       variables=shader.obtenerVariables().concat(variables);
     });
 
-    let engancharPropiedades=function(quien){
 
-      variables.forEach(function(v){
-        if(v.pretipo === "uniform"){
-          quien[v.nombre]=gl.getUniformLocation(programa, v.nombre);
-        }
 
-        if(v.pretipo === "attribute"){
-          quien[v.nombre]=gl.getAttribLocation(programa, v.nombre);
-          gl.enableVertexAttribArray(quien[v.nombre]);
-          //console.log(v.nombre);
-          //console.log(this[v.nombre]);
-        }
-      });
+    let yo=this;
+    let uniforms={};
+    let attributes={};
+    variables.forEach(function(v){
+      if(v.pretipo === "uniform"){
+        uniforms[v.nombre]=gl.getUniformLocation(programa, v.nombre);
+        yo[v.nombre]=uniforms[v.nombre];
+      }
+    });
 
+    let atributosActivos=gl.getProgramParameter(programa, gl.ACTIVE_ATTRIBUTES);
+    let atributosPosta = []
+    for (i = 0; i < atributosActivos; i+=1) {
+      atributosPosta.push(gl.getActiveAttrib(programa, i).name);
     }
+    atributosPosta.forEach(function(nombre){
+      attributes[nombre]=gl.getAttribLocation(programa, nombre);
+    });
 
-    engancharPropiedades(this);
+    this.uniforms=uniforms;
+    this.attributes=attributes;
+
+
 
     //--- interfaz ---//
     this.usar=function(){
       gl.useProgram(programa);
+      Object.keys(attributes).forEach(function(s){
+        gl.enableVertexAttribArray(attributes[s]);
+      });
+    }
+    this.disableAttributes=function(){
+      Object.keys(attributes).forEach(function(s){
+        gl.disableVertexAttribArray(attributes[s]);
+      });
+    }
+    this.obtenerProgram=function(){
+      return programa;
     }
   }
 

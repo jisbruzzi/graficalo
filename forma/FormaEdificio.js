@@ -5,6 +5,8 @@ function FormaEdificio(gl,ancho,fondo){
   let position_buffer=[];
   let index_buffer=[];
   let color_buffer=[];
+  let tangent_buffer=[];
+  let binormal_buffer=[];
 
   let uIzq=0;
   let uDer=1;
@@ -13,59 +15,67 @@ function FormaEdificio(gl,ancho,fondo){
     position_buffer=position_buffer.concat([(x-0.5)*ancho,(y-0.5)*fondo,h]);
 
     color_buffer=color_buffer.concat([0.2,0.2,0.2]);
-    return function(x,y,z){//por qué no?
-      normal_buffer=normal_buffer.concat([x,y,z]);
+    return function(xn,yn,zn){//por qué no?
+      normal_buffer=normal_buffer.concat([xn,yn,zn]);
       return function(u,v){
         if(v==null){
           texture_coord_buffer=texture_coord_buffer.concat([u,h]);
         }else{
           texture_coord_buffer=texture_coord_buffer.concat([u,v]);
         }
-        return pos;
+        return function(vec){
+          tangent_buffer=tangent_buffer.concat(vec);
+          let binormal=[0,0,0];
+          vec3.cross(binormal,[xn,yn,zn],vec);
+          binormal_buffer=binormal_buffer.concat(binormal);
+          return pos;
+        };
       }
 
     };
   }
 
   uDer=ancho;
+  let vArriba=[0,0,1];
   //frente interesante
-  let abi=agregarPunto(0,0,0)(0,-1,0)(uIzq);
-  let abd=agregarPunto(1,0,0)(0,-1,0)(uDer);
-  let ari=agregarPunto(0,0,1)(0,-1,0)(uIzq);
-  let ard=agregarPunto(1,0,1)(0,-1,0)(uDer);
+  let abi=agregarPunto(0,0,0)(0,-1,0)(uIzq)(vArriba);
+  let abd=agregarPunto(1,0,0)(0,-1,0)(uDer)(vArriba);
+  let ari=agregarPunto(0,0,1)(0,-1,0)(uIzq)(vArriba);
+  let ard=agregarPunto(1,0,1)(0,-1,0)(uDer)(vArriba);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   //atrás interesante ponele
-   abi=agregarPunto(0,1,0)(0,1,0)(uIzq);
-   abd=agregarPunto(1,1,0)(0,1,0)(uDer);
-   ari=agregarPunto(0,1,1)(0,1,0)(uIzq);
-   ard=agregarPunto(1,1,1)(0,1,0)(uDer);
+   abi=agregarPunto(0,1,0)(0,1,0)(uIzq)(vArriba);
+   abd=agregarPunto(1,1,0)(0,1,0)(uDer)(vArriba);
+   ari=agregarPunto(0,1,1)(0,1,0)(uIzq)(vArriba);
+   ard=agregarPunto(1,1,1)(0,1,0)(uDer)(vArriba);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   uDer=fondo;
   //izquierda
-  abi=agregarPunto(1,0,0)(1,0,0)(uIzq);
-  abd=agregarPunto(1,1,0)(1,0,0)(uDer);
-  ari=agregarPunto(1,0,1)(1,0,0)(uIzq);
-  ard=agregarPunto(1,1,1)(1,0,0)(uDer);
+  abi=agregarPunto(1,0,0)(1,0,0)(uIzq)(vArriba);
+  abd=agregarPunto(1,1,0)(1,0,0)(uDer)(vArriba);
+  ari=agregarPunto(1,0,1)(1,0,0)(uIzq)(vArriba);
+  ard=agregarPunto(1,1,1)(1,0,0)(uDer)(vArriba);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   //izquierda
-  abi=agregarPunto(0,0,0)(-1,0,0)(uIzq);
-  abd=agregarPunto(0,1,0)(-1,0,0)(uDer);
-  ari=agregarPunto(0,0,1)(-1,0,0)(uIzq);
-  ard=agregarPunto(0,1,1)(-1,0,0)(uDer);
+  abi=agregarPunto(0,0,0)(-1,0,0)(uIzq)(vArriba);
+  abd=agregarPunto(0,1,0)(-1,0,0)(uDer)(vArriba);
+  ari=agregarPunto(0,0,1)(-1,0,0)(uIzq)(vArriba);
+  ard=agregarPunto(0,1,1)(-1,0,0)(uDer)(vArriba);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
   //ariba
-  abi=agregarPunto(0,0,1)(0,0,1)(0,0);
-  abd=agregarPunto(1,0,1)(0,0,1)(0,0);
-  ari=agregarPunto(0,1,1)(0,0,1)(0,0);
-  ard=agregarPunto(1,1,1)(0,0,1)(0,0);
+  let vAdelante=[1,0,0];
+  abi=agregarPunto(0,0,1)(0,0,1)(0,0)(vAdelante);
+  abd=agregarPunto(1,0,1)(0,0,1)(0,0)(vAdelante);
+  ari=agregarPunto(0,1,1)(0,0,1)(0,0)(vAdelante);
+  ard=agregarPunto(1,1,1)(0,0,1)(0,0)(vAdelante);
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
@@ -97,6 +107,8 @@ function FormaEdificio(gl,ancho,fondo){
 	this.position_buffer=position_buffer;
 	this.index_buffer=index_buffer;
 	this.color_buffer=color_buffer;
+  this.tangent_buffer=tangent_buffer;
+  this.binormal_buffer=binormal_buffer;
 
   //-- interfaz obligatoria --//
   this.copiaConTextura=hacerMetodoCopiaConTextura(this);

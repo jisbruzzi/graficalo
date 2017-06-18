@@ -35,6 +35,14 @@ function Modelo(forma,shaderProgram,gl){
 			let glb = new GlTextureCoordBuffer(gl).aPartirDe(forma.texture_coord_buffer);
 			forma.aTextureCoord=getter(glb);
 		}
+		if(forma.tangent_buffer!=undefined){
+			let glb = new GlNormalBuffer(gl).aPartirDe(forma.tangent_buffer);
+			forma.aVertexTangent=getter(glb);
+		}
+		if(forma.binormal_buffer!=undefined){
+			let glb = new GlNormalBuffer(gl).aPartirDe(forma.binormal_buffer);
+			forma.aVertexBinormal=getter(glb);
+		}
 		if(forma.index_buffer!=undefined){
 			let glb = new GlIndexBuffer(gl).aPartirDe(forma.index_buffer);
 			forma.getIndexBuffer=getter(glb);
@@ -49,10 +57,6 @@ function Modelo(forma,shaderProgram,gl){
 	let listaLuces=[];
 	let luzGlobal=new ParametrosLuzGlobal();
 	let camara;
-
-	this.setupShaders = function(){
-		shaderProgram.usar();
-	}
 
 	function desplegarParametroDeLuz(f,componentes){
 		const CANT_LUCES=2;
@@ -87,14 +91,15 @@ function Modelo(forma,shaderProgram,gl){
 		let listaHacia = desplegarParametroDeLuz(function(l){return l.obtenerHaciaFinal()},3);
 		gl.uniform3fv(shaderProgram.uDireccionLuz, listaHacia);
 
-		let listaConcentraciones = desplegarParametroDeLuz(function(l){return l.concentracion},1);
-		gl.uniform1fv(shaderProgram.uDireccionLuz, listaConcentraciones);
+		///ESTE 1FV ES EL QUE TIRA EL WARNING ANALIZAR BIEN!!
+		let listaConcentraciones = desplegarParametroDeLuz(function(l){return [l.concentracion]},1);
+		gl.uniform1fv(shaderProgram.uConcentracion, new Float32Array(listaConcentraciones));
 
 		let listaDistancia = desplegarParametroDeLuz(function(l){return [l.distanciaIluminada]},1);
-		gl.uniform1fv(shaderProgram.uDistanciaIluminada, listaDistancia);
+		gl.uniform1fv(shaderProgram.uDistanciaIluminada, new Float32Array(listaDistancia));
 
 		let listaColores = desplegarParametroDeLuz(function(l){return l.color},3);
-		gl.uniform1fv(shaderProgram.uColorLuz, listaColores);
+		gl.uniform3fv(shaderProgram.uColorLuz, listaColores);
 
 
 
@@ -112,12 +117,37 @@ function Modelo(forma,shaderProgram,gl){
 		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, camara.obtenerMatrizProyeccion());
 		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, camara.obtenerMatrizCamara());
 
-
-		atributosPosibles.forEach(function(s){
-			if(forma[s]!=undefined && shaderProgram[s]!=undefined){
-				forma[s]().asignarAtributoShader(shaderProgram[s]);
+		//console.log(shaderProgram.attributes);
+		let asigne=[]
+		Object.keys(shaderProgram.attributes).forEach(function(s){
+			if(forma[s]===undefined){
+				throw "esta forma no define un atributo "+s;
+			}else{
+				forma[s]().asignarAtributoShader(shaderProgram.attributes[s]);
+				asigne.push(s);
 			}
 		});
+/*
+		let asignados = [];
+		let atributosShaderProgram=[];
+		atributosPosibles.forEach(function(s){
+			if(shaderProgram[s]!=undefined){
+				atributosShaderProgram.push(s);
+			}
+			if(forma[s]!=undefined && shaderProgram[s]!=undefined){
+				//console.log("Asigno "+s);
+				forma[s]().asignarAtributoShader(shaderProgram[s]);
+				asignados.push(s);
+			}
+		});
+		if(asignados.length != Object.keys(shaderProgram.propiedades).length){
+			console.log(asignados);
+			console.log(atributosShaderProgram);
+			console.log(forma);
+			console.log(shaderProgram.propiedades);
+			throw "Falta asignar buffer a atributos.";
+		}
+*/
 
 		//ahora sólo soporto 1 textura por shaderprogram, YAGNI
 		if(forma.obtenerTextura && shaderProgram.uSampler!=undefined){
@@ -159,6 +189,20 @@ function Modelo(forma,shaderProgram,gl){
 		}else{
 			forma.getIndexBuffer().dibujarModo(forma.modoDibujado());
 		}
+//		console.log(asigne);
+//		console.log(shaderProgram.attributes);
+/*
+		let atributos = gl.getProgramParameter(shaderProgram.obtenerProgram(), gl.ACTIVE_ATTRIBUTES);
+		let program = shaderProgram.obtenerProgram();
+		for (i = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)-1; i >= 0; i--) {
+			try{
+  			let name = gl.getActiveAttrib(program, i).name;
+  			//attribs[name] = gl.getAttribLocation(program, name);
+//				console.log(name);
+			} catch(e){};
+		}
+*/
+//		console.log(atributos);
 
 	};
 
@@ -171,10 +215,11 @@ function Modelo(forma,shaderProgram,gl){
 	}
 
 	this.dibujar=function(modelMatrix,uniforms){
-		this.setupShaders();
+		shaderProgram.usar();
 		this.setupLighting();
 		this.setupUniforms(uniforms);
 		this.draw(modelMatrix);
+		shaderProgram.disableAttributes();
 	}
 
 	this.configurarIluminacion=function(listaLucesNueva,luzGlobalNueva){
@@ -186,4 +231,5 @@ function Modelo(forma,shaderProgram,gl){
 		//console.log("tengo camara!");
 		camara=nuevaCamara;
 	}
+
 }

@@ -39,11 +39,15 @@ function Animador(puntosControl){
   let mars=new Objeto();
 
   this.archivosShaderPrograms={
+
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
     "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
     "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"],
     "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"],
-    "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"]
+    "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"],
+    "normal":["debug/shader-fs-normal.glsl","debug/shader-vs-normal.glsl"],
+    "binormal":["debug/shader-fs-binormal.glsl","debug/shader-vs-binormal.glsl"],
+    "tangente":["debug/shader-fs-tangent.glsl","debug/shader-vs-tangent.glsl"]
   };
   this.archivosImagenes=[
     "mars_1k_color.jpg",

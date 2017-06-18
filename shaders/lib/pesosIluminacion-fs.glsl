@@ -8,7 +8,7 @@ uniform vec3 uDireccionLuz[CANT_LUCES];
 
 uniform float uConcentracion[CANT_LUCES];
 uniform float uDistanciaIluminada[CANT_LUCES];
-uniform float uColorLuz[CANT_LUCES];
+uniform vec3 uColorLuz[CANT_LUCES];
 
 varying vec3 vTransformedNormal;
 
