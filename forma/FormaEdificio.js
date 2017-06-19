@@ -1,4 +1,4 @@
-function FormaEdificio(gl,ancho,fondo){
+function FormaEdificio(gl,ancho,fondo,posx,posy){
 
   let normal_buffer=[];
   let texture_coord_buffer=[];
@@ -12,7 +12,7 @@ function FormaEdificio(gl,ancho,fondo){
   let uDer=1;
   function agregarPunto(x,y,h){
     let pos=position_buffer.length/3;
-    position_buffer=position_buffer.concat([(x-0.5)*ancho,(y-0.5)*fondo,h]);
+    position_buffer=position_buffer.concat([(x-0.5)*ancho+posx,(y-0.5)*fondo+posy,h]);
 
     color_buffer=color_buffer.concat([0.2,0.2,0.2]);
     return function(xn,yn,zn){//por qué no?
@@ -86,18 +86,6 @@ function FormaEdificio(gl,ancho,fondo){
 
     copia.uSamplerSobre=getter(sobre);
     return copia;
-  }
-
-  //interfaz particular
-  this.cambiarAtributoConstante=function(nombre,valor){
-    let yo=this;
-    let buf_nuevo=[]
-    for(let i=0;i<position_buffer.length;i++){
-      buf_nuevo.push(valor);
-    }
-
-    let webgl_buffer = new GlFloatBufferDinamico(gl).aPartirDe(buf_nuevo);
-    yo[nombre]=getter(webgl_buffer);
   }
 
 

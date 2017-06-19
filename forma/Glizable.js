@@ -21,7 +21,12 @@ function Glizable(f,gl){
     new TipoBuffer("texture_coord_buffer",new GlTextureCoordBuffer(gl),"aTextureCoord"),
     new TipoBuffer("tangent_buffer",new GlNormalBuffer(gl),"aVertexTangent"),
     new TipoBuffer("binormal_buffer",new GlNormalBuffer(gl),"aVertexBinormal"),
-    new TipoBuffer("index_buffer",new GlIndexBuffer(gl),"getIndexBuffer")
+    new TipoBuffer("index_buffer",new GlIndexBuffer(gl),"getIndexBuffer"),
+
+    //los buffers para los edificios (se vienen más)
+    new TipoBuffer("altura_base_buffer",new GlFloatBuffer(gl),"aAlturaBase"),
+    new TipoBuffer("altura_sobre_buffer",new GlFloatBuffer(gl),"aAlturaSobre"),
+    new TipoBuffer("alto_maximo_buffer",new GlFloatBuffer(gl),"aAltura")
   ];
 
   f.glizar=function(){

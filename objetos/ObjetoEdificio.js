@@ -30,7 +30,7 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
 
   //console.log(altoMaximo,retardo,tiempoAnimacion);
   let ticks=0;
-  let forma=new FormaEdificio(gl,ancho,fondo);
+  let forma=new FormaEdificio(gl,ancho,fondo,0,0);
   function elementoAlAzar(array){
     let r=Math.random();
     let cual = Math.floor(r*array.length);
@@ -42,10 +42,13 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
 
   let programaEdificio = atlasShaderPs.p("edificio");
   let fEdificio=forma.hacerCopiaConTexturas(tPlantabaja,tPisos);
+
+  FormaCustomizable(fEdificio);
+  fEdificio.definirBufferConstante("altura_base_buffer",tPlantabaja.height/tPlantabaja.width);
+  fEdificio.definirBufferConstante("altura_sobre_buffer",tPisos.height/tPisos.width);
+  fEdificio.definirBufferConstante("alto_maximo_buffer",altoMaximo);
   let mEdificio=new Modelo(fEdificio,programaEdificio,gl);
   let oEdificio = new Objeto(mEdificio);
-  DibujableEdificio(oEdificio,mEdificio,fEdificio);
-  oEdificio.iniciarUniforms(0,tPlantabaja.height/tPlantabaja.width,tPisos.height/tPisos.width);
 
   let iniciada = false;
 
@@ -78,7 +81,7 @@ function ObjetoEdificio(ancho,fondo,gl,altoMaximo,retardo,tiempoAnimacion){
     .easing(easingAlAzar())
     .to({ h:1 }, 1000*tiempoAnimacion)
     .onUpdate(function() {
-      oEdificio.cambiarAltura(coso.h*altoMaximo);
+      //oEdificio.cambiarAltura(coso.h*altoMaximo);
     }).start();
   }
 

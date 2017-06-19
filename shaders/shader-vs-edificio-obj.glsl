@@ -13,14 +13,14 @@ varying vec3 vVertexNormal;
 varying float vAlturaBase;
 varying float vAlturaSobre;
 
-uniform float uAltura;
+attribute float aAltura;
 
 #include pesosIluminacion-vs
 
 void main(void) {
   // Transformamos al vértice al espacio de la cámara
   vec3 vDef=aVertexPosition;
-  vDef.z*=uAltura;
+  vDef.z*=aAltura;
 
 	vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(vDef, 1.0);
 
@@ -29,7 +29,7 @@ void main(void) {
 
 	// Coordenada de textura sin modifiaciones
   vTextureCoord = aTextureCoord;
-  vTextureCoord.y*=uAltura;
+  vTextureCoord.y*=aAltura;
   // normal sin modificaciones
   vVertexNormal = aVertexNormal;
   // posición de la fuente

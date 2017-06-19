@@ -13,8 +13,7 @@ function DibujableEdificio(o,modelo,forma){
   };
 
   o.iniciarUniforms=function(altura,alturaBase,alturaSobre){
-    forma.cambiarAtributoConstante("aAlturaBase",alturaBase);
-    forma.cambiarAtributoConstante("aAlturaSobre",alturaSobre);
+    
     o.uniforms.push({nombre:"uAltura",valor:altura});
   }
 
