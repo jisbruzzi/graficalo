@@ -40,7 +40,7 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana,colectorEdificios,xManzan
     let fondo = edificio.fondo-0.2;
     let x = edificio.x-lado/2+edificio.ancho/2;
     let y = edificio.y-lado/2+edificio.fondo/2;
-    let o = colectorEdificios.agregarEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x+xManzana,y+yManzana);
+    let o = colectorEdificios.agregarEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x+xManzana,y+yManzana,edificio.ancho,edificio.fondo);
 
   }
 

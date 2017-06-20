@@ -1,4 +1,4 @@
-function FormaEdificio(gl,ancho,fondo,posx,posy,altura){
+function FormaEdificio(gl,ancho,fondo,posx,posy,altura,anchoUv,fondoUv){
 
   let normal_buffer=[];
   let texture_coord_buffer=[];
@@ -35,7 +35,7 @@ function FormaEdificio(gl,ancho,fondo,posx,posy,altura){
     };
   }
 
-  uDer=ancho;
+  uDer=anchoUv;
   let vArriba=[0,0,1];
   //frente interesante
   let abi=agregarPunto(0,0,0)(0,-1,0)(uIzq)(vArriba);
@@ -53,7 +53,7 @@ function FormaEdificio(gl,ancho,fondo,posx,posy,altura){
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
-  uDer=fondo;
+  uDer=fondoUv;
   //izquierda
   abi=agregarPunto(1,0,0)(1,0,0)(uIzq)(vArriba);
   abd=agregarPunto(1,1,0)(1,0,0)(uDer)(vArriba);

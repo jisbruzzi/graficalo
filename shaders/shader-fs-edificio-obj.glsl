@@ -60,16 +60,16 @@ vec4 samplerBase(in vec2 uv){
 }
 
 float altoSobre(){
-  if(vNumeroTexturaBase==0.0){
+  if(vNumeroTexturaSobre==0.0){
     return uAltoSobre0;
   }
-  if(vNumeroTexturaBase==1.0){
+  if(vNumeroTexturaSobre==1.0){
     return uAltoSobre1;
   }
-  if(vNumeroTexturaBase==2.0){
+  if(vNumeroTexturaSobre==2.0){
     return uAltoSobre2;
   }
-  if(vNumeroTexturaBase==3.0){
+  if(vNumeroTexturaSobre==3.0){
     return uAltoSobre3;
   }
 }
@@ -106,6 +106,10 @@ void main(void) {
 
   vec3 pesos=pesosIluminacion();
 
+  //gl_FragColor = 0.5*vec4(mod(uvDef.x, 1.0),mod(uvDef.y, 1.0),0.0, textureColor.a);
+  //gl_FragColor+= 0.5*vec4(textureColor.rgb*pesos, textureColor.a);
+
   gl_FragColor = vec4(textureColor.rgb*pesos, textureColor.a);
+
   //gl_FragColor = vec4(uTiempo,uTiempo,uTiempo, textureColor.a);
 }

@@ -11,10 +11,10 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
 
   let formaVieja=null;
   let formaCombinada=new FormaCombinada();
-  yo.agregarEdificio=function(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x,y){
+  yo.agregarEdificio=function(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x,y,anchoUv,fondoUv){
 
     //let e = new ObjetoEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion);
-    let forma = new FormaEdificio(gl,ancho,fondo,x,y,altura);
+    let forma = new FormaEdificio(gl,ancho,fondo,x,y,altura,anchoUv,fondoUv);
     FormaCustomizable(forma);
     //forma.definirBufferConstante("altura_base_buffer",tPlantabaja.height/tPlantabaja.width);
     //forma.definirBufferConstante("altura_sobre_buffer",tPisos.height/tPisos.width);
@@ -81,6 +81,12 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
         let rel = tex.height/tex.width;
         h.uniforms.push({nombre:"uAltoSobre"+i,valor:rel});
       }
+    });
+
+    yo.hijos.forEach(function(h){
+      console.log(h.uniforms);
+      console.log(texturasPisos);
+      console.log(texturasPlantabaja);
     });
   }
 

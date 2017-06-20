@@ -16,8 +16,6 @@ uniform mat4 uPMatrix;
 uniform float uTiempo;
 
 varying vec2 vTextureCoord;
-varying float vAlturaBase;
-varying float vAlturaSobre;
 varying float vNumeroTexturaSobre;
 varying float vNumeroTexturaBase;
 
@@ -42,8 +40,9 @@ float animacion(in float parte){
 }
 
 float proporcionAltura(){
-  float cruda = (uTiempo/1000.0-aRetardoAnimacion)/aDuracionAnimacion;
-  return animacion(min(max(cruda,0.0),1.0));
+  //float cruda = (uTiempo/1000.0-aRetardoAnimacion)/aDuracionAnimacion;
+  //return animacion(min(max(cruda,0.0),1.0));
+  return 1.0;
 }
 
 void main(void) {
