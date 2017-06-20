@@ -2,7 +2,6 @@
 uniform vec3 uDirectionalColor;
 uniform bool uUseLighting;
 uniform vec3 uAmbientColor;
-varying vec3 vVertexNormal;
 varying vec3 vPosRelFuente[CANT_LUCES];
 uniform vec3 uDireccionLuz[CANT_LUCES];
 
@@ -10,13 +9,13 @@ uniform float uConcentracion[CANT_LUCES];
 uniform float uDistanciaIluminada[CANT_LUCES];
 uniform vec3 uColorLuz[CANT_LUCES];
 
-varying vec3 vTransformedNormal;
+
 
 vec3 pesosIluminacion(){
 
   vec3 pesosUniforme = vec3(1.0, 1.0, 1.0);
   if (uUseLighting){
-    vec3 transformedNormal=vTransformedNormal;
+    vec3 transformedNormal=normalFinal();
     //transformedNormal/=length(transformedNormal);
 
     vec3 sumaDifusa = vec3(0.0,0.0,0.0);

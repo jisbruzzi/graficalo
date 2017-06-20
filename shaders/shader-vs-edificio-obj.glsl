@@ -1,5 +1,4 @@
 attribute vec3 aVertexPosition;
-attribute vec3 aVertexNormal;
 attribute vec2 aTextureCoord;
 //attribute float aAlturaBase;//esto deberia ser un uniform al lado de la textura
 //attribute float aAlturaSobre;//esto debería ser un uniform al lado de la textura
@@ -17,12 +16,12 @@ uniform mat4 uPMatrix;
 uniform float uTiempo;
 
 varying vec2 vTextureCoord;
-varying vec3 vVertexNormal;
 varying float vAlturaBase;
 varying float vAlturaSobre;
 varying float vNumeroTexturaSobre;
 varying float vNumeroTexturaBase;
 
+#include normal-comun-vs
 #include pesosIluminacion-vs
 
 //1: TWEEN.Easing.Elastic.Out: Math.pow(2, -10 * k) * Math.sin((k - 0.1) * 5 * Math.PI) + 1;
@@ -61,10 +60,9 @@ void main(void) {
 	// Coordenada de textura sin modifiaciones
   vTextureCoord = aTextureCoord;
   vTextureCoord.y*=alturaProp;
-  // normal sin modificaciones
-  vVertexNormal = aVertexNormal;
   // posición de la fuente
   prepararPesosIluminacion(vDef);
+  prepararNormal();
 
   //lo que antes eran uniforms
 //  vAlturaBase=aAlturaBase;
