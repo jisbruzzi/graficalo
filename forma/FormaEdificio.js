@@ -1,4 +1,4 @@
-function FormaEdificio(gl,ancho,fondo,posx,posy){
+function FormaEdificio(gl,ancho,fondo,posx,posy,altura){
 
   let normal_buffer=[];
   let texture_coord_buffer=[];
@@ -12,14 +12,14 @@ function FormaEdificio(gl,ancho,fondo,posx,posy){
   let uDer=1;
   function agregarPunto(x,y,h){
     let pos=position_buffer.length/3;
-    position_buffer=position_buffer.concat([(x-0.5)*ancho+posx,(y-0.5)*fondo+posy,h]);
+    position_buffer=position_buffer.concat([(x-0.5)*ancho+posx,(y-0.5)*fondo+posy,h*altura]);
 
     color_buffer=color_buffer.concat([0.2,0.2,0.2]);
     return function(xn,yn,zn){//por qué no?
       normal_buffer=normal_buffer.concat([xn,yn,zn]);
       return function(u,v){
         if(v==null){
-          texture_coord_buffer=texture_coord_buffer.concat([u,h]);
+          texture_coord_buffer=texture_coord_buffer.concat([u,h*altura]);
         }else{
           texture_coord_buffer=texture_coord_buffer.concat([u,v]);
         }

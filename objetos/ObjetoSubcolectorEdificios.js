@@ -14,7 +14,7 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
   yo.agregarEdificio=function(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x,y){
 
     //let e = new ObjetoEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion);
-    let forma = new FormaEdificio(gl,ancho,fondo,x,y);
+    let forma = new FormaEdificio(gl,ancho,fondo,x,y,altura);
     FormaCustomizable(forma);
     //forma.definirBufferConstante("altura_base_buffer",tPlantabaja.height/tPlantabaja.width);
     //forma.definirBufferConstante("altura_sobre_buffer",tPisos.height/tPisos.width);

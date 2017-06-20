@@ -3,7 +3,7 @@ attribute vec3 aVertexNormal;
 attribute vec2 aTextureCoord;
 //attribute float aAlturaBase;//esto deberia ser un uniform al lado de la textura
 //attribute float aAlturaSobre;//esto debería ser un uniform al lado de la textura
-attribute float aAltura;//este no hace falta
+//attribute float aAltura;//este no hace falta
 attribute float aNumeroTexturaSobre;
 attribute float aNumeroTexturaBase;
 attribute float aRetardoAnimacion;
@@ -48,10 +48,10 @@ float proporcionAltura(){
 }
 
 void main(void) {
-  float altura = aAltura*proporcionAltura();//aRetardoAnimacion;//
-  // Transformamos al vértice al espacio de la cámara
   vec3 vDef=aVertexPosition;
-  vDef.z*=altura;
+  float alturaProp= proporcionAltura();
+  // Transformamos al vértice al espacio de la cámara
+  vDef.z*=alturaProp;
 
 	vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(vDef, 1.0);
 
@@ -60,7 +60,7 @@ void main(void) {
 
 	// Coordenada de textura sin modifiaciones
   vTextureCoord = aTextureCoord;
-  vTextureCoord.y*=altura;
+  vTextureCoord.y*=alturaProp;
   // normal sin modificaciones
   vVertexNormal = aVertexNormal;
   // posición de la fuente
