@@ -24,7 +24,7 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
     forma.definirBufferConstante("numero_textura_base_buffer",elementoAlAzar([0,1,2,3]));
     forma.definirBufferConstante("retardo_animacion_buffer",retardo);
     forma.definirBufferConstante("duracion_animacion_buffer",tiempoAnimacion);
-    forma.definirBufferConstante("tipo_animacion_buffer",2);
+    forma.definirBufferConstante("tipo_animacion_buffer",elementoAlAzar([1,2,3]));
 
     formaCombinada=formaCombinada.agregarForma(forma);
   }
