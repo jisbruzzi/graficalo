@@ -1,8 +1,7 @@
 function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
-  let tPisos = atlasTexturas.t(elementoAlAzar(texturasPisos));
-  let tPlantabaja = atlasTexturas.t(elementoAlAzar(texturasPlantabaja));
   let programaEdificio = atlasShaderPs.p("edificio");
   let yo=new Objeto();
+
 
   function elementoAlAzar(array){
     let r=Math.random();
@@ -11,14 +10,14 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
   }
 
   let formaVieja=null;
-  let formaCombinada=new FormaCombinada().hacerCopiaConTexturas(tPlantabaja,tPisos);
+  let formaCombinada=new FormaCombinada();
   yo.agregarEdificio=function(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x,y){
 
     //let e = new ObjetoEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion);
     let forma = new FormaEdificio(gl,ancho,fondo,x,y);
     FormaCustomizable(forma);
-    forma.definirBufferConstante("altura_base_buffer",tPlantabaja.height/tPlantabaja.width);
-    forma.definirBufferConstante("altura_sobre_buffer",tPisos.height/tPisos.width);
+    //forma.definirBufferConstante("altura_base_buffer",tPlantabaja.height/tPlantabaja.width);
+    //forma.definirBufferConstante("altura_sobre_buffer",tPisos.height/tPisos.width);
     forma.definirBufferConstante("alto_maximo_buffer",altura);
     forma.definirBufferConstante("numero_textura_sobre_buffer",elementoAlAzar([0,1,2,3]));
     forma.definirBufferConstante("numero_textura_base_buffer",elementoAlAzar([0,1,2,3]));
@@ -51,6 +50,9 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
     }
 
     //agrego la forma nueva
+
+
+
     FormaMultitexturable(formaCombinada);
     for(let i=0;i<4;i++){
       formaCombinada.agregarSampler2D("uSamplerBase"+i,atlasTexturas.t(texturasPlantabaja[i]));
@@ -64,6 +66,22 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
 
     // guardo la forma anterior para borrarla cuando corresponda
     formaVieja=formaCombinada;
+
+    yo.hijos.forEach(function(h){
+      for(let i=0;i<4;i++){
+        let tex=atlasTexturas.t(texturasPlantabaja[i]);
+        let rel = tex.height/tex.width;
+        h.uniforms.push({nombre:"uAltoBase"+i,valor:rel});
+      }
+    });
+
+    yo.hijos.forEach(function(h){
+      for(let i=0;i<4;i++){
+        let tex=atlasTexturas.t(texturasPisos[i]);
+        let rel = tex.height/tex.width;
+        h.uniforms.push({nombre:"uAltoSobre"+i,valor:rel});
+      }
+    });
   }
 
 

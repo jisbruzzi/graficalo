@@ -1,8 +1,8 @@
 attribute vec3 aVertexPosition;
 attribute vec3 aVertexNormal;
 attribute vec2 aTextureCoord;
-attribute float aAlturaBase;//esto deberia ser un uniform al lado de la textura
-attribute float aAlturaSobre;//esto debería ser un uniform al lado de la textura
+//attribute float aAlturaBase;//esto deberia ser un uniform al lado de la textura
+//attribute float aAlturaSobre;//esto debería ser un uniform al lado de la textura
 attribute float aAltura;//este no hace falta
 attribute float aNumeroTexturaSobre;
 attribute float aNumeroTexturaBase;
@@ -67,8 +67,8 @@ void main(void) {
   prepararPesosIluminacion(vDef);
 
   //lo que antes eran uniforms
-  vAlturaBase=aAlturaBase;
-  vAlturaSobre=aAlturaSobre;
+//  vAlturaBase=aAlturaBase;
+//  vAlturaSobre=aAlturaSobre;
 
   vNumeroTexturaSobre=aNumeroTexturaSobre;
   vNumeroTexturaBase=aNumeroTexturaBase;

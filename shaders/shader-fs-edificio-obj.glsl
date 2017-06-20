@@ -8,15 +8,26 @@ uniform sampler2D uSamplerBase0;
 uniform sampler2D uSamplerBase1;
 uniform sampler2D uSamplerBase2;
 uniform sampler2D uSamplerBase3;
+
 uniform sampler2D uSamplerSobre0;
 uniform sampler2D uSamplerSobre1;
 uniform sampler2D uSamplerSobre2;
 uniform sampler2D uSamplerSobre3;
-varying float vAlturaBase;
-varying float vAlturaSobre;
+
+uniform float uAltoBase0;
+uniform float uAltoBase1;
+uniform float uAltoBase2;
+uniform float uAltoBase3;
+
+uniform float uAltoSobre0;
+uniform float uAltoSobre1;
+uniform float uAltoSobre2;
+uniform float uAltoSobre3;
+
+uniform float uTiempo;
+
 varying float vNumeroTexturaSobre;
 varying float vNumeroTexturaBase;
-uniform float uTiempo;
 
 vec4 samplerSobre(in vec2 uv){
   if(vNumeroTexturaSobre==0.0){
@@ -46,17 +57,49 @@ vec4 samplerBase(in vec2 uv){
     return texture2D(uSamplerBase3, uv);
   }
 }
+
+float altoSobre(){
+  if(vNumeroTexturaBase==0.0){
+    return uAltoSobre0;
+  }
+  if(vNumeroTexturaBase==1.0){
+    return uAltoSobre1;
+  }
+  if(vNumeroTexturaBase==2.0){
+    return uAltoSobre2;
+  }
+  if(vNumeroTexturaBase==3.0){
+    return uAltoSobre3;
+  }
+}
+
+
+float altoBase(){
+  if(vNumeroTexturaBase==0.0){
+    return uAltoBase0;
+  }
+  if(vNumeroTexturaBase==1.0){
+    return uAltoBase1;
+  }
+  if(vNumeroTexturaBase==2.0){
+    return uAltoBase2;
+  }
+  if(vNumeroTexturaBase==3.0){
+    return uAltoBase3;
+  }
+}
+
 void main(void) {
   //textura
   vec2 uvDef=vTextureCoord;
   vec4 textureColor=vec4(0.0,0.0,0.0,0.0);
   if(vTextureCoord.y<=0.25){
     uvDef.y/=0.25;
-    uvDef.x/=0.25/vAlturaBase;
+    uvDef.x/=0.25/altoBase();
     textureColor = samplerBase(uvDef);
   }else{
     uvDef.y-=0.25;
-    uvDef.y/=vAlturaSobre;
+    uvDef.y/=altoSobre();
     textureColor = samplerSobre(uvDef);
   }
 
