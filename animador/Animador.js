@@ -52,6 +52,7 @@ function Animador(puntosControl){
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
+    "referenciaDebug.jpg",
     "llanta.jpg",
     "vereda.jpg",
     "refmap.jpg"

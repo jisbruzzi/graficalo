@@ -3,7 +3,7 @@ VA A ESTAR MAL ILUMINADO PORQUE LAS NORMALES ESTÁN MAL ARMADAS EN LAS FORMAS!!
 */
 function ObjetoVereda(ladoManzana,radioBorde,altura,gl){
   let yo=new Objeto();
-  let texturaVereda = atlasTexturas.t("vereda.jpg");
+  let texturaVereda = atlasTexturas.t("referenciaDebug.jpg");////vereda.jpg
   let programaColor = atlasShaderPs.p("coloreado");
   let programaTextura = atlasShaderPs.p("texturado");
   let fTapa=new FormaVereda(ladoManzana,radioBorde,radioBorde,gl).copiaConTextura(texturaVereda);
