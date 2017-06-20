@@ -18,7 +18,7 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
     FormaCustomizable(forma);
     //forma.definirBufferConstante("altura_base_buffer",tPlantabaja.height/tPlantabaja.width);
     //forma.definirBufferConstante("altura_sobre_buffer",tPisos.height/tPisos.width);
-    forma.definirBufferConstante("alto_maximo_buffer",altura);
+    //forma.definirBufferConstante("alto_maximo_buffer",altura); ya no se necesita
     forma.definirBufferConstante("numero_textura_sobre_buffer",elementoAlAzar([0,1,2,3]));
     forma.definirBufferConstante("numero_textura_base_buffer",elementoAlAzar([0,1,2,3]));
     forma.definirBufferConstante("retardo_animacion_buffer",retardo);
