@@ -5,6 +5,12 @@ function Glizable(f,gl){
     yo.tieneComun=function(){
       return f[nombreComun]!=undefined;
     };
+    yo.tieneBuffer=function(){
+      return f[nombreEnShader]!=undefined;
+    };
+    yo.eliminarBuffer=function(){
+      f[nombreEnShader]().eliminar();
+    }
     yo.agregar=function(){
       let glb = fabrica.aPartirDe(f[nombreComun]);
       f[nombreEnShader]=getter(glb);
@@ -26,7 +32,13 @@ function Glizable(f,gl){
     //los buffers para los edificios (se vienen más)
     new TipoBuffer("altura_base_buffer",new GlFloatBuffer(gl),"aAlturaBase"),
     new TipoBuffer("altura_sobre_buffer",new GlFloatBuffer(gl),"aAlturaSobre"),
-    new TipoBuffer("alto_maximo_buffer",new GlFloatBuffer(gl),"aAltura")
+    new TipoBuffer("numero_textura_sobre_buffer",new GlFloatBuffer(gl),"aNumeroTexturaSobre"),
+    new TipoBuffer("alto_maximo_buffer",new GlFloatBuffer(gl),"aAltura"),
+    new TipoBuffer("numero_textura_base_buffer",new GlFloatBuffer(gl),"aNumeroTexturaBase"),
+
+    new TipoBuffer("retardo_animacion_buffer",new GlFloatBuffer(gl),"aRetardoAnimacion"),
+    new TipoBuffer("duracion_animacion_buffer",new GlFloatBuffer(gl),"aDuracionAnimacion"),
+    new TipoBuffer("tipo_animacion_buffer",new GlFloatBuffer(gl),"aTipoAnimacion"),
   ];
 
   f.glizar=function(){
@@ -44,4 +56,13 @@ function Glizable(f,gl){
       }
     });
   };
+
+  f.eliminarBuffers=function(){
+    tiposBuffer.forEach(function(tipoBuffer){
+      if(tipoBuffer.tieneBuffer()){
+        tipoBuffer.eliminarBuffer();
+      }
+    });
+  }
+  return f;
 }

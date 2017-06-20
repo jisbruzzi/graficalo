@@ -132,11 +132,6 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   rectanguloZ( dBordeInterior,-dBordeInterior,-dBordeInterior,-dBordeExterior);
 
 
-/*
-  console.log(tcBuffer);
-  console.log(posBuffer);
-  console.log(indexBuffer);
-*/
 
   this.normal_buffer=normBuffer;
 	this.texture_coord_buffer=tcBuffer;
@@ -167,7 +162,7 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.TRIANGLES);
   this.esIluminado=getter(true);
-   
+  this.nombre="vereda";
 
 
 

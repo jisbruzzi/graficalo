@@ -25,6 +25,10 @@ function WebglBuffer(gl,target,obtenerSrcData,usage,itemSize,tipo){
       yo.dibujarComplejo(modo,glBuffer.numItems,0);
     }
 
+    yo.eliminar=function(){
+      gl.deleteBuffer(glBuffer);
+    }
+
     gl.bindBuffer(target, glBuffer);
     gl.bufferData(target, obtenerSrcData(datos), usage);
     glBuffer.itemSize = itemSize;

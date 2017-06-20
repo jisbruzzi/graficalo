@@ -90,5 +90,6 @@ function FormaCuadricula(ancho,alto,gl,color){
   //this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.LINES);
   this.esIluminado=getter(false);
-   
+  this.nombre="cuadricula";
+
 }

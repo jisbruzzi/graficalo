@@ -40,5 +40,6 @@ const nombresImagenesPlantabajas=[
   "ed6_pb.jpg",
   "ed7_pb.jpg",
   "ed8_pb.jpg",
+  "ed8_pb.jpg",//copia del de arriba
   "ed9_pb.jpg"
 ]

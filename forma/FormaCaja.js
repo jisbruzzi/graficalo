@@ -51,5 +51,6 @@ function FormaCaja(colores,gl){//los colores se deben pasar por caras, siendo 0 
 
   this.modoDibujado = getter(gl.TRIANGLES);
   this.esIluminado=getter(true);
-   
+  this.nombre="caja";
+
 }

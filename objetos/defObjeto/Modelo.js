@@ -82,7 +82,6 @@ function Modelo(forma,shaderProgram,gl){
 		gl.uniformMatrix4fv(shaderProgram.uPMatrix, false, camara.obtenerMatrizProyeccion());
 		gl.uniformMatrix4fv(shaderProgram.uViewMatrix, false, camara.obtenerMatrizCamara());
 
-		//console.log(shaderProgram.attributes);
 		let asigne=[]
 		Object.keys(shaderProgram.attributes).forEach(function(s){
 			if(forma[s]===undefined){
@@ -93,45 +92,34 @@ function Modelo(forma,shaderProgram,gl){
 				asigne.push(s);
 			}
 		});
-/*
-		let asignados = [];
-		let atributosShaderProgram=[];
-		atributosPosibles.forEach(function(s){
-			if(shaderProgram[s]!=undefined){
-				atributosShaderProgram.push(s);
-			}
-			if(forma[s]!=undefined && shaderProgram[s]!=undefined){
-				//console.log("Asigno "+s);
-				forma[s]().asignarAtributoShader(shaderProgram[s]);
-				asignados.push(s);
-			}
-		});
-		if(asignados.length != Object.keys(shaderProgram.propiedades).length){
-			console.log(asignados);
-			console.log(atributosShaderProgram);
-			console.log(forma);
-			console.log(shaderProgram.propiedades);
-			throw "Falta asignar buffer a atributos.";
-		}
-*/
-
-		//ahora sólo soporto 1 textura por shaderprogram, YAGNI
-		if(forma.obtenerTextura && shaderProgram.uSampler!=undefined){
-			gl.activeTexture(gl.TEXTURE0);
-			gl.bindTexture(gl.TEXTURE_2D, forma.obtenerTextura());
-
-			gl.uniform1i(shaderProgram.uSampler, 0);
-		}
 
 
 		if(shaderProgram.uPosMundoCamara!=undefined){
 			gl.uniform3fv(shaderProgram.uPosMundoCamara, camara.getPosicion());
 		}
 
-		if(forma.uSamplerBase && shaderProgram.uSamplerBase!=undefined){
+
+		let nroTexturasUsadas=0;
+		for(let nombre in FormaMultitexturable(forma).samplers){
+			if(shaderProgram[nombre] != undefined){
+
+				if (nroTexturasUsadas>=32){
+					throw "estas usando demasiados samplers, permito maximo 32";
+				}
+				gl.activeTexture(gl["TEXTURE"+nroTexturasUsadas]);
+				gl.bindTexture(gl.TEXTURE_2D, forma.samplers[nombre]);
+				gl.uniform1i(shaderProgram[nombre], nroTexturasUsadas);
+				nroTexturasUsadas+=1;
+			}
+		}
+
+
+		/*
+
+		if(forma.uSamplerBase!=undefined && shaderProgram.uSamplerBase!=undefined){
 			gl.activeTexture(gl.TEXTURE0);
 			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerBase());
-			gl.uniform1i(shaderProgram.uSampler, 0);
+			gl.uniform1i(shaderProgram.uSamplerBase, 0);
 		}
 
 		if(forma.uSamplerSobre && shaderProgram.uSamplerSobre!=undefined){
@@ -139,6 +127,7 @@ function Modelo(forma,shaderProgram,gl){
 			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerSobre());
 			gl.uniform1i(shaderProgram.uSamplerSobre, 1);
 		}
+		*/
 
 		gl.uniformMatrix4fv(shaderProgram.uModelMatrix, false, modelMatrix);
 		var normalMatrix = mat3.create();
@@ -155,21 +144,6 @@ function Modelo(forma,shaderProgram,gl){
 		}else{
 			forma.getIndexBuffer().dibujarModo(forma.modoDibujado());
 		}
-//		console.log(asigne);
-//		console.log(shaderProgram.attributes);
-/*
-		let atributos = gl.getProgramParameter(shaderProgram.obtenerProgram(), gl.ACTIVE_ATTRIBUTES);
-		let program = shaderProgram.obtenerProgram();
-		for (i = gl.getProgramParameter(program, gl.ACTIVE_ATTRIBUTES)-1; i >= 0; i--) {
-			try{
-  			let name = gl.getActiveAttrib(program, i).name;
-  			//attribs[name] = gl.getAttribLocation(program, name);
-//				console.log(name);
-			} catch(e){};
-		}
-*/
-//		console.log(atributos);
-
 	};
 
 	this.setupUniforms=function(uniforms){
@@ -182,11 +156,13 @@ function Modelo(forma,shaderProgram,gl){
 
 	this.dibujar=function(modelMatrix,uniforms){
 		//console.log(forma);
-		shaderProgram.usar();
-		this.setupLighting();
-		this.setupUniforms(uniforms);
-		this.draw(modelMatrix);
-		shaderProgram.disableAttributes();
+		if(FormaDibujable(forma).dibujable){
+			shaderProgram.usar();
+			this.setupLighting();
+			this.setupUniforms(uniforms);
+			this.draw(modelMatrix);
+			shaderProgram.disableAttributes();
+		}
 	}
 
 	this.configurarIluminacion=function(listaLucesNueva,luzGlobalNueva){
@@ -195,7 +171,6 @@ function Modelo(forma,shaderProgram,gl){
 	}
 
 	this.configurarCamara=function(nuevaCamara){
-		//console.log("tengo camara!");
 		camara=nuevaCamara;
 	}
 

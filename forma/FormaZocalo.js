@@ -121,7 +121,8 @@ function FormaZocalo(ladoManzana,radioBorde,gl,color){
 
   this.modoDibujado = getter(gl.TRIANGLES);
   this.esIluminado=getter(true);
-   
+  this.nombre="zocalo";
+
 
 
 

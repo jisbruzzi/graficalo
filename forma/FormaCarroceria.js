@@ -119,6 +119,7 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
 
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
   this.esIluminado=getter(true);
-   
+  this.nombre="carroceria";
+
 
 }

@@ -82,10 +82,7 @@ function FormaEdificio(gl,ancho,fondo,posx,posy){
   //hacer copia con varias texturas
   this.hacerCopiaConTexturas=function(base,sobre){
     let copia=jQuery.extend({},this);
-    copia.uSamplerBase=getter(base);
-
-    copia.uSamplerSobre=getter(sobre);
-    return copia;
+    return FormaMultitexturable(copia).agregarSampler2D("uSamplerBase",base).agregarSampler2D("uSamplerSobre",sobre);
   }
 
 
