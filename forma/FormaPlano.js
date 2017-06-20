@@ -7,16 +7,16 @@ function FormaPlano(ancho,alto,gl,color){
     -ancho/2, alto/2,0
   ];
   let tangent_buffer =[
-    1,0,0,
-    1,0,0,
-    1,0,0,
-    1,0,0,
+    0,1,0,
+    0,1,0,
+    0,1,0,
+    0,1,0,
   ];
   let binormal_buffer =[
-    0,1,0,
-    0,1,0,
-    0,1,0,
-    0,1,0,
+    -1,0,0,
+    -1,0,0,
+    -1,0,0,
+    -1,0,0,
   ];
   let normal_buffer = [
     0,0,1,
