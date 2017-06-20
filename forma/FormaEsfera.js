@@ -1,7 +1,7 @@
 function hacerMetodoCopiaConTextura(deQuien){
   return function(textura){
     let copia=jQuery.extend({},deQuien);
-    return FormaMultitexturable(copia).agregarSampler2D("uSampler",textura);
+    return FormaTexturada(copia,textura);
   }
 }
 function getter(que){
