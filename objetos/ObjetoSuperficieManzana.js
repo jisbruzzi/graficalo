@@ -3,7 +3,8 @@ function ObjetoSuperficieManzana(lado,plaza,densidad,gl){
   let sp=atlasShaderPs.p("coloreado");
   if(!plaza){
     sup = sup.copiaConTextura(atlasTexturas.t("vereda.jpg"));
-    sp=atlasShaderPs.p("texturado");
+    sp=atlasShaderPs.p("normalmappeada-texturada");
+    FormaNormalMappeada(sup,atlasTexturas.t("vereda_normal.jpg"));
   }
 
   let m=new Modelo(sup,sp,gl);

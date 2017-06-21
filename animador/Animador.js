@@ -44,6 +44,8 @@ function Animador(puntosControl){
     "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"],
     "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"],
     "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"],
+    "normalmappeada-texturada":["shader-fs-textured-mapped-obj.glsl","shader-vs-textured-mapped-obj.glsl"],
+
     "normal":["debug/shader-fs-normal.glsl","debug/shader-vs-normal.glsl"],
     "binormal":["debug/shader-fs-binormal.glsl","debug/shader-vs-binormal.glsl"],
     "tangente":["debug/shader-fs-tangent.glsl","debug/shader-vs-tangent.glsl"]
@@ -55,6 +57,7 @@ function Animador(puntosControl){
     "referenciaDebug.jpg",
     "llanta.jpg",
     "vereda.jpg",
+    "vereda_normal.jpg",
     "refmap.jpg"
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
@@ -136,10 +139,13 @@ function Animador(puntosControl){
     //luces
     mundo.luces.push(luz1);
     luz1.cambiarHacia([1,0,0]);
+    luz1.color=[1,0,0];
     mundo.luces.push(luz2);
 
     luz1.mover(30,30,30);
+    luz1.distanciaIluminada=10
     luz2.mover(0,0,0.5);
+    luz2.color=[0,1,0];
 
   }
 
