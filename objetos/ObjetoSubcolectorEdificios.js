@@ -82,12 +82,6 @@ function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
         h.uniforms.push({nombre:"uAltoSobre"+i,valor:rel});
       }
     });
-
-    yo.hijos.forEach(function(h){
-      console.log(h.uniforms);
-      console.log(texturasPisos);
-      console.log(texturasPlantabaja);
-    });
   }
 
 

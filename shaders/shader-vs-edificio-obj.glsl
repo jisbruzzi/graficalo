@@ -40,9 +40,9 @@ float animacion(in float parte){
 }
 
 float proporcionAltura(){
-  //float cruda = (uTiempo/1000.0-aRetardoAnimacion)/aDuracionAnimacion;
-  //return animacion(min(max(cruda,0.0),1.0));
-  return 1.0;
+  float cruda = (uTiempo/1000.0-aRetardoAnimacion)/aDuracionAnimacion;
+  return animacion(min(max(cruda,0.0),1.0));
+  //return 1.0;
 }
 
 void main(void) {

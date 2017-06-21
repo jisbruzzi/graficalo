@@ -1,6 +1,7 @@
 precision highp float;
 
 #include normal-comun-fs
+#include pesosIluminacionGlobal-fs
 #include pesosIluminacion-fs
 
 varying vec2 vTextureCoord;
@@ -104,7 +105,7 @@ void main(void) {
     textureColor = samplerSobre(uvDef);
   }
 
-  vec3 pesos=pesosIluminacion();
+  vec3 pesos=pesosIluminacion()+pesosIluminacionGlobal();
 
   //gl_FragColor = 0.5*vec4(mod(uvDef.x, 1.0),mod(uvDef.y, 1.0),0.0, textureColor.a);
   //gl_FragColor+= 0.5*vec4(textureColor.rgb*pesos, textureColor.a);

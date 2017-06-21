@@ -2,7 +2,11 @@ precision highp float;
 
 varying vec2 vTextureCoord;
 
-#include normal-comun-fs
+vec2 uv_pos(){
+  return vTextureCoord;
+}
+
+#include normal-mappeada-fs
 #include pesosIluminacionGlobal-fs
 #include pesosIluminacion-fs
 
@@ -14,5 +18,6 @@ void main(void) {
   //textura
   vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
   vec3 pesos=pesosIluminacion()+pesosIluminacionGlobal();
+
   gl_FragColor = vec4(textureColor.rgb * pesos, textureColor.a);
 }
