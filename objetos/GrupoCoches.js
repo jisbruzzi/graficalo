@@ -3,7 +3,7 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 
 	var cochePrincipal=new ObjetoCoche(programaColor,porgramaTextura,gl);
 	var i=0;
-	var paso=1.5;
+	var paso=0.1250;
 	var distanciaIdealEntreCoches=1/cantidadCoches*2;
 	var anchoCoche=2.5/7;
 	var largoCoche=5/7;
@@ -44,23 +44,24 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 			if(!par){
 				posicionEnCurva[i]-=paso/normaTang;
 				if(posicionEnCurva[i]<0) //vuelvo a iniciar
-					posicionEnCurva[i]=1+posicionEnCurva[i];
+					posicionEnCurva[i]++;
 			}else{
 				posicionEnCurva[i]+=paso/normaTang;
 
 				if(posicionEnCurva[i]>1)// vuelvo a iniciar
-					posicionEnCurva[i]=posicionEnCurva[i]-1;
+					posicionEnCurva[i]--;
 			}
 			par=!par;
 		}
 	}
+
 	yo.tick=function(){
 
 		yo.avanzar();
 	}
-	this.avanzar=function(){
+	yo.avanzar=function(){
 		cochePrincipal.avanzar(paso);
-		this.actualizarPosicionesEnCurva(paso);
+		yo.actualizarPosicionesEnCurva(paso);
 		par=true;
 
 		for(var i=0;i<cantidadCoches;i++){

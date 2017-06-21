@@ -32,11 +32,11 @@ function ObjetoRuta(curvas,texturaAsfalto,texturaBorde,programaTextura,programaC
 		borde.push(function(u,v){return 0.7;});
 	}
 
-	let formaAsfaltoUno = new FormaBarrido(contornoAsfalto,normalesAsfalto,curvas,asfalto,0.01,gl).copiaConTextura(texturaAsfalto);
-	let formaAsfaltoDos = new FormaBarrido(contornoAsfaltoDesplazado,normalesAsfalto,curvas,asfalto,0.01,gl).copiaConTextura(texturaAsfalto);
+	let formaAsfaltoUno = new FormaBarrido(contornoAsfalto,normalesAsfalto,curvas,asfalto,0.001,gl).copiaConTextura(texturaAsfalto);
+	let formaAsfaltoDos = new FormaBarrido(contornoAsfaltoDesplazado,normalesAsfalto,curvas,asfalto,0.001,gl).copiaConTextura(texturaAsfalto);
 	
-	let formaBordeUno = new FormaBarrido(contornoBorde,normalesBorde,curvas,borde,0.01,gl).copiaConTextura(texturaBorde);
-	let formaBordeDos = new FormaBarrido(contornoBordeDesplazado,normalesBorde,curvas,borde,0.01,gl).copiaConTextura(texturaBorde);
+	let formaBordeUno = new FormaBarrido(contornoBorde,normalesBorde,curvas,borde,0.001,gl).copiaConTextura(texturaBorde);
+	let formaBordeDos = new FormaBarrido(contornoBordeDesplazado,normalesBorde,curvas,borde,0.001,gl).copiaConTextura(texturaBorde);
 
 	let objetoAsfaltoUno = new Objeto(new Modelo(formaAsfaltoUno,programaColor,gl));
 	let objetoAsfaltoDos = new Objeto(new Modelo(formaAsfaltoDos,programaColor,gl));
