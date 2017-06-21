@@ -13,7 +13,7 @@ function ObjetoRutaCompleta(curvas,texturaAsfalto,texturaBorde,programaTextura,p
 	var objetoRuta = new ObjetoRuta(curvas,texturaAsfalto,texturaBorde,programaTextura,programaColor,gl);
 	var luminaria = new ObjetoLuminaria(programaColor,gl);
 	var integralAproximada=50;
-	var distanciaEntreLuminarias=100;
+	var distanciaEntreLuminarias=5;
 	var par=true;
 	paso=0.001;//aumentar el paso solo aumenta la precision
 	for(var i=0;i<1+paso/10;i+=paso){

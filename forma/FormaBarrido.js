@@ -141,7 +141,7 @@ function curvaBSplineCuadratica(posicionesPuntos){
 			tangente.push((-1.0+1.0*t)*posPunto[puntoInicial*3+i]+(1.0-2.0*t)*posPunto[puntoInicial*3+i+3]+t*posPunto[puntoInicial*3+i+2*3]);
 			norma+=tangente[i]*tangente[i];
 		}
-		return norma;
+		return Math.sqrt(norma)*(cantidadPuntos-2);// multiplicacion por regla de la cadena
 	}
 	return [funcion,derivada, normaDerivada];
 }
