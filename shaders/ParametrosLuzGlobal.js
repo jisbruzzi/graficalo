@@ -1,7 +1,9 @@
 function ParametrosLuzGlobal(){
   let yo={};
-  yo.colorAmbiente=[1,1,1];
-  yo.colorLuzGlobal=[0,0,0];
-  yo.direccionLuzGlobal=[0,0,1];
+  //ATARDECER
+  yo.colorAmbiente=[235/255,176/255,99/255];
+  yo.colorLuzGlobal=[247/255,96/255,49/255];
+  yo.direccionLuzGlobal=[0,Math.cos(Math.PI/6),Math.sin(Math.PI/6)];
+  
   return yo;
 }
