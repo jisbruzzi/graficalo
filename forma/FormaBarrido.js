@@ -157,7 +157,8 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
   let normal_buffer = new Array();
   let texture_coord_buffer = new Array();
   let color_buffer = new Array();
-
+  let binormal_buffer = new Array();
+  let tangent_buffer = new Array();
 
 	var vectorBinormal=[0,0,1];//esta condicion se da por ser curva planar en plano xy
 	var vectorTangente, vectorNormal;
@@ -190,6 +191,14 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 			normal_buffer.push(normal[0]);
 			normal_buffer.push(normal[1]);
 			normal_buffer.push(normal[2]);
+
+			tangent_buffer.push(vectorTangente[0]);
+			tangent_buffer.push(vectorTangente[1]);
+			tangent_buffer.push(vectorTangente[2]);
+			var binormal = productoVectorial(normal,vectorTangente);
+			binormal_buffer.push(binormal[0]);
+			binormal_buffer.push(binormal[1]);
+			binormal_buffer.push(binormal[2]);
 
 			color_buffer.push(colores[0](i,j));
 			color_buffer.push(colores[1](i,j));
