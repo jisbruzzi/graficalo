@@ -1,9 +1,11 @@
 function ObjetoSuperficieManzana(lado,plaza,densidad,gl){
   let sup=new FormaPlano(lado*densidad,lado*densidad,gl,[0.1,0.5,0.1]);
-  let sp=atlasShaderPs.p("coloreado");
-  if(!plaza){
+  let sp=atlasShaderPs.p("normalmappeada-texturada");
+  if(plaza){
+    sup=sup.copiaConTextura(atlasTexturas.t("grass01.jpg"));
+    FormaNormalMappeada(sup,atlasTexturas.t("grass01_n.jpg"));
+  }else{
     sup = sup.copiaConTextura(atlasTexturas.t("vereda.jpg"));
-    sp=atlasShaderPs.p("normalmappeada-texturada");
     FormaNormalMappeada(sup,atlasTexturas.t("vereda_normal.jpg"));
   }
 

@@ -58,7 +58,9 @@ function Animador(puntosControl){
     "llanta.jpg",
     "vereda.jpg",
     "vereda_normal.jpg",
-    "refmap.jpg"
+    "refmap.jpg",
+    "grass01.jpg",
+    "grass01_n.jpg"
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
 
