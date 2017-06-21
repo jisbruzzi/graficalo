@@ -67,10 +67,9 @@ function Modelo(forma,shaderProgram,gl){
 		gl.uniform3fv(shaderProgram.uColorLuz, listaColores);
 
 
-
-		gl.uniform3fv(shaderProgram.uAmbientColor, [1,1,1] );
-
-		gl.uniform3fv(shaderProgram.uDirectionalColor, [1,0,0]);
+		gl.uniform3fv(shaderProgram.uColorAmbiente, luzGlobal.colorAmbiente );
+		gl.uniform3fv(shaderProgram.uColorLuzGlobal, luzGlobal.colorLuzGlobal);
+		gl.uniform3fv(shaderProgram.uDireccionLuzGlobal, luzGlobal.direccionLuzGlobal);
 	}
 
 	this.draw = function(modelMatrix){

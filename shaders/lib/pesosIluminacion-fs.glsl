@@ -1,7 +1,5 @@
 #define CANT_LUCES 2
-uniform vec3 uDirectionalColor;
 uniform bool uUseLighting;
-uniform vec3 uAmbientColor;
 varying vec3 vPosRelFuente[CANT_LUCES];
 uniform vec3 uDireccionLuz[CANT_LUCES];
 
@@ -33,7 +31,7 @@ vec3 pesosIluminacion(){
         sumaDifusa+=uColorLuz[i] * pesoPorDistancia*pesoPorSpot*directionalLightWeighting;// * directionalLightWeighting
       }
     }
-    pesosUniforme = uAmbientColor + sumaDifusa;
+    pesosUniforme = sumaDifusa;
 
   }
 

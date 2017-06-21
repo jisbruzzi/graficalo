@@ -4,6 +4,7 @@ const atlasShaderPs=(function(){
     "pesosIluminacion-fs","pesosIluminacion-vs",
     "normal-comun-fs","normal-comun-vs",
     "normal-mappeada-fs","normal-mappeada-vs",
+    "pesosIluminacionGlobal-fs",
   ];
   let yo={};
   let gl=null;
