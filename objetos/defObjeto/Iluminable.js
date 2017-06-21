@@ -8,11 +8,12 @@ function Iluminable(o,modelo){
     for (l of o.luces){
       if (modelo != null) l.actualizarMatModeladoAnterior(def);
     }
+    //console.log(o.hijos);
     for ( h of o.hijos){
       try{
         ret = ret.concat(h.obtenerLucesHijos(def));
       }catch(e){
-        console.log(h);
+        //console.log(h);
         throw e;
       }
     }

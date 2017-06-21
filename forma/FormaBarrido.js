@@ -73,6 +73,7 @@ function matrizTraslacion(desplazamientos){
 //pasar en forma de array que contiene xyz del punto1, luego xyz punto dos
 //ej:curvaBSplineCuadratica([1.0,1.0,1.0,2.0,2.0,2.0,3.0,3.0,3.0])
 function curvaBSplineCuadratica(posicionesPuntos){
+	this.nombre="barrido";
 
 	var cantidadPuntos=Math.floor(posicionesPuntos.length/3);
 	if(cantidadPuntos<3)
@@ -231,7 +232,9 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 	this.color_buffer=color_buffer;
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.esIluminado=getter(true);
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
+
+
 }

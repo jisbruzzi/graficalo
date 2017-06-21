@@ -1,26 +1,55 @@
 attribute vec3 aVertexPosition;
-attribute vec3 aVertexNormal;
 attribute vec2 aTextureCoord;
-attribute float aAlturaBase;
-attribute float aAlturaSobre;
+//attribute float aAlturaBase;//esto deberia ser un uniform al lado de la textura
+//attribute float aAlturaSobre;//esto debería ser un uniform al lado de la textura
+//attribute float aAltura;//este no hace falta
+attribute float aNumeroTexturaSobre;
+attribute float aNumeroTexturaBase;
+attribute float aRetardoAnimacion;
+attribute float aDuracionAnimacion;
+attribute float aTipoAnimacion;
+
 
 uniform mat4 uViewMatrix;
 uniform mat4 uModelMatrix;
 uniform mat4 uPMatrix;
+uniform float uTiempo;
 
 varying vec2 vTextureCoord;
-varying vec3 vVertexNormal;
-varying float vAlturaBase;
-varying float vAlturaSobre;
+varying float vNumeroTexturaSobre;
+varying float vNumeroTexturaBase;
 
-uniform float uAltura;
-
+#include normal-comun-vs
 #include pesosIluminacion-vs
 
+//1: TWEEN.Easing.Elastic.Out: Math.pow(2, -10 * k) * Math.sin((k - 0.1) * 5 * Math.PI) + 1;
+//2: TWEEN.Easing.Quadratic.Out: k * (2 - k);
+//3: lineal: k
+
+float animacion(in float parte){
+  if(aTipoAnimacion==1.0){
+    return pow(2.0, -10.0*parte)*sin((parte-0.1)*5.0*3.14)+1.0;
+  }
+  if(aTipoAnimacion==2.0){
+    return parte*(2.0-parte);
+  }
+  if(aTipoAnimacion==3.0){
+    return parte;
+  }
+
+}
+
+float proporcionAltura(){
+  //float cruda = (uTiempo/1000.0-aRetardoAnimacion)/aDuracionAnimacion;
+  //return animacion(min(max(cruda,0.0),1.0));
+  return 1.0;
+}
+
 void main(void) {
-  // Transformamos al vértice al espacio de la cámara
   vec3 vDef=aVertexPosition;
-  vDef.z*=uAltura;
+  float alturaProp= proporcionAltura();
+  // Transformamos al vértice al espacio de la cámara
+  vDef.z*=alturaProp;
 
 	vec4 pos_camera_view = uViewMatrix * uModelMatrix * vec4(vDef, 1.0);
 
@@ -29,13 +58,15 @@ void main(void) {
 
 	// Coordenada de textura sin modifiaciones
   vTextureCoord = aTextureCoord;
-  vTextureCoord.y*=uAltura;
-  // normal sin modificaciones
-  vVertexNormal = aVertexNormal;
+  vTextureCoord.y*=alturaProp;
   // posición de la fuente
   prepararPesosIluminacion(vDef);
+  prepararNormal();
 
   //lo que antes eran uniforms
-  vAlturaBase=aAlturaBase;
-  vAlturaSobre=aAlturaSobre;
+//  vAlturaBase=aAlturaBase;
+//  vAlturaSobre=aAlturaSobre;
+
+  vNumeroTexturaSobre=aNumeroTexturaSobre;
+  vNumeroTexturaBase=aNumeroTexturaBase;
 }

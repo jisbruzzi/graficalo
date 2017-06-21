@@ -1,34 +1,42 @@
 function WebglBuffer(gl,target,obtenerSrcData,usage,itemSize,tipo){
-  let glBuffer = gl.createBuffer();
   this.aPartirDe=function(datos){
+    let glBuffer = gl.createBuffer();
+    let yo={};
+
+    yo.asignarAtributoComplejoShader=function(atributo,normalized,stride,offset){
+      gl.bindBuffer(target, glBuffer);
+      gl.vertexAttribPointer(atributo, itemSize, tipo, normalized, stride, offset);
+    }
+
+    yo.asignarAtributoShader=function(atributo){
+      yo.asignarAtributoComplejoShader(atributo,false,0,0);
+    }
+
+    yo.dibujarComplejo=function(modo,cuantos,offset){
+      gl.bindBuffer(target, glBuffer);
+      gl.drawElements(modo, cuantos, tipo, offset);
+    }
+
+    yo.dibujar=function(){
+      yo.dibujarComplejo(gl.TRIANGLES,glBuffer.numItems,0);
+    }
+
+    yo.dibujarModo=function(modo){
+      yo.dibujarComplejo(modo,glBuffer.numItems,0);
+    }
+
+    yo.eliminar=function(){
+      gl.deleteBuffer(glBuffer);
+    }
+
     gl.bindBuffer(target, glBuffer);
     gl.bufferData(target, obtenerSrcData(datos), usage);
     glBuffer.itemSize = itemSize;
     glBuffer.numItems = datos.length/itemSize;
-    return this;
+    return yo;
   };
-  this.asignarAtributoComplejoShader=function(atributo,normalized,stride,offset){
-    gl.bindBuffer(target, glBuffer);
-    gl.vertexAttribPointer(atributo, itemSize, tipo, normalized, stride, offset);
-  }
 
-  this.asignarAtributoShader=function(atributo){
-    this.asignarAtributoComplejoShader(atributo,false,0,0);
-  }
-
-  this.dibujarComplejo=function(modo,cuantos,offset){
-    gl.bindBuffer(target, glBuffer);
-    gl.drawElements(modo, cuantos, tipo, offset);
-  }
-
-  this.dibujar=function(){
-    this.dibujarComplejo(gl.TRIANGLES,glBuffer.numItems,0);
-  }
-
-  this.dibujarModo=function(modo){
-    this.dibujarComplejo(modo,glBuffer.numItems,0);
-  }
-
+  return this;
 }
 
 //normal y position son iguales por ahora
@@ -68,7 +76,7 @@ function GlIndexBuffer(gl){
   return( new WebglBuffer(gl,gl.ELEMENT_ARRAY_BUFFER,obtenerSrcData,gl.STATIC_DRAW,1,gl.UNSIGNED_SHORT) );//epa ese -1 !!
 }
 
-function GlFloatBufferDinamico(gl){
+function GlFloatBuffer(gl){
   let obtenerSrcData = function(datos){
     return new Float32Array(datos);
   }

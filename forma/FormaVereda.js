@@ -44,6 +44,8 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   let normBuffer =[];
   let indexBuffer = [];
   let tcBuffer = [];
+  let tangBuffer=[];
+  let binormalBuffer=[];
 
   let coordCentro=ladoManzana/2-radioBorde;//los centros de las curvas están en (coordCentro,coordCentro) y negarlas de a una o de a dos
 
@@ -68,6 +70,19 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
     tcBuffer.push(u);
     tcBuffer.push(v);
   }
+  function tangente(xt,yt){
+    tangBuffer.push(xt);
+    tangBuffer.push(yt);
+    tangBuffer.push(0);
+
+    let normal=[0,0,1];
+    let tangente=[xt,yt,0];
+    let binormal=[0,0,0];
+    vec3.cross(binormal,normal,tangente);
+
+    binormalBuffer=binormalBuffer.concat(binormal);
+
+  }
 
 
 
@@ -77,8 +92,11 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
     let prev=null;
     recorridoCurvoNoventa(offx,offy,offAngulo,radioBorde,function(x,y,ang){
       puntoNormalArriba(offx,offy,profundidad);
+      let angDef=ang+offAngulo+Math.PI/2;
+      tangente(Math.cos(angDef),Math.sin(angDef));
       uv(0,ang/(Math.PI/2));
       puntoNormalArriba(x,y,profundidad);
+      tangente(Math.cos(angDef),Math.sin(angDef));
       uv(1,ang/(Math.PI/2));
     });
 
@@ -92,14 +110,30 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
       indexBuffer.push(ini+i*2+2);
     }
   }
+  function signo(x){
+    if(x>=0) return 1;
+    if(x< 0) return -1;
+  }
 
   function rectanguloZ(x1,y1,x2,y2,dv){
+    if(x1>x2){
+      let a=x1;
+      x1=x2;
+      x2=a;
+    }
+    if(y1>y2){
+      let a=y1;
+      y1=y2;
+      y2=a;
+    }
     rectangulo(posBuffer.length/3,indexBuffer,function(x,y){
       if(Math.abs(x1-x2)>Math.abs(y2-y1)){
         let corta=Math.abs(y2-y1);
-        uv(y,x*(x2-x1)/Math.abs(y2-y1));
+        uv(x*(x2-x1)/Math.abs(y2-y1),y);
+        tangente(0,1);
       }else{
         uv(x,y*(y2-y1)/Math.abs(x2-x1));
+        tangente(0,1);
       }
       x=x1+(x2-x1)*x;
       y=y1+(y2-y1)*y;
@@ -132,17 +166,15 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   rectanguloZ( dBordeInterior,-dBordeInterior,-dBordeInterior,-dBordeExterior);
 
 
-/*
-  console.log(tcBuffer);
-  console.log(posBuffer);
-  console.log(indexBuffer);
-*/
 
   this.normal_buffer=normBuffer;
 	this.texture_coord_buffer=tcBuffer;
 	this.position_buffer=posBuffer;
 	this.index_buffer=indexBuffer;
 	this.color_buffer=colBuffer;
+  this.tangent_buffer=tangBuffer;
+  this.binormal_buffer=binormalBuffer;
+
 
   //generar los buffers de opengl
   let webgl_normal_buffer = new GlNormalBuffer(gl).aPartirDe(normBuffer);
@@ -163,10 +195,11 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
   this.aTextureCoord  =getter(webgl_texture_coord_buffer);
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.getIndexBuffer =getter(webgl_index_buffer);
   this.modoDibujado = getter(gl.TRIANGLES);
   this.esIluminado=getter(true);
+  this.nombre="vereda";
 
 
 

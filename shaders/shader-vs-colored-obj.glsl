@@ -1,5 +1,4 @@
 attribute vec3 aVertexPosition;
-attribute vec3 aVertexNormal;
 attribute vec3 aVertexColor;
 
 uniform mat4 uViewMatrix;
@@ -7,9 +6,9 @@ uniform mat4 uModelMatrix;
 uniform mat4 uPMatrix;
 
 varying vec2 vTextureCoord;
-varying vec3 vVertexNormal;
 varying vec3 vVertexColor;
 
+#include normal-comun-vs
 #include pesosIluminacion-vs
 
 void main(void) {
@@ -21,8 +20,8 @@ void main(void) {
 
 	// Coordenada de textura sin modifiaciones
   vVertexColor = aVertexColor;
-  // normal sin modificaciones
-  vVertexNormal = aVertexNormal;
   // posición de la fuente
   prepararPesosIluminacion(aVertexPosition);
+
+	prepararNormal();
 }

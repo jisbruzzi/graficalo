@@ -1,4 +1,4 @@
-function FormaEdificio(gl,ancho,fondo){
+function FormaEdificio(gl,ancho,fondo,posx,posy,altura,anchoUv,fondoUv){
 
   let normal_buffer=[];
   let texture_coord_buffer=[];
@@ -12,14 +12,14 @@ function FormaEdificio(gl,ancho,fondo){
   let uDer=1;
   function agregarPunto(x,y,h){
     let pos=position_buffer.length/3;
-    position_buffer=position_buffer.concat([(x-0.5)*ancho,(y-0.5)*fondo,h]);
+    position_buffer=position_buffer.concat([(x-0.5)*ancho+posx,(y-0.5)*fondo+posy,h*altura]);
 
     color_buffer=color_buffer.concat([0.2,0.2,0.2]);
     return function(xn,yn,zn){//por qué no?
       normal_buffer=normal_buffer.concat([xn,yn,zn]);
       return function(u,v){
         if(v==null){
-          texture_coord_buffer=texture_coord_buffer.concat([u,h]);
+          texture_coord_buffer=texture_coord_buffer.concat([u,h*altura]);
         }else{
           texture_coord_buffer=texture_coord_buffer.concat([u,v]);
         }
@@ -35,7 +35,7 @@ function FormaEdificio(gl,ancho,fondo){
     };
   }
 
-  uDer=ancho;
+  uDer=anchoUv;
   let vArriba=[0,0,1];
   //frente interesante
   let abi=agregarPunto(0,0,0)(0,-1,0)(uIzq)(vArriba);
@@ -53,7 +53,7 @@ function FormaEdificio(gl,ancho,fondo){
   index_buffer=index_buffer.concat([abi,ari,ard]);
   index_buffer=index_buffer.concat([ard,abd,abi]);
 
-  uDer=fondo;
+  uDer=fondoUv;
   //izquierda
   abi=agregarPunto(1,0,0)(1,0,0)(uIzq)(vArriba);
   abd=agregarPunto(1,1,0)(1,0,0)(uDer)(vArriba);
@@ -82,22 +82,7 @@ function FormaEdificio(gl,ancho,fondo){
   //hacer copia con varias texturas
   this.hacerCopiaConTexturas=function(base,sobre){
     let copia=jQuery.extend({},this);
-    copia.uSamplerBase=getter(base);
-
-    copia.uSamplerSobre=getter(sobre);
-    return copia;
-  }
-
-  //interfaz particular
-  this.cambiarAtributoConstante=function(nombre,valor){
-    let yo=this;
-    let buf_nuevo=[]
-    for(let i=0;i<position_buffer.length;i++){
-      buf_nuevo.push(valor);
-    }
-
-    let webgl_buffer = new GlFloatBufferDinamico(gl).aPartirDe(buf_nuevo);
-    yo[nombre]=getter(webgl_buffer);
+    return FormaMultitexturable(copia).agregarSampler2D("uSamplerBase",base).agregarSampler2D("uSamplerSobre",sobre);
   }
 
 
@@ -111,8 +96,9 @@ function FormaEdificio(gl,ancho,fondo){
   this.binormal_buffer=binormal_buffer;
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.TRIANGLES);
   //this.esIluminado=getter(false);
-  this.hacerCopiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.hacerCopiaConTextura=hacerMetodoCopiaConTextura(this,gl);
+
 }

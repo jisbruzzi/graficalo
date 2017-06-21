@@ -1,6 +1,9 @@
 const atlasShaderPs=(function(){
   let libreriaShaders={};
-  let nombresLibreriaShaders=["pesosIluminacion-fs","pesosIluminacion-vs"];
+  let nombresLibreriaShaders=[
+    "pesosIluminacion-fs","pesosIluminacion-vs",
+    "normal-comun-fs","normal-comun-vs",
+  ];
   let yo={};
   let gl=null;
   let shaderPrograms={};

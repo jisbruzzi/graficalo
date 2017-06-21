@@ -6,6 +6,18 @@ function FormaPlano(ancho,alto,gl,color){
      ancho/2, alto/2,0,
     -ancho/2, alto/2,0
   ];
+  let tangent_buffer =[
+    0,1,0,
+    0,1,0,
+    0,1,0,
+    0,1,0,
+  ];
+  let binormal_buffer =[
+    -1,0,0,
+    -1,0,0,
+    -1,0,0,
+    -1,0,0,
+  ];
   let normal_buffer = [
     0,0,1,
     0,0,1,
@@ -32,13 +44,17 @@ function FormaPlano(ancho,alto,gl,color){
 
   //INTERFAZ
   this.normal_buffer=normal_buffer;
+  this.tangent_buffer=tangent_buffer;
+  this.binormal_buffer=binormal_buffer;
 	this.texture_coord_buffer=texture_coord_buffer;
 	this.position_buffer=position_buffer;
 	this.index_buffer=index_buffer;
 	this.color_buffer=color_buffer;
 
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this);
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.TRIANGLES);
 
   this.esIluminado=getter(true);
+  this.nombre="plano";
+
 }

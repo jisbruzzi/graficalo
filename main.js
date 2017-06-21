@@ -51,7 +51,9 @@ function Main(animador){
   }
 
   let ultimoTick=new Date().getTime();
+  let ultimoTiempo=0
   let tick = function(delta) {
+
     requestAnimFrame(tick);
     try{
       TWEEN.update(delta);

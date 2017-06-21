@@ -36,7 +36,6 @@ function normalizarPuntosControl(puntosControl, alto,ancho){
 
 function Animador(puntosControl){
   let mundo=new Objeto();
-  let mars=new Objeto();
 
   this.archivosShaderPrograms={
 
@@ -53,6 +52,7 @@ function Animador(puntosControl){
     "mars_1k_color.jpg",
     "tramo-dobleamarilla.jpg",
     "cruce.jpg",
+    "referenciaDebug.jpg",
     "llanta.jpg",
     "vereda.jpg",
     "refmap.jpg"
@@ -65,7 +65,6 @@ function Animador(puntosControl){
 
 
   this.tick=function(){
-    mars.rotar([0,1,0],0.01);
     if(jugador!=null){
       jugador.tick();
     }
@@ -104,20 +103,12 @@ function Animador(puntosControl){
     var puntos=[0.0,1.0,1.0,0.0,0.0,2.0,0.0,-1.0,1.0,0.0,-1.0,-1.0,0.0,1.0,-1.0,0.0,1.0,1.0];
     var normales=[0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,0.0,1.0,0.0,-1.0/Math.sqrt(2),1.0/Math.sqrt(2),0.0,-1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),-1.0/Math.sqrt(2),0.0,1.0/Math.sqrt(2),1.0/Math.sqrt(2)];
 
-
-    let esfera64 = new FormaEsfera(64,64,gl);
-    let esfera64Texturada =esfera64.copiaConTextura(atlasTexturas.t("mars_1k_color.jpg"));
-    let modeloTexturada = new Modelo(esfera64Texturada,programaTextura,gl);
-
-    mars  =new Objeto(modeloTexturada);
-    mundo.hijos.push(mars);
-
     let texturaCalle = atlasTexturas.t("tramo-dobleamarilla.jpg");
     let texturaEsquina = atlasTexturas.t("cruce.jpg");
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
     //calles = new ObjetoCalles(5,5,12,gl);
-    calles = new ObjetoCalles(4,5,10,gl);
+    calles = new ObjetoCalles(5,6,10,gl);
     mundo.hijos.push(calles);
 
 
@@ -133,12 +124,6 @@ function Animador(puntosControl){
     ruta.mover(0,0,2.5);
     mundo.hijos.push(ruta);
     mundo.hijos.push(coches);
-
-
-
-    mars.escalar(7,7,7);
-    console.log(calles.obtenerPosicion());
-    mars.mover(calles.getAlto()/2,calles.getAncho()/2,20);
 
     //obra de arte
     let obra = new ObjetoObraDeArte(gl);
