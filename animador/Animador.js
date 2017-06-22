@@ -76,7 +76,7 @@ function Animador(puntosControl){
   }
 
 
-  this.tick=function(){
+  this.tick=function(delta){
     if(jugador!=null){
       jugador.tick();
     }
@@ -86,7 +86,8 @@ function Animador(puntosControl){
 
     luz1.anularPosicion().mover(p[0],p[1],p[2]);
     luz2.anularPosicion().mover(p[0],p[1],p[2]).mover(3,0,0);
-    mundo.configurarIluminacion(mundo.obtenerLucesHijos(),new ParametrosLuzGlobal());
+    mundo.configurarIluminacion(mundo.obtenerLucesHijos(),new ParametrosLuzGlobal().configurarHorario(delta/1000.0));
+    console.log(delta);
     if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
