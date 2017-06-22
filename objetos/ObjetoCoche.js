@@ -2,7 +2,7 @@ function ObjetoCoche(programaColor,programaTextura,gl){
 	var obj= new Objeto();
 	var largoCoche=5;
 	var anchoCoche=2.5;
-	var objCarroceria= new Objeto(new Modelo(new FormaCarroceria(gl),programaColor,gl));
+	var objCarroceria= new Objeto(new Modelo(new FormaCarroceria(gl).copiaConTextura(atlasTexturas.t("coche-mips.jpg")),programaTextura,gl));
 	var objLlanta = new Objeto(new Modelo(new FormaLlanta(gl).copiaConTextura(atlasTexturas.t("llanta.jpg")),programaTextura,gl));
 	var objCubierta = new Objeto(new Modelo(new FormaCubierta(gl),programaColor,gl));
 	var objRuedaGenerica=new Objeto();

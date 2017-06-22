@@ -60,7 +60,14 @@ function Animador(puntosControl){
     "vereda_normal.jpg",
     "refmap.jpg",
     "grass01.jpg",
-    "grass01_n.jpg"
+    "grass01_n.jpg",
+    "autopista.jpg",
+    "autopista_n.png",
+    "concreto_n.jpg",
+    "gris.jpg",
+    "coche-mips.jpg",
+
+
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
 
 
@@ -125,7 +132,7 @@ function Animador(puntosControl){
 
     calles.generar([generaFachada.desplazada(-2),generaFachada.desplazada(2)],generaFachada.desplazada(0), curvas[2]);
 
-    ruta = new ObjetoRutaCompleta(curvas,atlasTexturas.t("concreto.jpg"),atlasTexturas.t("concreto.jpg"),programaTextura,programaColor,gl);
+    ruta = new ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl);
     ruta.mover(0,0,2.5);
     mundo.hijos.push(ruta);
     mundo.hijos.push(coches);

@@ -1,4 +1,4 @@
-function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ,1XZ,2XY,3YZop,4XZop,5XYop
+function FormaCarroceria(gl){
   let largoCoche=5;
   let anchoCoche=2.5;
   let anchoTecho=anchoCoche/2;
@@ -42,7 +42,38 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
   //ventanilla izq
   -largoTechoSup/2,-anchoTecho/2,altoCoche,largoTechoSup/2,-anchoTecho/2,altoCoche,                   -largoTecho/2,-anchoCoche/2,altoCoche-altoTecho,largoTecho/2,-anchoCoche/2,altoCoche-altoTecho
   ];
-
+  //aca se da en coordenadas como las da gimp, despues normalizo
+  let texture_coord_buffer=[
+  //costado izquierdo
+  137,661, 137,795, 857,661, 857,795,
+  //frente
+  912,547, 994,547, 912,333, 994,333,
+  //costado derecho
+  857,661, 857,795, 137,661, 136,795,
+  //parte trasera
+  112,333, 28,333, 112,547, 28,547, 
+  //baul
+  112,547, 112,333, 231,547, 231,333,
+  //luneta
+  231,547, 231,333, 400,547,400,333,
+  //techo parte sup
+  400,547,400,333, 605,547, 605,333,
+  //parabrisa
+  605,547,  605,333, 775,547, 775,333,
+  //capot
+   775,547, 775,333, 912,547,  912,333,
+  //ventanilla der
+  400,547, 605,547, 321,661,  681,661,
+  //400,547, 605,547, 331,661,  672,661,
+  //ventanilla izq
+  400,547, 605,547, 321,661,  681,661
+  //400,547, 605,547, 331,661,  672,661
+  ];//normalizo
+  for( var i=0;i+1<texture_coord_buffer.length;i+=2){
+    texture_coord_buffer[i]/=1024;
+    texture_coord_buffer[i+1]/=1024;
+    texture_coord_buffer[i+1]=1-texture_coord_buffer[i+1];
+  }
   var raiz=Math.sqrt(2);//las normales que tienen raiz por ahora son aproximadas
 
                 //              cost izq                      frente                  derecho                          trasero
@@ -109,6 +140,8 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
   for(var i=20*3;i<24*3;i+=3){
   //  colBuffer[i]=(0.1);colBuffer[i+1]=(0.3);colBuffer[i+2]=(0.3);
   }
+  let tangent_buffer;
+  let binormal_buffer;
 
 
 //INTERFAZ
@@ -116,7 +149,12 @@ function FormaCarroceria(gl){//los colores se deben pasar por caras, siendo 0 YZ
 	this.position_buffer=posBuffer;
 	this.index_buffer=indexBuffer;
 	this.color_buffer=colBuffer;
+  this.tangent_buffer=tangent_buffer;
+  this.binormal_buffer=binormal_buffer;
+  this.texture_coord_buffer=texture_coord_buffer;
 
+
+  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
   this.modoDibujado = getter(gl.TRIANGLE_STRIP);
   this.esIluminado=getter(true);
   this.nombre="carroceria";
