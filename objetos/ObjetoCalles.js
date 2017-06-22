@@ -130,6 +130,14 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       s.setPosicion(x,y,0.03);
       yo.hijos.push(s);
 
+      if(plaza && Math.random()<0.5){
+        let obra=new ObjetoObraDeArte(gl);
+        obra.setPosicion(x+Math.random()*ladoManzana-ladoManzana/2,y+Math.random()*ladoManzana-ladoManzana/2,0);
+        obra.rotar([0,0,1],Math.PI*Math.random()*2)
+        yo.hijos.push(obra);
+      }
+
+
     }
     var distanciaDesdeUltimoPilar=0;
     function ponerPilarSiPosible(x,y,avance,distanciaMinima){

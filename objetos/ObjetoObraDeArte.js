@@ -7,10 +7,10 @@ function ObjetoObraDeArte(gl){
   let formaCubo=new FormaEdificio(gl,1,1,0,0,1,1,1);
   FormaMultitexturable(formaEsfera);
   formaEsfera.agregarSampler2D("uSamplerReflexion",t);
-  formaEsfera.agregarSampler2D("uSamplerTextura",atlasTexturas.t("textura-pasto.jpg"));
+  formaEsfera.agregarSampler2D("uSampler",atlasTexturas.t("textura-pasto.jpg"));
   FormaMultitexturable(formaCubo);
   formaCubo.agregarSampler2D("uSamplerReflexion",t);
-  formaCubo.agregarSampler2D("uSamplerTextura",atlasTexturas.t("textura-pasto.jpg"));
+  formaCubo.agregarSampler2D("uSampler",atlasTexturas.t("textura-pasto.jpg"));
 
   let mEsfera=new Modelo(formaEsfera,s,gl);
 

@@ -22,7 +22,7 @@ function Rotable(o){
     let ret={};
     ret.angulo=angulo;
     ret.eje=eje;
-    return o;
+    return ret;
   }
   o.rotacionQuat=function(){
     return quat.clone(rotacion);

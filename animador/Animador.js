@@ -137,10 +137,6 @@ function Animador(puntosControl){
     mundo.hijos.push(ruta);
     mundo.hijos.push(coches);
 
-    //obra de arte
-    let obra = new ObjetoObraDeArte(gl);
-    mundo.hijos.push(obra);
-
 
     cielo = new ObjetoCielo(gl,900);
     mundo.hijos.push(cielo);
