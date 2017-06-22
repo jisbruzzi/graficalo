@@ -20,9 +20,9 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 		var auxiliar= new Objeto();
 		auxiliar.hijos.push(cochePrincipal);
 		auxiliar.mover(0,posicionEnCarril,0)//posicionarlo en carril
-		if(!par){
-			auxiliar.escalar(1,-1,1);
-		}
+		//if(!par){
+		//	auxiliar.escalar(1,1,1);
+		//}
 
 		par=!par;
 		cochesCentrados.push(new Objeto());
@@ -68,23 +68,23 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 			var desp = curvas[0](posicionEnCurva[i]);
 			var tang = curvas[1](posicionEnCurva[i]);
 			if(!par){
-				var ang = anguloEntre(tang,[-1,0,0]);
+				var ang = anguloEntre([-1,0,0],tang);
 			}else{
-				var ang = anguloEntre(tang,[1,0,0]);
+				var ang = anguloEntre([1,0,0],tang);
 			}
 			cochesCentrados[i].anularRotacion();
 			cochesCentrados[i].anularPosicion();
 
 
 			cochesCentrados[i].mover(desp[0],desp[1],desp[2]);
-			cochesCentrados[i].rotar([0,0,1], -ang);
+			cochesCentrados[i].rotar([0,0,1], ang);
 
 			par=!par;
 
 
 		}
 	}
-
+	console.log(anguloEntre([1,0,0],[0,1,0]));
 	yo.hijos=cochesCentrados;
 	return yo;
 }

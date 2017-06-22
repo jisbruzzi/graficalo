@@ -66,6 +66,7 @@ function Animador(puntosControl){
     "concreto_n.jpg",
     "gris.jpg",
     "coche-mips.jpg",
+    "coche-normal.jpg"
 
 
   ].concat(nombresImagenesPisos).concat(nombresImagenesPlantabajas);
@@ -87,7 +88,6 @@ function Animador(puntosControl){
     luz1.anularPosicion().mover(p[0],p[1],p[2]);
     luz2.anularPosicion().mover(p[0],p[1],p[2]).mover(3,0,0);
     mundo.configurarIluminacion(mundo.obtenerLucesHijos(),new ParametrosLuzGlobal().configurarHorario(delta/1000.0));
-    console.log(delta);
     if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 

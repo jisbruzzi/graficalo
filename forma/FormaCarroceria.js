@@ -43,6 +43,7 @@ function FormaCarroceria(gl){
   -largoTechoSup/2,-anchoTecho/2,altoCoche,largoTechoSup/2,-anchoTecho/2,altoCoche,                   -largoTecho/2,-anchoCoche/2,altoCoche-altoTecho,largoTecho/2,-anchoCoche/2,altoCoche-altoTecho
   ];
   //aca se da en coordenadas como las da gimp, despues normalizo
+  
   let texture_coord_buffer=[
   //costado izquierdo
   137,661, 137,795, 857,661, 857,795,
@@ -63,10 +64,14 @@ function FormaCarroceria(gl){
   //capot
    775,547, 775,333, 912,547,  912,333,
   //ventanilla der
-  400,547, 605,547, 321,661,  681,661,
+
+  677,661, 317,661, 587,547, 407,547,
+  //698,661, 338,661,  608,547, 428,547, 
+  //0,661,  686,661, 400,547, 610,547, 
   //400,547, 605,547, 331,661,  672,661,
   //ventanilla izq
-  400,547, 605,547, 321,661,  681,661
+  407,547, 587,547, 317,661, 677,661
+  //414,547, 598,547, 321,661,  681,661
   //400,547, 605,547, 331,661,  672,661
   ];//normalizo
   for( var i=0;i+1<texture_coord_buffer.length;i+=2){
@@ -74,20 +79,56 @@ function FormaCarroceria(gl){
     texture_coord_buffer[i+1]/=1024;
     texture_coord_buffer[i+1]=1-texture_coord_buffer[i+1];
   }
-  var raiz=Math.sqrt(2);//las normales que tienen raiz por ahora son aproximadas
 
+  var difAltura=(altoCoche-altoTecho);
+  var difX=(largoTecho-largoTechoSup)/2;
+  var difY=(anchoCoche-anchoTecho)/2;
                 //              cost izq                      frente                  derecho                          trasero
   let normBuffer=[0,-1,0, 0,-1,0,0,-1,0, 0,-1,0,     1,0,0,1,0,0,1,0,0,1,0,0,   0,1,0,0,1,0,0,1,0,0,1,0,   0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,
 
-//         baul               luneta                                                       techoSup                              parabrisa                                                                capot
-  0,0,1,0,0,1,0,0,1,0,0,1,    -raiz,0,raiz,-raiz,0,raiz,-raiz,0,raiz,-raiz,0,raiz,         0,0,1,0,0,1,0,0,1,0,0,1,              raiz,0,raiz,raiz,0,raiz,raiz,0,raiz,raiz,0,raiz,               0,0,1,0,0,1,0,0,1,0,0,1,
+//         baul               luneta                                                                           techoSup                              parabrisa                                                                           capot
+  0,0,1,0,0,1,0,0,1,0,0,1,    -difAltura,0,difX,-difAltura,0,difX,-difAltura,0,difX,-difAltura,0,difX,         0,0,1,0,0,1,0,0,1,0,0,1,              difAltura,0,difX,difAltura,0,difX,difAltura,0,difX,difAltura,0,difX,               0,0,1,0,0,1,0,0,1,0,0,1,
 
-//     ventanilla derecha                               ventanilla izquierda
-    0,raiz,raiz,0,raiz,raiz,0,raiz,raiz,0,raiz,raiz,   0,-raiz,raiz, 0,-raiz,raiz, 0,-raiz,raiz, 0,-raiz,raiz
+//     ventanilla derecha                                                    ventanilla izquierda
+    0,difAltura,difY,0,difAltura,difY,0,difAltura,difY,0,difAltura,difY,     0,-difAltura,difY, 0,-difAltura,difY,0,-difAltura,difY,0,-difAltura,difY
   ];
 
 
+  let tangent_buffer=[
+  //cost izq                frente                       derecho                    trasero
+  1,0,0,1,0,0,1,0,0,1,0,0,  0,0,-1,0,0,-1,0,0,-1,0,0,-1, 1,0,0,1,0,0,1,0,0,1,0,0,   0,0,1,0,0,1,0,0,1,0,0,1,    
+  //baul                    luneta                                                                        techoSup                   parabrisa                                                                capot                                       
+  1,0,0,1,0,0,1,0,0,1,0,0,  difX,0,difAltura,difX,0,difAltura,difX,0,difAltura,difX,0,difAltura,          1,0,0,1,0,0,1,0,0,1,0,0,   difX,0,-difAltura,difX,0,-difAltura,difX,0,-difAltura,difX,0,-difAltura, 1,0,0,1,0,0,1,0,0,1,0,0,
 
+  //ventanilla der          ventanilla izq
+  1,0,0,1,0,0,1,0,0,1,0,0, 1,0,0,1,0,0,1,0,0,1,0,0
+  ];
+  //normalizo ambos y de paso agrego el binormal
+  let binormal_buffer=new Array();
+  for( var i=0;i+2<normBuffer.length;i+=3){
+    var norma=Math.sqrt(normBuffer[i]*normBuffer[i]+normBuffer[i+1]*normBuffer[i+1]+normBuffer[i+2]*normBuffer[i+2]);
+    normBuffer[i]/=norma;
+    normBuffer[i+1]/=norma;
+    normBuffer[i+2]/=norma;
+
+    norma=Math.sqrt(tangent_buffer[i]*tangent_buffer[i]+tangent_buffer[i+1]*tangent_buffer[i+1]+tangent_buffer[i+2]*tangent_buffer[i+2]);
+    tangent_buffer[i]/=norma;
+    tangent_buffer[i+1]/=norma;
+    tangent_buffer[i+2]/=norma;
+
+    binormal_buffer.push(normBuffer[i+1]*tangent_buffer[i+2]-normBuffer[i+2]*tangent_buffer[i+1]);
+    binormal_buffer.push(normBuffer[i+2]*tangent_buffer[i]-normBuffer[i]*tangent_buffer[i+2]);
+    binormal_buffer.push(normBuffer[i+0]*tangent_buffer[i+1]-normBuffer[i+1]*tangent_buffer[i+0]);
+
+
+
+  }
+
+  let t=binormal_buffer;
+  binormal_buffer=tangent_buffer;
+  tangent_buffer=t;
+  console.log(binormal_buffer);
+  console.log(tangent_buffer);
 
   //manera rara de dibujar
   var offset=0;
@@ -140,8 +181,6 @@ function FormaCarroceria(gl){
   for(var i=20*3;i<24*3;i+=3){
   //  colBuffer[i]=(0.1);colBuffer[i+1]=(0.3);colBuffer[i+2]=(0.3);
   }
-  let tangent_buffer;
-  let binormal_buffer;
 
 
 //INTERFAZ
