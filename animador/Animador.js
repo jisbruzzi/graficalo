@@ -79,8 +79,7 @@ function Animador(puntosControl){
 
     luz1.anularPosicion().mover(p[0],p[1],p[2]);
     luz2.anularPosicion().mover(p[0],p[1],p[2]).mover(3,0,0);
-    mundo.configurarIluminacion(mundo.obtenerLucesHijos(),new ParametrosLuzGlobal().configurarHorario(delta/1000.0));
-    console.log(delta);
+    mundo.configurarIluminacionGlobal(new ParametrosLuzGlobal().configurarHorario(delta/1000.0));
     if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
@@ -140,8 +139,10 @@ function Animador(puntosControl){
     mundo.hijos.push(cielo);
 
     //luces
+    /*
     mundo.luces.push(luz1);
-    luz1.cambiarHacia([1,0,0]);
+    luz1.cambiarHacia([0,0,-1]);
+    luz1.concentracion=15;
     luz1.color=[1,0,0];
     mundo.luces.push(luz2);
 
@@ -149,6 +150,9 @@ function Animador(puntosControl){
     luz1.distanciaIluminada=10
     luz2.mover(0,0,0.5);
     luz2.color=[0,1,0];
+    */
+
+    mundo.configurarLuces(mundo.obtenerLucesHijos());
 
   }
 

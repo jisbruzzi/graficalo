@@ -1,4 +1,4 @@
-#define CANT_LUCES 2
+#define CANT_LUCES 16
 uniform bool uUseLighting;
 varying vec3 vPosRelFuente[CANT_LUCES];
 uniform vec3 uDireccionLuz[CANT_LUCES];

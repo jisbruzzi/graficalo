@@ -21,7 +21,7 @@ function curvaBezier(puntosControl){
 			for(var coordenada=0;coordenada<3;coordenada++){
 				suma[coordenada]+=this.puntosControl[puntoControl*3+coordenada]*Math.pow((1-t),this.cantidadPuntos-1-puntoControl)*Math.pow(t,puntoControl)*this.coeficiente[puntoControl];
 			}
-			
+
 		}
 		return suma;
 	}
@@ -37,8 +37,8 @@ function curvaBezier(puntosControl){
 				suma[coordenada]+=this.puntosControl[puntoControl*3+coordenada]*this.coeficiente[puntoControl]*(
 										((this.cantidadPuntos-1-puntoControl==0)? 0:(Math.pow((1-t),this.cantidadPuntos-2-puntoControl)))*(-1)*(this.cantidadPuntos-1-puntoControl)*Math.pow(t,puntoControl)
 										+((puntoControl==0)?0:(Math.pow(t,puntoControl-1)))*puntoControl*Math.pow((1-t),this.cantidadPuntos-1-puntoControl));
-			
-			
+
+
 			}
 		}
 		let norma=0;
@@ -91,7 +91,7 @@ function ObjetoLuminaria(programaColor,gl){
 	}
 
 	var amarilloSucio=[function (u,v){return 0.6},function (u,v){return 0.5},function (u,v){return 0.1}];
-	
+
 	var curvas=curvaBezier([0,0,0,alturaLuminaria*0.75,0,0,alturaLuminaria,0,0,alturaLuminaria,extensionSobreRutaLuminaria,0]);
     var colorCaja=function(cara){
     	if(cara==2)
@@ -113,14 +113,14 @@ function ObjetoLuminaria(programaColor,gl){
 	objetoCaja.mover(desp[0],desp[1],desp[2]);
 	objetoCaja.mover(0,largoLuz/2,0);
 
-	objetoCaja.rotar([0,0,1],Math.PI/2);	
+	objetoCaja.rotar([0,0,1],Math.PI/2);
 	objetoCaja.rotar([0,1,0],Math.PI/2);
 	objetoCaja.escalar(largoLuz,anchoLuz,altoLuz);
 
 
 	let objetoPaloCaja=new Objeto();
 
-	
+
 	objetoPaloCaja.hijos.push(objetoCaja);
 	objetoPaloCaja.hijos.push(objetoPalo);
 
@@ -131,8 +131,16 @@ function ObjetoLuminaria(programaColor,gl){
 	objetoLuminaria.hijos.push(objetoPaloCaja);
 	objetoLuminaria.hijos.push(objetoBase);
 
+	let luz=new Luz();
+	luz.mover(alturaLuminaria,extensionSobreRutaLuminaria,0);
+	objetoPalo.luces.push(luz);
+	luz.distanciaIluminada=10;
+	luz.concentracion=10;
+	luz.cambiarHacia([0,0,-1]);
+	luz.color=[0.8,0.6,0.3];
+
 	return objetoLuminaria;
 
 
-	
+
 }

@@ -6,11 +6,16 @@ function Luz(){
   Modelable(yo);
   Spoteable(yo);
   let matAnterior=mat4.create()//es la identidad
+  let cambioMatAnterior=true;
+  let posicionFinalAnterior=vec3.create();
   yo.actualizarMatModeladoAnterior=function(m){
+    //console.log(mat4);
+    let iguales=mat4.equals(matAnterior,m);
+    cambioMatAnterior= cambioMatAnterior || ! iguales;
     matAnterior=m;
-  }
+  };
 
-  yo.obtenerPosicionFinal=function(){
+  function calcularPosicionFinal(){
     let def = yo.obtenerMatModelado();
     mat4.multiply(def,matAnterior,def);
     let pos = [0,0,0];
@@ -20,6 +25,14 @@ function Luz(){
 
     let posf = [post[0]/post[3],post[1]/post[3],post[2]/post[3]];
     return posf;
+  }
+
+  yo.obtenerPosicionFinal=function(){
+    if(cambioMatAnterior){
+      posicionFinalAnterior=calcularPosicionFinal();
+      cambioMatAnterior=false;
+    }
+    return posicionFinalAnterior;
   }
 
   yo.distanciaIluminada=1;
