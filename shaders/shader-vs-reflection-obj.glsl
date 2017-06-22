@@ -1,15 +1,13 @@
 attribute vec3 aVertexPosition;
-attribute vec3 aVertexNormal;
-attribute vec2 aTextureCoord;
+
+
 
 uniform mat4 uViewMatrix;
 uniform mat4 uModelMatrix;
 uniform mat4 uPMatrix;
 
-
-varying vec2 vTextureCoord;
-varying vec3 vVertexNormal;
-varying vec3 vVertexPosition;
+#include normal-comun-vs
+#include reflexion-vs
 
 
 void main(void) {
@@ -19,10 +17,6 @@ void main(void) {
 	// Transformamos al vértice al espacio de la proyección
   gl_Position = uPMatrix * pos_camera_view;
 
-	// Coordenada de textura sin modifiaciones
-  vTextureCoord = aTextureCoord;
-  // normal sin modificaciones
-  vVertexNormal = aVertexNormal;
-	//posicion sin modificaciones
-	vVertexPosition=aVertexPosition;
+  prepararReflexion();
+	prepararNormal();
 }
