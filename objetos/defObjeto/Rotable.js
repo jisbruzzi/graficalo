@@ -1,4 +1,5 @@
 function Rotable(o){
+  o.cambioPosicion=true;
   //-- rotación --//
   let rotacion = quat.create();//TENGO QUE APRENDER DE CUATERNIONES PARA SABER CÓMO IMPLEMENTAR LOS COSOS DE ABAJO
   //setAxisAngle parece una buena alternativa a mat4.rotate!! y se podría consultar el ángulo
@@ -7,10 +8,12 @@ function Rotable(o){
     let agregado = quat.create();
     quat.setAxisAngle(agregado,eje,cuanto);
     quat.multiply(rotacion,agregado,rotacion);
+    o.cambioPosicion=true;
     return o;
   }
   o.anularRotacion=function(){
     rotacion = quat.create();
+    o.cambioPosicion=true;
     return o;
   }
   o.rotacion=function(){
@@ -19,7 +22,7 @@ function Rotable(o){
     let ret={};
     ret.angulo=angulo;
     ret.eje=eje;
-    return o;
+    return ret;
   }
   o.rotacionQuat=function(){
     return quat.clone(rotacion);

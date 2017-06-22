@@ -4,7 +4,7 @@ function FormaCarroceria(gl){
   let anchoTecho=anchoCoche/2;
   let largoTecho=largoCoche/2;
   let largoTechoSup=largoTecho/2;
-  let colBuffer=[];
+  //let colBuffer=[];
   let indexBuffer=[];
   let altoCoche=1.5;
   let altoTecho=0.75;
@@ -167,7 +167,7 @@ function FormaCarroceria(gl){
   //ventanilla izq
 
 
-
+/*
   for(var i=0;i<posBuffer.length;i+=3){
     colBuffer.push(1);colBuffer.push(0);colBuffer.push(0);
 
@@ -181,13 +181,13 @@ function FormaCarroceria(gl){
   for(var i=20*3;i<24*3;i+=3){
   //  colBuffer[i]=(0.1);colBuffer[i+1]=(0.3);colBuffer[i+2]=(0.3);
   }
-
+*/
 
 //INTERFAZ
   this.normal_buffer=normBuffer;
 	this.position_buffer=posBuffer;
 	this.index_buffer=indexBuffer;
-	this.color_buffer=colBuffer;
+//	this.color_buffer=colBuffer;
   this.tangent_buffer=tangent_buffer;
   this.binormal_buffer=binormal_buffer;
   this.texture_coord_buffer=texture_coord_buffer;

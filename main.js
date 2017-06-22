@@ -1,3 +1,5 @@
+const CANT_LUCES=16;
+
 function webGLStart(puntosControl) {
   let animador = new Animador(puntosControl);
   let main=new Main(animador);

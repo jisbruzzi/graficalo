@@ -19,12 +19,11 @@ function Modelo(forma,shaderProgram,gl){
 
 
 
-	let listaLuces=[];
+	let listaLuces={};
 	let luzGlobal=new ParametrosLuzGlobal();
 	let camara;
 
-	function desplegarParametroDeLuz(f,componentes){
-		const CANT_LUCES=2;
+	function desplegarParametroDeLuz(listaLuces,f,componentes){
 
 		let ret=[];
 		for (luz of listaLuces) {
@@ -40,6 +39,9 @@ function Modelo(forma,shaderProgram,gl){
 	}
 
 	this.setupLighting = function(){
+		//armar esas listas de nuevo cuando en realidad no hace falta debe esttar consumiendo muchísimo tiempo.
+		//Capaz se podría configurar la parte de la listaLuces una sola vez, y armar estas listas una sola vez.
+		//O sólo cuando es necesario
 
 		//-- si se usa iluminación --//
 		let lighting = true;
@@ -50,23 +52,11 @@ function Modelo(forma,shaderProgram,gl){
 
 		//-- desplegar los parámetros de las luces --//
 
-		let listaPosiciones=desplegarParametroDeLuz(function(l){return l.obtenerPosicionFinal()},3);
-		gl.uniform3fv(shaderProgram.uLightPosition, listaPosiciones);
-
-		let listaHacia = desplegarParametroDeLuz(function(l){return l.obtenerHaciaFinal()},3);
-		gl.uniform3fv(shaderProgram.uDireccionLuz, listaHacia);
-
-		///ESTE 1FV ES EL QUE TIRA EL WARNING ANALIZAR BIEN!!
-		let listaConcentraciones = desplegarParametroDeLuz(function(l){return [l.concentracion]},1);
-		gl.uniform1fv(shaderProgram.uConcentracion, new Float32Array(listaConcentraciones));
-
-		let listaDistancia = desplegarParametroDeLuz(function(l){return [l.distanciaIluminada]},1);
-		gl.uniform1fv(shaderProgram.uDistanciaIluminada, new Float32Array(listaDistancia));
-
-		let listaColores = desplegarParametroDeLuz(function(l){return l.color},3);
-		gl.uniform3fv(shaderProgram.uColorLuz, listaColores);
-
-
+		gl.uniform3fv(shaderProgram.uLightPosition, listaLuces.listaPosiciones);
+		gl.uniform3fv(shaderProgram.uDireccionLuz, listaLuces.listaHacia);
+		gl.uniform1fv(shaderProgram.uConcentracion, new Float32Array(listaLuces.listaConcentraciones));
+		gl.uniform1fv(shaderProgram.uDistanciaIluminada, new Float32Array(listaLuces.listaDistancia));
+		gl.uniform3fv(shaderProgram.uColorLuz, listaLuces.listaColores);
 		gl.uniform3fv(shaderProgram.uColorAmbiente, luzGlobal.colorAmbiente );
 		gl.uniform3fv(shaderProgram.uColorLuzGlobal, luzGlobal.colorLuzGlobal);
 		gl.uniform3fv(shaderProgram.uDireccionLuzGlobal, luzGlobal.direccionLuzGlobal);
@@ -114,22 +104,6 @@ function Modelo(forma,shaderProgram,gl){
 			}
 		}
 
-
-		/*
-
-		if(forma.uSamplerBase!=undefined && shaderProgram.uSamplerBase!=undefined){
-			gl.activeTexture(gl.TEXTURE0);
-			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerBase());
-			gl.uniform1i(shaderProgram.uSamplerBase, 0);
-		}
-
-		if(forma.uSamplerSobre && shaderProgram.uSamplerSobre!=undefined){
-			gl.activeTexture(gl.TEXTURE1);
-			gl.bindTexture(gl.TEXTURE_2D, forma.uSamplerSobre());
-			gl.uniform1i(shaderProgram.uSamplerSobre, 1);
-		}
-		*/
-
 		gl.uniformMatrix4fv(shaderProgram.uModelMatrix, false, modelMatrix);
 		var normalMatrix = mat3.create();
 		mat3.fromMat4(normalMatrix, modelMatrix);
@@ -166,9 +140,17 @@ function Modelo(forma,shaderProgram,gl){
 		}
 	}
 
-	this.configurarIluminacion=function(listaLucesNueva,luzGlobalNueva){
-		listaLuces = listaLucesNueva;
+	this.configurarIluminacionGlobal=function(luzGlobalNueva){
 		luzGlobal = luzGlobalNueva;
+	}
+
+	this.configurarLuces=function(listaLucesNueva){
+		listaLucesNueva = listaLucesNueva.slice(0,CANT_LUCES);
+		listaLuces.listaColores = desplegarParametroDeLuz(listaLucesNueva,function(l){return l.color},3);
+		listaLuces.listaDistancia = desplegarParametroDeLuz(listaLucesNueva,function(l){return [l.distanciaIluminada]},1);
+		listaLuces.listaPosiciones=desplegarParametroDeLuz(listaLucesNueva,function(l){return l.obtenerPosicionFinal()},3);
+		listaLuces.listaHacia = desplegarParametroDeLuz(listaLucesNueva,function(l){return l.obtenerHaciaFinal()},3);
+		listaLuces.listaConcentraciones = desplegarParametroDeLuz(listaLucesNueva,function(l){return [l.concentracion]},1);
 	}
 
 	this.configurarCamara=function(nuevaCamara){

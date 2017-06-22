@@ -29,7 +29,7 @@ function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
 		var tang= curvas[1](i);
 
 
-		objetoAux.hijos.push(luminaria);
+		objetoAux.hijos.push(new ObjetoLuminaria(programaColor,gl));
 		objetoAux.escalar(1/30,1/30,1/30);
 		objetoAux.rotar([0,0,1],((par?Math.PI:0)-anguloEntre(tang,[0,-1,0]))+Math.PI/2);
 		objetoAux.mover(desp[0],desp[1],desp[2]+0.2);

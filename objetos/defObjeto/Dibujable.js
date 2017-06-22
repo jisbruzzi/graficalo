@@ -13,13 +13,21 @@ function Dibujable(o,modelo){
     });
   };
 
-  o.configurarIluminacion=function(listaLuces, luzGlobal){
-    if(modelo!=null) modelo.configurarIluminacion(listaLuces,luzGlobal);
+  o.configurarIluminacionGlobal=function(luzGlobal){
+    if(modelo!=null) modelo.configurarIluminacionGlobal(luzGlobal);
 
     o.hijos.forEach(function(h){
-      h.configurarIluminacion(listaLuces,luzGlobal);
+      h.configurarIluminacionGlobal(luzGlobal);
     });
+    return o;
+  };
 
+  o.configurarLuces=function(listaLuces){
+    if(modelo!=null) modelo.configurarLuces(listaLuces);
+
+    o.hijos.forEach(function(h){
+      h.configurarLuces(listaLuces);
+    });
     return o;
   };
 

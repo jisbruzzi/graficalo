@@ -6,7 +6,7 @@ function Iluminable(o,modelo){
     if (m != null) mat4.multiply(def,m,def);
 
     for (l of o.luces){
-      if (modelo != null) l.actualizarMatModeladoAnterior(def);
+      l.actualizarMatModeladoAnterior(def);
     }
     //console.log(o.hijos);
     for ( h of o.hijos){

@@ -1,4 +1,4 @@
-#define CANT_LUCES 2
+#define CANT_LUCES 16
 uniform vec3 uLightPosition[CANT_LUCES];
 varying vec3 vPosRelFuente[CANT_LUCES];
 
