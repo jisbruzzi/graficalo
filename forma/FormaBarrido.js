@@ -155,7 +155,6 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 
   let position_buffer = new Array();
   let normal_buffer = new Array();
-  let texture_coord_buffer = new Array();
   let color_buffer = new Array();
   let binormal_buffer = new Array();
   let tangent_buffer = new Array();
@@ -203,11 +202,7 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 			color_buffer.push(colores[0](i,j));
 			color_buffer.push(colores[1](i,j));
 			color_buffer.push(colores[2](i,j));
-			var u=j/(this.puntosPatron-1);
-			var v=i*(this.repeticionesPatron-1);
-			texture_coord_buffer.push(u);
 
-			texture_coord_buffer.push(v);
 
 		}
 	}
@@ -235,15 +230,30 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
   }
 	//generar los buffers de opengl
 	this.normal_buffer=normal_buffer;
-	this.texture_coord_buffer=texture_coord_buffer;
 	this.position_buffer=position_buffer;
 	this.index_buffer=index_buffer;
 	this.color_buffer=color_buffer;
+	this.tangent_buffer=tangent_buffer;
+	this.binormal_buffer=binormal_buffer;
 
   //-- interfaz obligatoria --//
-  this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
-  this.esIluminado=getter(true);
-  this.modoDibujado = getter(gl.TRIANGLE_STRIP);
+  	this.copiaConTexturaMapeada=function(textura,repeticionesTextura){
+  		let texture_coord_buffer=new Array();
+  		for(var i=0;i<1+paso;i+=paso){
+			for(var j=0;j<this.puntosPatron;j++){
+				var u=j/(this.puntosPatron-1);
+				var v=i*repeticionesTextura;
+				texture_coord_buffer.push(u);
+				texture_coord_buffer.push(v);
+			}
+		}
+		this.texture_coord_buffer=texture_coord_buffer;
+
+	  	return this.copiaConTextura(textura);
+  	}
+	this.copiaConTextura=hacerMetodoCopiaConTextura(this,gl);
+	this.esIluminado=getter(true);
+	this.modoDibujado = getter(gl.TRIANGLE_STRIP);
 
 
 }

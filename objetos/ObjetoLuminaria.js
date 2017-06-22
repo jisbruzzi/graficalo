@@ -77,8 +77,8 @@ function ObjetoLuminaria(programaColor,gl){
 
 	let contornoCirculo = new Array();
 	let normalesCirculo = new Array();
-	let contornoBase= [0,0,alturaBase,0,radioBase,alturaBase,0,radioBase,alturaBase,0,radioBase,0];
-	let normalesBase= [0,0,1,0,0,1,0,1,0,0,1,0];
+	let contornoBase= [0,0,alturaBase,0,radioBase,alturaBase,0,radioBase,alturaBase,0,radioBase,0,0,0,0];
+	let normalesBase= [0,0,1,0,0,1,0,1,0,0,1,0,0,0,-1];
 	let objetoLuminaria = new Objeto();
 
 	for(var i=0;i<=cantidadPuntosEnCirculo;i++){
