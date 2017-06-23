@@ -126,7 +126,7 @@ function Animador(puntosControl){
     //calles = new ObjetoCalles(5,5,12,gl);
     calles = new ObjetoCalles(5,6,10,gl);
     mundo.hijos.push(calles);
-
+    jugador.mover(calles.getAlto()/2,calles.getAncho()/2);
 
     puntosControl=normalizarPuntosControl(puntosControl,calles.getAlto(),calles.getAncho());
     var curvas=curvaBSplineCuadratica(puntosControl);
@@ -161,7 +161,7 @@ function Animador(puntosControl){
     */
     //prueba Iluminacion
     let prueba= new Objeto(new Modelo(new FormaEsfera(30,30,gl),atlasShaderPs.p("color-especular"),gl));
-    prueba.setSpecular(1,[100,100,100]);
+    prueba.setSpecular(1,[0,1,0]);
     mundo.hijos.push(prueba);
     mundo.configurarLuces(mundo.obtenerLucesHijos());
 

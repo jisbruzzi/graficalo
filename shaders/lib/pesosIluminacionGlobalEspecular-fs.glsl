@@ -4,8 +4,9 @@
 
 
 vec3 pesosIluminacionGlobalEspecular(){
-  vec3 reflected_ray= ((dot(uDireccionLuzGlobal, normalFinal())*normalFinal())*2.0)-uDireccionLuzGlobal;
-  reflected_ray/=length(reflected_ray);
+  //vec3 reflected_ray= ((dot(uDireccionLuzGlobal, normalFinal())*normalFinal())*2.0)-uDireccionLuzGlobal;
+  //reflected_ray/=length(reflected_ray);
+  vec3 reflected_ray=reflect(uDireccionLuzGlobal, normalFinal());
 
   float pesoGlobal = pow(max(dot(vDirCamara, reflected_ray), 0.0),uGlossiness);
   return uColorLuzGlobal*pesoGlobal;

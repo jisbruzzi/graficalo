@@ -109,7 +109,7 @@ function Jugador(camara,mouse,movedor){
       if(z>=1) dz=-2.5;
     }
     if(movedor.e){
-      if(z< 1) dz= 2.5;
+      if(z< 1) dz= 2.75;
     }
 
     x+=dx;
@@ -121,10 +121,20 @@ function Jugador(camara,mouse,movedor){
     }else{
       configurarCamaraGlobal();
     }
-  }
+  };
 
   this.obtenerPosicion=function(){
     return vec3.fromValues(x,y,z);
-  }
+  };
+
+  this.mover=function(xn,yn){
+    x=xn;
+    y=yn;
+    if(camaraFPS){
+      configurarCamaraFPS();
+    }else{
+      configurarCamaraGlobal();
+    }
+  };
 
 }

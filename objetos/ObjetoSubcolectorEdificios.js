@@ -1,5 +1,5 @@
 function ObjetoSubcolectorEdificios(gl,texturasPisos,texturasPlantabaja){
-  let programaEdificio = atlasShaderPs.p("normal");
+  let programaEdificio = atlasShaderPs.p("edificio");
   let yo=new Objeto();
 
 

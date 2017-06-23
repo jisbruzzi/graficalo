@@ -36,7 +36,7 @@ function Luz(){
   }
 
   yo.distanciaIluminada=1;
-  yo.color=[1,1,1];
+  yo.color=[1,1,1];//color difuso
 
   return yo;
 }
