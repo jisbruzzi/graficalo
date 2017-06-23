@@ -40,11 +40,13 @@ function Animador(puntosControl){
   this.archivosShaderPrograms={
 
     "coloreado":["shader-fs-colored-obj.glsl","shader-vs-colored-obj.glsl"],
+    "color-especular":["shader-fs-colored-specular-obj.glsl","shader-vs-colored-specular-obj.glsl"],
     "texturado":["shader-fs-textured-obj.glsl","shader-vs-textured-obj.glsl"],
     "edificio":["shader-fs-edificio-obj.glsl","shader-vs-edificio-obj.glsl"],
     "reflexion":["shader-fs-reflection-obj.glsl","shader-vs-reflection-obj.glsl"],
     "cielo":["shader-fs-cielo.glsl","shader-vs-cielo.glsl"],
     "normalmappeada-texturada":["shader-fs-textured-mapped-obj.glsl","shader-vs-textured-mapped-obj.glsl"],
+    "normalmappeada-texturada-especular":["shader-fs-textured-mapped-specular-obj.glsl","shader-vs-textured-mapped-specular-obj.glsl"],
 
     "normal":["debug/shader-fs-normal.glsl","debug/shader-vs-normal.glsl"],
     "binormal":["debug/shader-fs-binormal.glsl","debug/shader-vs-binormal.glsl"],
@@ -88,7 +90,7 @@ function Animador(puntosControl){
     luz1.anularPosicion().mover(p[0],p[1],p[2]);
     luz2.anularPosicion().mover(p[0],p[1],p[2]).mover(3,0,0);
 
-    mundo.configurarIluminacionGlobal(new ParametrosLuzGlobal().configurarHorario(delta/1000.0));
+    mundo.configurarIluminacionGlobal(new ParametrosLuzGlobal().configurarHorario(12));//delta/1000.0
     if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
@@ -155,8 +157,12 @@ function Animador(puntosControl){
     luz1.distanciaIluminada=10
     luz2.mover(0,0,0.5);
     luz2.color=[0,1,0];
-    */
 
+    */
+    //prueba Iluminacion
+    let prueba= new Objeto(new Modelo(new FormaEsfera(30,30,gl),atlasShaderPs.p("color-especular"),gl));
+    prueba.setSpecular(1,[100,100,100]);
+    mundo.hijos.push(prueba);
     mundo.configurarLuces(mundo.obtenerLucesHijos());
 
   }

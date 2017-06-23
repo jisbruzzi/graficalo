@@ -19,4 +19,13 @@ function Iluminable(o,modelo){
     }
     return ret;
   }
+  o.setSpecular=function(glossiness,specularColor){
+    if(modelo!=undefined){
+      modelo.glossiness=glossiness;
+      modelo.specularColor=specularColor;
+    }
+    for(hijo of o.hijos){
+      hijo.setSpecular(glossiness,specularColor);
+    }
+  }
 }

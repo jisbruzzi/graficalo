@@ -11,7 +11,7 @@ function anguloEntre(vectorUno,vectorDos){
 function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
 	var objetoCompleto = new Objeto();
 	var objetoRuta = new ObjetoRuta(curvas,programaTextura,programaColor,gl);
-	var luminaria = new ObjetoLuminaria(programaColor,gl);
+	//var luminaria = new ObjetoLuminaria(programaColor,gl);
 	var integralAproximada=50;
 	var distanciaEntreLuminarias=5;
 	var par=true;
@@ -28,8 +28,9 @@ function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
 		var desp= curvas[0](i);
 		var tang= curvas[1](i);
 
-
-		objetoAux.hijos.push(new ObjetoLuminaria(programaColor,gl));
+		let luminaria=new ObjetoLuminaria(atlasShaderPs.p("color-especular"),gl);
+		luminaria.setSpecular(1000,[1,1,1]);
+		objetoAux.hijos.push(luminaria);
 		objetoAux.escalar(1/30,1/30,1/30);
 		objetoAux.rotar([0,0,1],((par?Math.PI:0)-anguloEntre(tang,[0,-1,0]))+Math.PI/2);
 		objetoAux.mover(desp[0],desp[1],desp[2]+0.2);

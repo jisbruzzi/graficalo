@@ -6,6 +6,10 @@ const atlasShaderPs=(function(){
     "normal-mappeada-fs","normal-mappeada-vs",
     "pesosIluminacionGlobal-fs",
     "reflexion-fs","reflexion-vs",
+        "pesosIluminacionGlobalEspecular-fs",    "pesosIluminacionEspecular-fs",
+        "camara-vs"
+
+
   ];
   let yo={};
   let gl=null;

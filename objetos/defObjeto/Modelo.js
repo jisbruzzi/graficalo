@@ -15,7 +15,8 @@ function Modelo(forma,shaderProgram,gl){
 
 	const atributosPosibles=["aVertexPosition","aTextureCoord","aVertexNormal","aVertexColor","aAlturaBase","aAlturaSobre","aAltura"];
 	const nombresLegibles=["position_buffer","texture_coord_buffer","normal_buffer","color_buffer"]
-
+	this.glossiness;
+	this.specularColor;
 
 
 
@@ -61,6 +62,10 @@ function Modelo(forma,shaderProgram,gl){
 		gl.uniform3fv(shaderProgram.uColorLuzGlobal, luzGlobal.colorLuzGlobal);
 		gl.uniform3fv(shaderProgram.uDireccionLuzGlobal, luzGlobal.direccionLuzGlobal);
 		gl.uniform3fv(shaderProgram.uColorCielo, luzGlobal.colorCielo);
+		if(!(this.glossiness===undefined)){
+			gl.uniform1f(shaderProgram.uGlossiness, this.glossiness);
+			gl.uniform3fv(shaderProgram.uSpecularColor, this.specularColor);
+		}
 
 	}
 

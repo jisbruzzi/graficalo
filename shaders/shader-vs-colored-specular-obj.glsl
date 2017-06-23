@@ -1,14 +1,16 @@
 attribute vec3 aVertexPosition;
-attribute vec2 aTextureCoord;
+attribute vec3 aVertexColor;
 
 uniform mat4 uViewMatrix;
 uniform mat4 uModelMatrix;
 uniform mat4 uPMatrix;
 
 varying vec2 vTextureCoord;
-#include normal-mappeada-vs
-#include pesosIluminacion-vs
+varying vec3 vVertexColor;
 
+#include normal-comun-vs
+#include pesosIluminacion-vs
+#include camara-vs
 
 void main(void) {
   // Transformamos al vértice al espacio de la cámara
@@ -18,9 +20,10 @@ void main(void) {
   gl_Position = uPMatrix * pos_camera_view;
 
 	// Coordenada de textura sin modifiaciones
-  vTextureCoord = aTextureCoord;
+  vVertexColor = aVertexColor;
   // posición de la fuente
+	prepararCamara(aVertexPosition);
   prepararPesosIluminacion(aVertexPosition);
-	prepararNormal();
 
+	prepararNormal();
 }

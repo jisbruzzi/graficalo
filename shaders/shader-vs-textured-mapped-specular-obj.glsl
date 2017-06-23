@@ -8,7 +8,7 @@ uniform mat4 uPMatrix;
 varying vec2 vTextureCoord;
 #include normal-mappeada-vs
 #include pesosIluminacion-vs
-
+#include camara-vs
 
 void main(void) {
   // Transformamos al vértice al espacio de la cámara
@@ -20,7 +20,7 @@ void main(void) {
 	// Coordenada de textura sin modifiaciones
   vTextureCoord = aTextureCoord;
   // posición de la fuente
+	prepararCamara(aVertexPosition);
   prepararPesosIluminacion(aVertexPosition);
 	prepararNormal();
-
 }
