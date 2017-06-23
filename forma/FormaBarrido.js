@@ -191,6 +191,13 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 			normal_buffer.push(normal[1]);
 			normal_buffer.push(normal[2]);
 
+			let tangenteCurva=vectorTangente;
+			let binormal=tangenteCurva;
+			let tangente=[0,0,0];
+			vec3.cross(tangente,normal,binormal);//esto es lo opiuesto a lo que debería ser pero funciona
+			tangent_buffer=tangent_buffer.concat(tangente);
+			binormal_buffer=binormal_buffer.concat(binormal);
+/*
 			tangent_buffer.push(vectorTangente[0]);
 			tangent_buffer.push(vectorTangente[1]);
 			tangent_buffer.push(vectorTangente[2]);
@@ -198,7 +205,7 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 			binormal_buffer.push(binormal[0]);
 			binormal_buffer.push(binormal[1]);
 			binormal_buffer.push(binormal[2]);
-
+*/
 			color_buffer.push(colores[0](i,j));
 			color_buffer.push(colores[1](i,j));
 			color_buffer.push(colores[2](i,j));

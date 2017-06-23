@@ -6,6 +6,7 @@ uniform mat4 uModelMatrix;
 uniform mat4 uPMatrix;
 
 varying vec3 vVertexNormal;
+uniform mat3 uNMatrix;
 
 void main(void) {
   // Transformamos al vértice al espacio de la cámara
@@ -15,5 +16,5 @@ void main(void) {
   gl_Position = uPMatrix * pos_camera_view;
 
   // normal sin modificaciones
-  vVertexNormal = aVertexNormal;
+  vVertexNormal = uNMatrix*aVertexNormal;
 }

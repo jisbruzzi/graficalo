@@ -1,23 +1,23 @@
-function FormaPlano(ancho,alto,gl,color,mapeoTextura){//mapeotextura es una funcion que toma i,j y devuelve las coordenadas uv para el mapeo 
+function FormaPlano(ancho,alto,gl,color,mapeoTextura){//mapeotextura es una funcion que toma i,j y devuelve las coordenadas uv para el mapeo
   //las 4 puntas (recorridas en forma de círculo)
   let position_buffer = [
     -ancho/2,-alto/2,0,
      ancho/2,-alto/2,0,
     -ancho/2, alto/2,0,
      ancho/2, alto/2,0
-    
+
   ];
   let tangent_buffer =[
-    0,1,0,
-    0,1,0,
-    0,1,0,
-    0,1,0,
+    1,0,0,
+    1,0,0,
+    1,0,0,
+    1,0,0,
   ];
   let binormal_buffer =[
-    -1,0,0,
-    -1,0,0,
-    -1,0,0,
-    -1,0,0,
+    0,1,0,
+    0,1,0,
+    0,1,0,
+    0,1,0,
   ];
   let normal_buffer = [
     0,0,1,
@@ -44,7 +44,7 @@ function FormaPlano(ancho,alto,gl,color,mapeoTextura){//mapeotextura es una func
       }
     }
   }
-  
+
 
   let color_buffer = [];
   if (color==null || color == undefined){
