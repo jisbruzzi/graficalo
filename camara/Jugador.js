@@ -106,7 +106,7 @@ function Jugador(camara,mouse,movedor){
       dy=-0.05*ch*boost;
     }
     if(movedor.q){
-      if(z>=1) dz=-2.5;
+      if(z>=1) dz=-2.75;
     }
     if(movedor.e){
       if(z< 1) dz= 2.75;

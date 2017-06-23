@@ -90,7 +90,7 @@ function Animador(puntosControl){
     luz1.anularPosicion().mover(p[0],p[1],p[2]);
     luz2.anularPosicion().mover(p[0],p[1],p[2]).mover(3,0,0);
 
-    mundo.configurarIluminacionGlobal(new ParametrosLuzGlobal().configurarHorario(delta/1000.0));//delta/1000.0
+    mundo.configurarIluminacionGlobal(new ParametrosLuzGlobal().configurarHorario(delta/1000));//delta/1000.0
     if (cielo != null) cielo.anularPosicion().mover(p[0],p[1],p[2]);
   }
 
@@ -124,7 +124,7 @@ function Animador(puntosControl){
     let texturaVereda = atlasTexturas.t("vereda.jpg");
 
     //calles = new ObjetoCalles(5,5,12,gl);
-    calles = new ObjetoCalles(5,6,10,gl);
+    calles = new ObjetoCalles(8,8,10,gl);
     mundo.hijos.push(calles);
     jugador.mover(calles.getAlto()/2,calles.getAncho()/2);
 
@@ -160,7 +160,13 @@ function Animador(puntosControl){
 
     */
     //prueba Iluminacion
+    /*
+    let prueba= new Objeto(new Modelo(new FormaEsfera(30,30,gl),atlasShaderPs.p("color-especular"),gl));
+    prueba.setSpecular(1,[0,1,0]);
+    mundo.hijos.push(prueba);
+    */
     mundo.configurarLuces(mundo.obtenerLucesHijos());
+
   }
 
 }
