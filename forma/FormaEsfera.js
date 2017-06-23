@@ -56,9 +56,9 @@ function FormaEsfera(latitudeBands,longitudeBands,gl){
       position_buffer.push(y);
       position_buffer.push(z);
 
-      color_buffer.push(x/2.0);
-      color_buffer.push(y/2.0);
-      color_buffer.push(z/2.0);
+      color_buffer.push(0);
+      color_buffer.push(0);
+      color_buffer.push(0);
     }
   }
 

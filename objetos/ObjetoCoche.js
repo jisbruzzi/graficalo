@@ -7,7 +7,7 @@ function ObjetoCoche(programaColor,programaTextura,gl){
 	var carroceria=new FormaCarroceria(gl).copiaConTextura(atlasTexturas.t("coche-mips.jpg"));
 	FormaNormalMappeada(carroceria,atlasTexturas.t("coche-normal.jpg"));
 	var objCarroceria= new Objeto(new Modelo(carroceria,sp,gl));
-	objCarroceria.setSpecular(5,[1,1,1]);
+	objCarroceria.setSpecular(5,[3,3,3]);
 	var objLlanta = new Objeto(new Modelo(new FormaLlanta(gl).copiaConTextura(atlasTexturas.t("llanta.jpg")),programaTextura,gl));
 	var objCubierta = new Objeto(new Modelo(new FormaCubierta(gl),programaColor,gl));
 	var objRuedaGenerica=new Objeto();

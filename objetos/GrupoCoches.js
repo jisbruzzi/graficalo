@@ -3,7 +3,7 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 
 	var cochePrincipal=new ObjetoCoche(programaColor,porgramaTextura,gl);
 	var i=0;
-	var paso=0.00001250;
+	var paso=0.1250;
 	var anchoCoche=2.5/7;
 	var largoCoche=5/7;
 	var anchoTotal=2;

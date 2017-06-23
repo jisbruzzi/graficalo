@@ -235,6 +235,7 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 
 
   }
+  	this.curvas=arrayFunciones;
 	//generar los buffers de opengl
 	this.normal_buffer=normal_buffer;
 	this.position_buffer=position_buffer;
@@ -245,11 +246,20 @@ function FormaBarrido(vertices,normales,arrayFunciones,colores,paso,gl){
 
   //-- interfaz obligatoria --//
   	this.copiaConTexturaMapeada=function(textura,repeticionesTextura){
+  		let longitudAproximada=0;
+  		for(var i=0;i<1;i+=0.01){
+  			longitudAproximada+=0.01*this.curvas[2](i);
+  		}
+  		let longitudTextura=longitudAproximada/repeticionesTextura;
   		let texture_coord_buffer=new Array();
+  		let distanciaRecorrida=0;
   		for(var i=0;i<1+paso;i+=paso){
+  			if(i>1) i=1;
+  			distanciaRecorrida+=paso*this.curvas[2](i);
+
 			for(var j=0;j<this.puntosPatron;j++){
 				var u=j/(this.puntosPatron-1);
-				var v=i*repeticionesTextura;
+				var v=distanciaRecorrida/longitudTextura;
 				texture_coord_buffer.push(u);
 				texture_coord_buffer.push(v);
 			}

@@ -18,7 +18,7 @@ vec3 pesosIluminacionEspecular(){
         vec3 light_dir =  vPosRelFuente[i];
         light_dir /= length(light_dir);
 
-        vec3 reflected_ray= ((dot(light_dir, transformedNormal)*transformedNormal)*2.0)-light_dir;
+        vec3 reflected_ray= ((max(dot(light_dir, transformedNormal),0.0)*transformedNormal)*2.0)-light_dir;
         reflected_ray/=length(reflected_ray);
         float directionalLightWeighting = pow(max(dot(vDirCamara, reflected_ray), 0.0),uGlossiness);
         float pesoPorSpot = pow(max(dot(-light_dir,uDireccionLuz[i]),0.0),uConcentracion[i]);

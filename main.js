@@ -99,9 +99,9 @@ function Main(animador){
     cargarImagenes(listaImagenes,function(atlasImagenes){
       atlasTexturas.cargarTexturas(listaImagenes,function(){
 
-        camara.setPerspectiva(3.14/12.0, gl.viewportWidth / gl.viewportHeight, 0.1, 10000.0);
+        camara.setPerspectiva(3.14/6.0, gl.viewportWidth / gl.viewportHeight, 0.1, 10000.0);
 
-        animador.iniciarMundo(gl,camara,new Mouse(canvas),new Movedor(canvas));
+        animador.iniciarMundo(gl,camara,new MouseFederico(canvas),new Movedor(canvas));
 
     		gl.clearColor(0.82, 0.82, 0.92, 1);
         gl.enable(gl.DEPTH_TEST);
