@@ -4,7 +4,6 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 	var cochePrincipal=new ObjetoCoche(programaColor,porgramaTextura,gl);
 	var i=0;
 	var paso=0.00001250;
-	var distanciaIdealEntreCoches=1/cantidadCoches*2;
 	var anchoCoche=2.5/7;
 	var largoCoche=5/7;
 	var anchoTotal=2;
@@ -29,11 +28,24 @@ function GrupoCoches(cantidadCoches,curvas,alturaRuta,programaColor,porgramaText
 		cochesCentrados[i].hijos.push(auxiliar);
 	}
 
-	inicioIntervalo=0
-	for(var i=0;i<cantidadCoches;i++){
-
-		posicionEnCurva[i]=Math.random()/cantidadCoches/2+inicioIntervalo+1/4/cantidadCoches;// /2 y sumarle 1/4 es para dar un margen para no solapamiento
-		inicioIntervalo+=1/cantidadCoches;
+	inicioIntervalo=0;
+	let longitudAproximada=0;
+	for(var i=0;i<1;i+=0.01){
+		longitudAproximada+=0.01*curvas[2](i);
+	}
+	let distanciaIdealEntreCoches=longitudAproximada/cantidadCoches*0.85;//acoto un poco para no salir de la carretera
+	let coche=1;
+	posicionEnCurva[0]=0;
+	let distanciaRecorrida=0;
+	for(var i=0;i<1;i+=0.01){
+		distanciaRecorrida+=0.01*curvas[2](i);
+		
+		if(distanciaRecorrida>distanciaIdealEntreCoches){
+			distanciaRecorrida=0;
+			posicionEnCurva[coche]=i;
+			distanciaAProximoCoche= ((Math.random()-0.5)/0.5+1)*distanciaIdealEntreCoches;
+			coche++;
+		}
 	}
 	//inicializar posicon en curva
 

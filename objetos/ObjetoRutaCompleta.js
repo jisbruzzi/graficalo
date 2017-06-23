@@ -29,7 +29,7 @@ function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
 		var tang= curvas[1](i);
 
 		let luminaria=new ObjetoLuminaria(atlasShaderPs.p("color-especular"),gl);
-		luminaria.setSpecular(1000,[1,1,1]);
+		luminaria.setSpecular(8,[1,1,1]);
 		objetoAux.hijos.push(luminaria);
 		objetoAux.escalar(1/30,1/30,1/30);
 		objetoAux.rotar([0,0,1],((par?Math.PI:0)-anguloEntre(tang,[0,-1,0]))+Math.PI/2);

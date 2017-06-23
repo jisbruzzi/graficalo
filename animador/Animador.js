@@ -161,7 +161,7 @@ function Animador(puntosControl){
     */
     //prueba Iluminacion
     let prueba= new Objeto(new Modelo(new FormaEsfera(30,30,gl),atlasShaderPs.p("color-especular"),gl));
-    prueba.setSpecular(1,[100,100,100]);
+    prueba.setSpecular(10,[1,1,1]);
     mundo.hijos.push(prueba);
     mundo.configurarLuces(mundo.obtenerLucesHijos());
 

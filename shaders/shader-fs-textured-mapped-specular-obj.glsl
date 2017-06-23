@@ -23,5 +23,5 @@ void main(void) {
   vec3 pesos=pesosIluminacion()+pesosIluminacionGlobal();
   vec3 pesosEspecular=pesosIluminacionEspecular()+pesosIluminacionGlobalEspecular();
 
-  gl_FragColor = vec4(textureColor.rgb * pesos, textureColor.a)+vec4(uSpecularColor*pesosEspecular,1.0)*0.2;
+  gl_FragColor = vec4(textureColor.rgb * pesos, textureColor.a)+2.0*vec4(uSpecularColor*pesosEspecular,1.0)*0.2;
 }

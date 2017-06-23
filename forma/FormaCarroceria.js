@@ -84,7 +84,7 @@ function FormaCarroceria(gl){
   var difX=(largoTecho-largoTechoSup)/2;
   var difY=(anchoCoche-anchoTecho)/2;
                 //              cost izq                      frente                  derecho                          trasero
-  let normBuffer=[0,-1,0, 0,-1,0,0,-1,0, 0,-1,0,     1,0,0,1,0,0,1,0,0,1,0,0,   0,1,0,0,1,0,0,1,0,0,1,0,   0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,
+  let normBuffer=[0,-1,0, 0,-1,0,0,-1,0, 0,-1,0,     1,0,0,1,0,0,1,0,0,1,0,0,   0,1,0,0,1,0,0,1,0,0,1,0,   -1,0,0,-1,0,0,-1,0,0,-1,0,0,-1,0,0,
 
 //         baul               luneta                                                                           techoSup                              parabrisa                                                                           capot
   0,0,1,0,0,1,0,0,1,0,0,1,    -difAltura,0,difX,-difAltura,0,difX,-difAltura,0,difX,-difAltura,0,difX,         0,0,1,0,0,1,0,0,1,0,0,1,              difAltura,0,difX,difAltura,0,difX,difAltura,0,difX,difAltura,0,difX,               0,0,1,0,0,1,0,0,1,0,0,1,
@@ -96,7 +96,7 @@ function FormaCarroceria(gl){
 
   let tangent_buffer=[
   //cost izq                frente                       derecho                    trasero
-  1,0,0,1,0,0,1,0,0,1,0,0,  0,0,-1,0,0,-1,0,0,-1,0,0,-1, 1,0,0,1,0,0,1,0,0,1,0,0,   0,0,1,0,0,1,0,0,1,0,0,1,    
+  1,0,0,1,0,0,1,0,0,1,0,0,  0,0,1,0,0,1,0,0,1,0,0,1, 1,0,0,1,0,0,1,0,0,1,0,0,   0,0,-1,0,0,-1,0,0,-1,0,0,-1,    
   //baul                    luneta                                                                        techoSup                   parabrisa                                                                capot                                       
   1,0,0,1,0,0,1,0,0,1,0,0,  difX,0,difAltura,difX,0,difAltura,difX,0,difAltura,difX,0,difAltura,          1,0,0,1,0,0,1,0,0,1,0,0,   difX,0,-difAltura,difX,0,-difAltura,difX,0,-difAltura,difX,0,-difAltura, 1,0,0,1,0,0,1,0,0,1,0,0,
 
@@ -116,19 +116,19 @@ function FormaCarroceria(gl){
     tangent_buffer[i+1]/=norma;
     tangent_buffer[i+2]/=norma;
 
-    binormal_buffer.push(normBuffer[i+1]*tangent_buffer[i+2]-normBuffer[i+2]*tangent_buffer[i+1]);
-    binormal_buffer.push(normBuffer[i+2]*tangent_buffer[i]-normBuffer[i]*tangent_buffer[i+2]);
-    binormal_buffer.push(normBuffer[i+0]*tangent_buffer[i+1]-normBuffer[i+1]*tangent_buffer[i+0]);
+    binormal_buffer.push(-(normBuffer[i+1]*tangent_buffer[i+2]-normBuffer[i+2]*tangent_buffer[i+1]));
+    binormal_buffer.push(-(normBuffer[i+2]*tangent_buffer[i]-normBuffer[i]*tangent_buffer[i+2]));
+    binormal_buffer.push(-(normBuffer[i+0]*tangent_buffer[i+1]-normBuffer[i+1]*tangent_buffer[i+0]));
 
 
 
   }
 
   let t=binormal_buffer;
-  binormal_buffer=tangent_buffer;
-  tangent_buffer=t;
-  console.log(binormal_buffer);
-  console.log(tangent_buffer);
+  //binormal_buffer=tangent_buffer;
+  //tangent_buffer=t;
+  //console.log(binormal_buffer);
+  //console.log(tangent_buffer);
 
   //manera rara de dibujar
   var offset=0;
