@@ -3,7 +3,7 @@ function ObjetoCoche(programaColor,programaTextura,gl){
 	var largoCoche=5;
 	var anchoCoche=2.5;
 	let sp=atlasShaderPs.p("normalmappeada-texturada-especular");
-	let sp=atlasShaderPs.p("normal");
+	//let sp=atlasShaderPs.p("normal");
 	var carroceria=new FormaCarroceria(gl).copiaConTextura(atlasTexturas.t("coche-mips.jpg"));
 	FormaNormalMappeada(carroceria,atlasTexturas.t("coche-normal.jpg"));
 	var objCarroceria= new Objeto(new Modelo(carroceria,sp,gl));
