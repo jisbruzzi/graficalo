@@ -2,7 +2,7 @@ function ObjetoCoche(programaColor,programaTextura,gl){
 	var obj= new Objeto();
 	var largoCoche=5;
 	var anchoCoche=2.5;
-	let sp=atlasShaderPs.p("normalmappeada-texturada");
+	let sp=atlasShaderPs.p("normal");
 	var carroceria=new FormaCarroceria(gl).copiaConTextura(atlasTexturas.t("coche-mips.jpg"));
 	FormaNormalMappeada(carroceria,atlasTexturas.t("coche-normal.jpg"));
 	var objCarroceria= new Objeto(new Modelo(carroceria,sp,gl));
@@ -22,7 +22,7 @@ function ObjetoCoche(programaColor,programaTextura,gl){
 	var objRuedaDelanteraDerecha = new Objeto();
 	objRuedaDelanteraDerecha.escalar(1,-1,1);
 	objRuedaDelanteraDerecha.hijos.push(objRuedaGenerica);
-	
+
 	var objRuedaTraseraDerecha = new Objeto();
 	objRuedaTraseraDerecha.mover(-largoCoche*0.6/7,0,0);
 	objRuedaTraseraDerecha.escalar(1,-1,1);

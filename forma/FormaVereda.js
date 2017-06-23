@@ -92,7 +92,7 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
     let prev=null;
     recorridoCurvoNoventa(offx,offy,offAngulo,radioBorde,function(x,y,ang){
       puntoNormalArriba(offx,offy,profundidad);
-      let angDef=ang+offAngulo+Math.PI/2;
+      let angDef=ang+offAngulo;
       tangente(Math.cos(angDef),Math.sin(angDef));
       uv(0,ang/(Math.PI/2));
       puntoNormalArriba(x,y,profundidad);
@@ -130,10 +130,10 @@ function FormaVereda(ladoManzana,anchoVereda,radioBorde,gl){
       if(Math.abs(x1-x2)>Math.abs(y2-y1)){
         let corta=Math.abs(y2-y1);
         uv(x*(x2-x1)/Math.abs(y2-y1),y);
-        tangente(0,1);
+        tangente(1,0);
       }else{
         uv(x,y*(y2-y1)/Math.abs(x2-x1));
-        tangente(0,1);
+        tangente(1,0);
       }
       x=x1+(x2-x1)*x;
       y=y1+(y2-y1)*y;
