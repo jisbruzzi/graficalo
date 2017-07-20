@@ -136,7 +136,7 @@ function Modelo(forma,shaderProgram,gl){
 
 	this.dibujar=function(modelMatrix,uniforms){
 		//console.log(forma);
-		if(FormaDibujable(forma).dibujable){
+		if(FormaDibujable(forma).dibujable && !Glizable(forma).eliminada){
 			shaderProgram.usar();
 			this.setupLighting();
 			this.setupUniforms(uniforms);

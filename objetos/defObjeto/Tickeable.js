@@ -4,17 +4,17 @@ function Tickeable(o){
     sobretick=cual;
   }
 
-  o.sobretick=function(delta){
+  o.sobretick=function(delta,mundo){
     if(sobretick!=null && delta != undefined){
-      sobretick(delta);
+      sobretick(delta,mundo);
     }
   };
 
-  o.tick = function(delta){
+  o.tick = function(delta,mundo){
 
-    this.sobretick(delta);
+    this.sobretick(delta,mundo);
     o.hijos.forEach(function(h){
-      h.tick(delta);
+      h.tick(delta,mundo);
     });
   }
 }

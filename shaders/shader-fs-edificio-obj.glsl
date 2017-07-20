@@ -111,6 +111,7 @@ void main(void) {
   //gl_FragColor+= 0.5*vec4(textureColor.rgb*pesos, textureColor.a);
 
   gl_FragColor = vec4(textureColor.rgb*pesos, textureColor.a);
+  //gl_FragColor = vec4(vec3(0.2,0.9,0.9), textureColor.a);
 
   //gl_FragColor = vec4(uTiempo,uTiempo,uTiempo, textureColor.a);
 }

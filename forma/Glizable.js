@@ -1,5 +1,12 @@
 function Glizable(f,gl){
 
+  if(f.yaTieneInterfazGlizada!=undefined){
+    return f;
+  }
+
+  f.yaTieneInterfazGlizada=true;
+
+
   function TipoBuffer(nombreComun,fabrica,nombreEnShader){
     let yo={};
     yo.tieneComun=function(){
@@ -20,6 +27,7 @@ function Glizable(f,gl){
 
 
   f.glizada=false;
+  f.eliminada=false;
   let tiposBuffer=[
     new TipoBuffer("position_buffer",new GlPositionBuffer(gl),"aVertexPosition"),
     new TipoBuffer("normal_buffer",new GlNormalBuffer(gl),"aVertexNormal"),

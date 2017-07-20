@@ -17,11 +17,8 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana,colectorEdificios,xManzan
   let yo = new Objeto();
   yo.setPosicion(xManzana,yManzana,0);
 
-  let listaEdificios=new ListaEdificios(lado);
 
 
-  listaEdificios.forEach(agregarEdificio);
-  colectorEdificios.actualizar();
 
   function agregarEdificio(edificio){
 
@@ -43,6 +40,29 @@ function ObjetoManzanaEdificios(lado,gl,retardoManzana,colectorEdificios,xManzan
     let o = colectorEdificios.agregarEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x+xManzana,y+yManzana,edificio.ancho,edificio.fondo);
 
   }
+
+  let listaEdificios=new ListaEdificios(lado);
+  listaEdificios.forEach(agregarEdificio);
+  colectorEdificios.actualizar();
+
+  let agregue=false;
+  let sumaDeltas=0;
+  let inicio=-1;
+  yo.cambiarSobretick(function(delta,mundo){
+    if(inicio==-1){
+      inicio=delta;
+    }
+
+    if(!agregue && delta-inicio >= retardoManzana*1000){
+      /*
+      let listaEdificios=new ListaEdificios(lado);
+      listaEdificios.forEach(agregarEdificio);
+      colectorEdificios.actualizar(mundo);
+*/
+      console.log("me agrego");
+      agregue=true;
+    }
+  });
 
   return yo;
 }

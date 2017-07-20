@@ -17,9 +17,9 @@ function ObjetoColectorEdificios(gl){
     elementoAlAzar(yo.hijos).agregarEdificio(ancho,fondo,gl,altura,retardo,tiempoAnimacion,x,y,anchoUv,fondoUv);
   };
 
-  yo.actualizar=function(){
+  yo.actualizar=function(mundo){
     for (let colector of yo.hijos) {
-      colector.actualizar();
+      colector.actualizar(mundo);
     }
   };
 

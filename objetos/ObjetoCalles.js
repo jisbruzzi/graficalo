@@ -36,6 +36,8 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
     }
   }
 
+  console.log("A");
+
   yo.getAncho=function(){
     return (ladoManzana+tamEsq)*manzanasAlto+tamEsq;
   }
@@ -165,16 +167,20 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       e.rotar([0,0,1],Math.PI/2);
       yo.hijos.push(e);
     }
+    console.log("A");
     for (let x=0; x<manzanasAncho+1;x++){
       for (let y=0; y<manzanasAlto+1;y++){
         ponerEsquina(x*(ladoManzana+tamEsq),y*(ladoManzana+tamEsq));
       }
     }
+    console.log("empecé a poner manzanas");
     for (let x=0; x<manzanasAncho;x++){
       for (let y=0; y<manzanasAlto;y++){
         ponerManzana(tamEsq/2+x*(ladoManzana+tamEsq)+ladoManzana/2,tamEsq/2+y*(ladoManzana+tamEsq)+ladoManzana/2,plazas[x][y]);
       }
     }
+    console.log("terminé de poner manzanas");
+
     for (let x=0; x<manzanasAncho+1;x++){
       for (let y=0; y<manzanasAlto;y++){
         ponerCalleVertical(x*(ladoManzana+tamEsq),(tamEsq+ladoManzana)/2+y*(ladoManzana+tamEsq));
@@ -186,6 +192,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
         ponerCalleHorizontal((tamEsq+ladoManzana)/2+x*(ladoManzana+tamEsq),y*(ladoManzana+tamEsq));
       }
     }
+
     var suma=0;
     for(let i=0;i<200;i++){
       suma+=normaTangCurva(i/200)*1/200;
@@ -201,6 +208,7 @@ function ObjetoCalles(manzanasAncho,manzanasAlto,ladoManzana,gl){
       ponerPilarSiPosible(p.x,p.y,avance,distanciaMinima);
     }
 
+    console.log("A (ultimo)");
 
   }
 
