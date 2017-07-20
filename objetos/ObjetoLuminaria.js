@@ -64,7 +64,7 @@ function curvaBezier(puntosControl){
 
 }
 
-function ObjetoLuminaria(programaColor,gl){
+function crearFormasLuminaria(gl){
 	let radioBorde=1;
 	let radioBase=3;
 	let alturaBase=7;
@@ -103,13 +103,33 @@ function ObjetoLuminaria(programaColor,gl){
 	let formaBase = new FormaRevolucion(contornoBase,normalesBase,Math.PI*2/cantidadPuntosEnCirculo,amarilloSucio,gl);
 	let formaCaja = new FormaCaja(colorCaja,gl);
 
+	return {palo:formaPalo,base:formaBase,caja:formaCaja,desp:curvas[0](1)};
+}
 
-	let objetoPalo = new Objeto(new Modelo(formaPalo,programaColor,gl));
-	let objetoBase = new Objeto(new Modelo(formaBase,programaColor,gl));
-	let objetoCaja = new Objeto(new Modelo(formaCaja,programaColor,gl));
+function ObjetoLuminaria(programaColor,forma,gl){
+	let radioBorde=1;
+	let radioBase=3;
+	let alturaBase=7;
+	let extensionSobreRutaLuminaria=25;
+	let alturaLuminaria=50;
+	let cantidadPuntosEnCirculo=20;
+	let largoLuz=7;
+	let anchoLuz=4;
+	let altoLuz=2;
+
+	let contornoCirculo = new Array();
+	let normalesCirculo = new Array();
+	let contornoBase= [0,0,alturaBase,0,radioBase,alturaBase,0,radioBase,alturaBase,0,radioBase,0,0,0,0];
+	let normalesBase= [0,0,1,0,0,1,0,1,0,0,1,0,0,0,-1];
+	let objetoLuminaria = new Objeto();
+
+
+	let objetoPalo = new Objeto(new Modelo(forma.palo,programaColor,gl));
+	let objetoBase = new Objeto(new Modelo(forma.base,programaColor,gl));
+	let objetoCaja = new Objeto(new Modelo(forma.caja,programaColor,gl));
 	//objetoPalo.mover(0,0,alturaBase);
 
-	let desp=curvas[0](1);
+	let desp=forma.desp;
 	objetoCaja.mover(desp[0],desp[1],desp[2]);
 	objetoCaja.mover(0,largoLuz/2,0);
 

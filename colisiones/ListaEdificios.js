@@ -1,17 +1,21 @@
-
+function elegir(array){
+  return array[Math.floor(Math.random()*array.length)];
+}
 function ListaEdificios(lado){
   let cantidadEdificios = lado*lado*(0.2+Math.random())/2;//10;//
   let yo=[];
 
-  function agregarEdficioPosRandom(){
-    for(let i =0; i<100;i++){
+  function agregarEdficiosPosRandom(){
+    for(let i =0; i<50;i++){
       let xr=Math.floor(Math.random()*lado);
       let yr=Math.floor(Math.random()*lado);
-      let eNuevo = new Edificio(1,1,xr,yr);
+      let ancho=elegir([1,1,1,2,2,3]);
+      let fondo=elegir([1,1,1,2,2,3]);
+      let eNuevo = new Edificio(ancho,fondo,xr,yr);
 
       if(!colisiona(eNuevo)){
         yo.push(eNuevo);
-        break;
+
       }
     }
   }
@@ -65,11 +69,11 @@ function ListaEdificios(lado){
   }
 
 
-  for(let i = 0;i<cantidadEdificios;i++){
-    agregarEdficioPosRandom();
-  }
+  //for(let i = 0;i<cantidadEdificios;i++){
+    agregarEdficiosPosRandom();
+  //}
 
-  for(let i = 0;i<lado;i++){
+  for(let i = 0;i<3;i++){//3 <-> lado
     revolverTodo();
   }
 

@@ -1,4 +1,5 @@
 function ObjetoRuta(curvas,programaTextura,programaColor,gl){//curvas es un array que tiene en la primera la curva, y en la segunda su derivada normalizada, en la tercera el valor de la norma de la derivada
+	console.log("D");
 	let ancho=2;
 	let gap=0.05*ancho;
 	let alto=0.10*ancho;
@@ -10,6 +11,8 @@ function ObjetoRuta(curvas,programaTextura,programaColor,gl){//curvas es un arra
 
 	let objetoRuta = new Objeto();
 
+	console.log("D");
+
 	let contornoAsfaltoDesplazado= new Array();
 	for(var i=0;i<contornoAsfalto.length/3;i++){
 		contornoAsfaltoDesplazado.push(0);
@@ -17,12 +20,16 @@ function ObjetoRuta(curvas,programaTextura,programaColor,gl){//curvas es un arra
 		contornoAsfaltoDesplazado.push(contornoAsfalto[i*3+2]);
 	}
 
+	console.log("D");
+
 	let contornoBordeDesplazado = new Array();
 	for(var i=0;i<contornoBorde.length/3;i++){
 		contornoBordeDesplazado.push(0);
 		contornoBordeDesplazado.push(contornoBorde[i*3+1]+ancho+gap);
 		contornoBordeDesplazado.push(contornoBorde[i*3+2]);
 	}
+
+	console.log("D");
 	var asfalto = new Array();
 	var borde = new Array();
 	//estas funciones no se usan mas, deberia sacarlas;
@@ -35,22 +42,26 @@ function ObjetoRuta(curvas,programaTextura,programaColor,gl){//curvas es un arra
 	let formaAsfaltoUno = new FormaBarrido(contornoAsfalto,normalesAsfalto,curvas,asfalto,0.001,gl).copiaConTexturaMapeada(atlasTexturas.t("autopista.jpg"),20);
     FormaNormalMappeada(formaAsfaltoUno,atlasTexturas.t("autopista_n.png"));
 		//formaAsfaltoUno.agregarSampler2D("uSampler",atlasTexturas.t("referenciaDebug.jpg"));
+	console.log("D");
 	let formaAsfaltoDos = new FormaBarrido(contornoAsfaltoDesplazado,normalesAsfalto,curvas,asfalto,0.001,gl).copiaConTexturaMapeada(atlasTexturas.t("autopista.jpg"),20);
 	FormaNormalMappeada(formaAsfaltoDos,atlasTexturas.t("autopista_n.png"));
 	//formaAsfaltoDos.agregarSampler2D("uSampler",atlasTexturas.t("referenciaDebug.jpg"));
+	console.log("D");
 
-	let formaBordeUno = new FormaBarrido(contornoBorde,normalesBorde,curvas,borde,0.001,gl).copiaConTexturaMapeada(atlasTexturas.t("gris.jpg"),20);
-	let formaBordeDos = new FormaBarrido(contornoBordeDesplazado,normalesBorde,curvas,borde,0.001,gl).copiaConTexturaMapeada(atlasTexturas.t("gris.jpg"),20);
+	let formaBordeUno = new FormaBarrido(contornoBorde,normalesBorde,curvas,borde,0.01,gl).copiaConTexturaMapeada(atlasTexturas.t("gris.jpg"),20);
+	let formaBordeDos = new FormaBarrido(contornoBordeDesplazado,normalesBorde,curvas,borde,0.01,gl).copiaConTexturaMapeada(atlasTexturas.t("gris.jpg"),20);
     FormaNormalMappeada(formaBordeUno,atlasTexturas.t("concreto_n.jpg"));
 		//formaBordeUno.agregarSampler2D("uSampler",atlasTexturas.t("referenciaDebug.jpg"));
     FormaNormalMappeada(formaBordeDos,atlasTexturas.t("concreto_n.jpg"));
 		//formaBordeDos.agregarSampler2D("uSampler",atlasTexturas.t("referenciaDebug.jpg"));
+	console.log("D");
 
 	let objetoAsfaltoUno = new Objeto(new Modelo(formaAsfaltoUno,sp,gl));
 	let objetoAsfaltoDos = new Objeto(new Modelo(formaAsfaltoDos,sp,gl));
 
 	let objetoBordeUno = new Objeto(new Modelo(formaBordeUno,sp,gl));
 	let objetoBordeDos = new Objeto(new Modelo(formaBordeDos,sp,gl));
+	console.log("D");
 
 	objetoRuta.hijos.push(objetoAsfaltoUno);
 	objetoRuta.hijos.push(objetoAsfaltoDos);

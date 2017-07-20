@@ -9,13 +9,18 @@ function anguloEntre(vectorUno,vectorDos){
 
 
 function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
+	console.log("C");
+	let forma = crearFormasLuminaria(gl);
 	var objetoCompleto = new Objeto();
+	console.log("C");
 	var objetoRuta = new ObjetoRuta(curvas,programaTextura,programaColor,gl);
+	console.log("C");
 	//var luminaria = new ObjetoLuminaria(programaColor,gl);
 	var integralAproximada=50;
 	var distanciaEntreLuminarias=5;
 	var par=true;
-	paso=0.001;//aumentar el paso solo aumenta la precision
+	paso=0.01;//aumentar el paso solo aumenta la precision
+	console.log("C");
 	for(var i=0;i<1+paso/10;i+=paso){
 		if(i>1)
 			i=1;
@@ -28,7 +33,7 @@ function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
 		var desp= curvas[0](i);
 		var tang= curvas[1](i);
 
-		let luminaria=new ObjetoLuminaria(atlasShaderPs.p("color-especular"),gl);
+		let luminaria=new ObjetoLuminaria(atlasShaderPs.p("color-especular"),forma,gl);
 		luminaria.setSpecular(8,[1,1,1]);
 		objetoAux.hijos.push(luminaria);
 		objetoAux.escalar(1/30,1/30,1/30);
@@ -38,6 +43,7 @@ function ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl){
 		integralAproximada=0;
 		}
 	}
+	console.log("C");
 	objetoCompleto.hijos.push(objetoRuta);
 	return objetoCompleto;
 }

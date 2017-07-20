@@ -133,14 +133,16 @@ function Animador(puntosControl){
     let generaFachada=new GeneraFachadaCurvaRuta(curvas);
 
     coches= new GrupoCoches(10,curvas,2.5+0.2-0.05,programaColor,programaTextura,gl);
-
+    console.log("B antes");
     calles.generar([generaFachada.desplazada(-2),generaFachada.desplazada(2)],generaFachada.desplazada(0), curvas[2]);
+    console.log("B luego");
 
     ruta = new ObjetoRutaCompleta(curvas,programaTextura,programaColor,gl);
     ruta.mover(0,0,2.5);
     mundo.hijos.push(ruta);
     mundo.hijos.push(coches);
 
+    console.log("B");
 
     cielo = new ObjetoCielo(gl,900);
     mundo.hijos.push(cielo);
@@ -166,6 +168,7 @@ function Animador(puntosControl){
     mundo.hijos.push(prueba);
     */
     mundo.configurarLuces(mundo.obtenerLucesHijos());
+    console.log("B");
 
   }
 
